@@ -20,7 +20,7 @@ namespace op.examples
             OP_API.OPRun();
         }
 
-        private void OPOutput(string output, byte[] imageData, int type)
+        private void OPOutput(string output, byte[] imageData, int type) // run in OpenPose thread
         {
             Debug.Log("output");
             if (type == 0)

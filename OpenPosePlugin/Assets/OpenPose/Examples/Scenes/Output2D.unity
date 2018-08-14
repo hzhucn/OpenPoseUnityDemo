@@ -141,7 +141,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enableDebug: 1
-  human: {fileID: 0}
+  human: {fileID: 1975463759}
 --- !u!4 &74852005
 Transform:
   m_ObjectHideFlags: 0
@@ -504,3 +504,9 @@ RectTransform:
   m_PrefabParentObject: {fileID: 224010362344866068, guid: 831a1ca4df7dbba40a51933985fa4083,
     type: 2}
   m_PrefabInternal: {fileID: 1975463757}
+--- !u!114 &1975463759 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114006422057181508, guid: 831a1ca4df7dbba40a51933985fa4083,
+    type: 2}
+  m_PrefabInternal: {fileID: 1975463757}
+  m_Script: {fileID: 11500000, guid: 202d02d63c7a5cb4b9387827db6feef1, type: 3}
