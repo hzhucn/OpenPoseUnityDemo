@@ -6,9 +6,9 @@ namespace op.examples
 {
     public class HumanController2D : MonoBehaviour
     {
-        public static int PoseKeypointsCount = 25;
-        public static int HandKeypointsCount = 21;
-        public static float ScoreThres = 0.05f;
+        public int PoseKeypointsCount = 25;
+        public int HandKeypointsCount = 21;
+        public float ScoreThres = 0.05f;
 
         [SerializeField] Transform PoseParent;
         [SerializeField] Transform LHandParent;
