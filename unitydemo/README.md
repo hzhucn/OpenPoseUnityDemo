@@ -17,7 +17,7 @@ Reference: https://unix.stackexchange.com/questions/251057/can-i-connect-a-ubunt
 
 ## Windows firewall setting to enable UDP
 1. Open the application and choose "Streaming" mode. 
-2. If the "Windows Security Alert" pops up, check both the checkboxes (Private networks & Public networks) and click "Allow access" (see instruction_p1). 
+2. If the "Windows Security Alert" pops up, check both the checkboxes (Private networks & Public networks) and click "Allow access". 
 3. Run OpenPose program with UDP: "--udp_host <your_IP> --udp_port <your_port>" which could be found in the Unity application.
 4. Test if it works. If not, do following steps. 
 5. Open "wf.msc" in Windows search, which is supposed to be "Windows Firewall with Advanced Security". 
@@ -49,8 +49,8 @@ Reference: https://unix.stackexchange.com/questions/251057/can-i-connect-a-ubunt
 	DownArrow	|		Slow down animation (only in BVH and JSON mode)
 
 ## IMPORTANT NOTICE
-1. DO NOT try to back to the menu or quite the program while video is recording. (you may need to restart the program)
-2. Sometimes video recording will fail (when the processing could not stop), just restart and record again. 
+1. DO NOT try to back to the menu or quit the program while video is recording. (you may crash the program)
+2. If your video recording fails (when the processing could not stop), just restart and record again. 
 3. The default video saving folder is "C://Users/{UserName}/Documents/RockVR/Video". (And there is no way to change it so far.)
 
 ## Project setup instructions - if you want to open in Unity
@@ -67,7 +67,7 @@ RockVR video capture: https://assetstore.unity.com/packages/tools/video/video-ca
 File browser: https://assetstore.unity.com/packages/tools/gui/file-browser-windows-macos-98716
 
 # JSON data structure
-##Per frame data: (used in Stream mode)
+## Per frame data: (used in Stream mode)
 
 AnimData:
 {
@@ -90,14 +90,14 @@ AnimData:
 "jointAngles": (List<Vector3>) The local rotations of each joint (must be length of 62). The first rotation refers to the root rotation. 
 "facialParams": (List<float>) The parameters of facial blendshapes (must be length of 200). 
 
-##Whole animation data: (used in Json mode)
+## Whole animation data: (used in Json mode)
 
 {
 	"frameTime": 0.03
 	"dataList": [
 		{
 			"units": [
-				{ * Same with AnimData above * }
+				{ * AnimData * }
 			]
 		}
 	]
