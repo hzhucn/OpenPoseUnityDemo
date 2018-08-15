@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace op
 {
-    public delegate void OutputCallback(string output, byte[] imageData, int type);
+    public delegate void OutputCallback(string output, int type);
     public delegate void DebugCallback(string message, int type);
 
     public static class OP_API
@@ -118,7 +118,7 @@ namespace op
                 OP_SetParameters(args.Length, args);
             } catch(Exception err)
             {
-                Debug.LogError("OP_ParamSettingError: " + err.Message);
+                Debug.LogError("OP_ParamSettingError: " + err.Message + " AT " + err.Source);
             }
 
             try
@@ -126,7 +126,7 @@ namespace op
                 OP_Run();
             } catch(Exception err)
             {
-                Debug.LogError("OP_RunError: " + err.Message);
+                Debug.LogError("OP_RunError: " + err.Message + " AT " + err.Source);
                 OP_Shutdown();
             }
 

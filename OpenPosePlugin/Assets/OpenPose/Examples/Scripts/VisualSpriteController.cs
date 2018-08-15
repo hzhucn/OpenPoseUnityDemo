@@ -49,7 +49,7 @@ namespace op.examples
                     case Mode.Stretch:
                         rectTransform.position = (1f - pin) * Joint0.position + pin * Joint1.position;
                         rectTransform.localRotation = Quaternion.Euler(0f, 0f, Mathf.Atan2(diff.y, diff.x) * Mathf.Rad2Deg);
-                        rectTransform.sizeDelta = new Vector2((diff.magnitude + stretchAddition) / rectTransform.localScale.x, rectTransform.sizeDelta.y);
+                        rectTransform.sizeDelta = new Vector2((diff.magnitude / rectTransform.localScale.x + stretchAddition), rectTransform.sizeDelta.y);
                         break;
                     case Mode.Scale:
                         rectTransform.position = (1f - pin) * Joint0.position + pin * Joint1.position;

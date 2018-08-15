@@ -6,27 +6,47 @@ namespace op.examples
 {
     public class Output2DHandler : MonoBehaviour
     {
-        [SerializeField] bool enableDebug = true;
-
         [SerializeField] HumanController2D human;
 
+        private static bool outputFlag = false;
+        private static string tempOutput;
         private OPFrame currentFrame;
 
         private void Awake()
         {
-            OP_API.EnableDebug = enableDebug;
+            // Start OpenPose
+            OP_API.EnableDebug = true;
             OP_API.OPRegisterOutputCallback(OPOutput);
             OP_API.OPSetParameter(OPFlag.HAND);
             OP_API.OPRun();
         }
 
-        private void OPOutput(string output, byte[] imageData, int type) // run in OpenPose thread
+        private void OnDestroy() // For safety
         {
-            Debug.Log("output");
+            OP_API.OPShutdown();
+        }
+
+        private void OPOutput(string output, int type) // run in OpenPose thread
+        {
+            //Debug.Log("Output: " + output);
             if (type == 0)
             {
-                currentFrame = OPFrame.FromJson(output);
-                human.PushNewUnitData(currentFrame.units[0]);
+                outputFlag = true;
+                tempOutput = output;
+            }
+        }
+
+        private void Update()
+        {
+            if (outputFlag)
+            {
+                currentFrame = OPFrame.FromJson(tempOutput);
+                if (currentFrame.units.Count > 0)
+                {
+                    human.PushNewUnitData(currentFrame.units[0]);
+                    human.SetActive(true);
+                }
+                outputFlag = false;
             }
         }
     }

@@ -17,7 +17,7 @@ namespace op.examples
             OP_API.OPRun();
         }
 
-        private void OPOutput(string message, byte[] imageData, int type = 0)
+        private void OPOutput(string message, int type = 0)
         {
             Debug.Log("output");
             if (OutputController.instance != null)
@@ -26,7 +26,7 @@ namespace op.examples
                 {
                     case 0:
                         //OutputController.instance.PushNewOutput(message);
-                        OutputController.instance.PushNewImage(imageData);
+                        //OutputController.instance.PushNewImage(imageData);
                         break;
                     case 1:
                         //OutputController.instance.PushNewImage(message);
