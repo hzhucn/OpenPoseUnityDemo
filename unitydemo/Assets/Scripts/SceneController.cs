@@ -8,15 +8,65 @@ namespace opdemo
     public class SceneController : MonoBehaviour
     {
         // Singleton
-        //private static SceneController instance;
+        public static SceneController instance { get; private set; }
+        private void Awake() { instance = this; }
+
+        // Multi-person controlling
+        [SerializeField] GameObject HumanPrefab;
+        private Dictionary<int, CharacterAnimController> animControllers = new Dictionary<int, CharacterAnimController>();
+        private AnimData frameData;
+        public void PushNewFrameData(AnimData animData, float frameTime)
+        {
+            if (animData != null)
+            {
+                frameData = animData;
+                List<int> animUpdated = new List<int>();
+                foreach (AnimUnitData unitData in frameData.units)
+                {
+                    CharacterAnimController animController;
+                    if (!animControllers.TryGetValue(unitData.id, out animController)) // unit enter
+                    {
+                        Debug.Log("unit enter: " + unitData.id);
+                        if (HumanPrefab != null)
+                        {
+                            animController = Instantiate(HumanPrefab).GetComponent<CharacterAnimController>();
+                            animControllers.Add(unitData.id, animController);
+                        } else
+                        {
+                            Debug.LogError("No human model");
+                            return;
+                        }
+                    }
+                    // unit update
+                    animController.PushNewUnitData(unitData, frameTime);
+                    animUpdated.Add(unitData.id);
+                }
+                List<int> toBeDeleted = new List<int>();
+                foreach(var animController in animControllers)
+                {
+                    if (!animUpdated.Contains(animController.Key)) // unit exit
+                    {
+                        toBeDeleted.Add(animController.Key);
+                        Debug.Log("unit exit: " + animController.Key);
+                    }
+                }
+                foreach(var d in toBeDeleted)
+                {
+                    animControllers.Remove(d);
+                }
+            }
+        }
+
+        // UI
         [SerializeField] Text StepNumberText;
         [SerializeField] GameObject InterpolationCheckmark;
 
-        [SerializeField] List<GameObject> HumanModels;
-        [SerializeField] List<GameObject> SceneModels;
-        private int _HumanModelIndex = 0, _SceneModelIndex = 0;
-        public int HumanModelIndex { set { setHumanModel(value); } get { return _HumanModelIndex; } }
-        public int SceneModelIndex { set { setSceneModel(value); } get { return _SceneModelIndex; } }
+        // Human and scene switch -- not in use
+        //[SerializeField] List<GameObject> HumanModels;
+        //[SerializeField] List<GameObject> SceneModels;
+        //private int _HumanModelIndex = 0, _SceneModelIndex = 0;
+        //public int HumanModelIndex { set { setHumanModel(value); } get { return _HumanModelIndex; } }
+        //public int SceneModelIndex { set { setSceneModel(value); } get { return _SceneModelIndex; } }
 
         public CamFocusPart CamFocus = CamFocusPart.Hip;
 
@@ -26,17 +76,17 @@ namespace opdemo
         void Start()
         {
             InterpolationCheckmark.SetActive(CharacterAnimController.AllowInterpolation);
-            if (HumanModels.Count == 0 || SceneModels.Count == 0)
+            /*if (HumanModels.Count == 0 || SceneModels.Count == 0)
             {
                 Debug.Log("Empty list in Models or Scenes");
                 return;
             }
             ResetAll();
             HumanModelIndex = 0;
-            SceneModelIndex = 0;
+            SceneModelIndex = 0;*/
         }
 
-        private void ResetAll(bool human = true, bool scene = true)
+        /*private void ResetAll(bool human = true, bool scene = true)
         {
             if (human)
                 foreach (GameObject o in HumanModels)
@@ -70,16 +120,18 @@ namespace opdemo
         public void LastHuman()
         {
             HumanModelIndex--;
-        }
+        }*/
 
         public void Recenter()
         {
-            HumanModels[HumanModelIndex].GetComponent<CharacterAnimController>().Recenter();
+            // TODO
+            //HumanModels[HumanModelIndex].GetComponent<CharacterAnimController>().Recenter();
         }
 
         public void Revertical()
         {
-            HumanModels[HumanModelIndex].GetComponent<CharacterAnimController>().Revertical();
+            // TODO
+            //HumanModels[HumanModelIndex].GetComponent<CharacterAnimController>().Revertical();
         }
 
         // Anim control
@@ -115,7 +167,7 @@ namespace opdemo
             SetCameraFocus();
         }
 
-        private void setHumanModel(int index)
+        /*private void setHumanModel(int index)
         {
             if (index < 0)
             {
@@ -154,13 +206,14 @@ namespace opdemo
                 _SceneModelIndex = index;
                 SceneModels[_SceneModelIndex].SetActive(true);
             }
-        }
+        }*/
 
         private void SetCameraFocus()
         {
-            Transform center = HumanModels[_HumanModelIndex].GetComponent<CharacterAnimController>().GetFocusCenter(CamFocus);
-            if (center != null)
-                CameraController.FocusCenter = center;
+            // TODO
+            //Transform center = HumanModels[_HumanModelIndex].GetComponent<CharacterAnimController>().GetFocusCenter(CamFocus);
+            //if (center != null)
+            //    CameraController.FocusCenter = center;
         }
 
         private void Update()
@@ -223,7 +276,7 @@ namespace opdemo
             {
                 SwitchFocus(2);
             }
-
+            /*
             if (Input.GetKeyDown(KeyCode.Comma))
             {
                 LastHuman();
@@ -240,7 +293,7 @@ namespace opdemo
             if (Input.GetKeyDown(KeyCode.Slash))
             {
                 NextScene();
-            }
+            }*/
         }
     }
 

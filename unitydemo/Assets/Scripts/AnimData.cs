@@ -8,41 +8,48 @@ namespace opdemo
     [Serializable]
     public class AnimData
     {
-        public AnimData()
-        {
-            isValid = false;
-            jointAngles = new List<Vector3>();
-            facialParams = new List<float>();
-        }
+        public List<AnimUnitData> units = new List<AnimUnitData>();
 
-        public static AnimData FromJsonData(string data)
+        //public bool isValid = false;
+        public float receivedTime = -1; // used by StreamFrameController
+
+        public static AnimData FromJsonData(string dataString)
         {
-            if (!data.StartsWith("AnimData:"))
+            if (!dataString.StartsWith("AnimData:"))
             {
                 return new AnimData();
-            } else
+            }
+            else
             {
-                string text = data.Substring(9); // get rid of "AnimData:"
+                string text = dataString.Substring("AnimData:".Length); // get rid of "AnimData:"
                 try
                 {
-                    AnimData animData = JsonUtility.FromJson<AnimData>(text);
-                    Validate(animData);
-                    return animData;
+                    AnimData data = JsonUtility.FromJson<AnimData>(text);
+                    foreach (AnimUnitData unit in data.units)
+                    {
+                        unit.JsonInputToUnitySystem();
+                    }
+                    //data.isValid = true;
+                    return data;
                 }
                 catch (Exception err)
                 {
-                    Debug.Log(err.ToString());
+                    Debug.LogError(err.ToString());
                     Debug.Log(text);
                     return new AnimData();
                 }
             }
         }
-        public bool isValid;
+    }
+
+    [Serializable]
+    public class AnimUnitData
+    {
+        public int id;
+        public float size = 1f;
         public Vector3 totalPosition;
-        public List<Vector3> jointAngles;
-        public List<float> facialParams;
-        //public float rootHeight;
-        public float receivedTime = -1f; // streaming use only
+        public List<Vector3> jointAngles = new List<Vector3>();
+        public List<float> facialParams = new List<float>();
 
         public void ResetJointAngles(int size = 62)
         {
@@ -50,6 +57,36 @@ namespace opdemo
             for (int i = 0; i < size; i++)
             {
                 jointAngles.Add(new Vector3());
+            }
+        }
+
+        public void JsonInputToUnitySystem()
+        {
+            if (jointAngles.Count >= 62)
+            {
+                jointAngles[0] = AxisAngleToUnityEuler(jointAngles[0]); // jointAngles[0] is in angle axis
+                for (int i = 1; i < jointAngles.Count; i++)
+                {
+                    jointAngles[i] = AdamToUnityEuler(jointAngles[i]);
+                }
+            } else
+            {
+                Debug.Log("too short data length");
+            }
+        }
+
+        public void BvhInputToUnitySystem()
+        {
+            if (jointAngles.Count >= 62)
+            {
+                for (int i = 0; i < jointAngles.Count; i++)
+                {
+                    jointAngles[i] = AdamToUnityEuler(jointAngles[i]);
+                }
+            }
+            else
+            {
+                Debug.Log("too short data length");
             }
         }
 
@@ -66,22 +103,6 @@ namespace opdemo
                 return Quaternion.identity;
             }
             return ToRotation(jointAngles[index]);
-        }
-
-        public static void Validate(AnimData data)
-        {
-            if (data.jointAngles.Count >= 62)
-            {
-                data.jointAngles[0] = AxisAngleToUnityEuler(data.jointAngles[0]); // transit angle axis to euler
-                for (int i = 1; i < data.jointAngles.Count; i++)
-                {
-                    data.jointAngles[i] = AdamToUnityEuler(data.jointAngles[i]);
-                }
-                data.isValid = true;
-            } else
-            {
-                Debug.Log("too short data length");
-            }
         }
 
         public static Quaternion ToRotation(Vector3 angle) // deprecated
@@ -112,20 +133,11 @@ namespace opdemo
     [Serializable]
     public class AnimDataSet
     {
-        public AnimDataSet()
-        {
-            isValid = false;
-            frameTime = 0.033333f;
-            dataList = new List<AnimData>();
-            //default_skeleton = new List<Vector3>();
-        }
+        //public bool isValid = false;
+        public float frameTime = 0.033333f;
+        public List<AnimData> dataList = new List<AnimData>();
 
-        public bool isValid;
-        public float frameTime;
-        public List<AnimData> dataList;
-        //public List<Vector3> default_skeleton;
-        
-        public static AnimDataSet FromJsonData(string text)
+        public static AnimDataSet FromJsonData(string text) // Json file mode
         {
             AnimDataSet dataSet = new AnimDataSet();
             try
@@ -133,9 +145,11 @@ namespace opdemo
                 dataSet = JsonUtility.FromJson<AnimDataSet>(text);
                 foreach (AnimData data in dataSet.dataList)
                 {
-                    AnimData.Validate(data);
+                    foreach (AnimUnitData unit in data.units)
+                    {
+                        unit.JsonInputToUnitySystem();
+                    }
                 }
-                dataSet.isValid = true;
             }
             catch (Exception err)
             {
@@ -144,7 +158,7 @@ namespace opdemo
             return dataSet;
         }
 
-        public static AnimDataSet FromBvhData(string text)
+        public static AnimDataSet FromBvhData(string text) // Bvh file mode
         {
             return BvhPaser.BvhToDataSet(text);
         }

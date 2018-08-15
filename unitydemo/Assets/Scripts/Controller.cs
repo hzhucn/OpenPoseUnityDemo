@@ -17,7 +17,7 @@ namespace opdemo
         public int StablizationCompareSequence = 3;
         public float StableMovementThreshold = 0.02f;
 
-        private static PlayMode defaultMode = PlayMode.Stream;
+        private static PlayMode defaultMode = PlayMode.FileBvh;
 
         private PlayMode mode = PlayMode.Default;
 
@@ -57,6 +57,11 @@ namespace opdemo
                 DataFrameController.FileName = fileName;
                 LoadMain();
             }
+        }
+
+        public void SelectFbx()
+        {
+
         }
 
         private void Awake()
