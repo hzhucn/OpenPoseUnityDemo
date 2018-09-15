@@ -13,7 +13,7 @@ https://drive.google.com/drive/folders/1b4lbMjkqAJtTCszKwBAjxC_TeBKZ-dqM?usp=sha
 And follow the steps: 
 1. Clone or download the project into your local machine. 
 2. Put the unzipped “models” folder, from the link above, into “OpenPosePlugin” root folder.
-3. Put the unzipped “Plugins” folder into “OpenPosePlugin/Assets” folder. 
+3. Put the unzipped “Plugins” folder into “OpenPosePlugin/Assets/OpenPose” folder. 
 4. Try to run the Output2D scene in Unity editor. 
 
 NOTICE: 
