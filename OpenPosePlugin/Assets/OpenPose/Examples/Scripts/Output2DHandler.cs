@@ -18,6 +18,7 @@ namespace op.examples
             OP_API.EnableDebug = true;
             OP_API.OPRegisterOutputCallback(OPOutput);
             OP_API.OPSetParameter(OPFlag.HAND);
+            OP_API.OPSetParameter(OPFlag.MODEL_FOLDER, Application.streamingAssetsPath + "/models");
             OP_API.OPRun();
         }
 

@@ -49,4 +49,4 @@ Corridor/Library/metadata/
 # Custom ignore #
 # ============= #
 /Assets/OpenPose/Plugins/
-/models/
+/Assets/StreamingAssets/models/
