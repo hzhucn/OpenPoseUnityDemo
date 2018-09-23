@@ -7,11 +7,10 @@ namespace op.examples
 {
     public class OPWrapper : MonoBehaviour
     {
-        [SerializeField] bool enableDebug = true;
 
         private void Awake()
         {
-            OP_API.EnableDebug = enableDebug;
+            OP_API.OPDebugEnable(true);
             OP_API.OPRegisterOutputCallback(OPOutput);
             OP_API.OPSetParameter(OPFlag.HAND);
             OP_API.OPRun();

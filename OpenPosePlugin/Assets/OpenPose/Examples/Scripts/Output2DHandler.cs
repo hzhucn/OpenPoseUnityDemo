@@ -12,14 +12,19 @@ namespace op.examples
         private static string tempOutput;
         private OPFrame currentFrame;
 
+        private int outputNum = 0;
+        private float startTime = -1f;
+
         private void Awake()
         {
             // Start OpenPose
-            OP_API.EnableDebug = true;
             OP_API.OPRegisterOutputCallback(OPOutput);
+            OP_API.OPOutputEnable(true);
+            OP_API.OPDebugEnable(true);
             OP_API.OPSetParameter(OPFlag.HAND);
             OP_API.OPSetParameter(OPFlag.MODEL_FOLDER, Application.streamingAssetsPath + "/models");
             OP_API.OPRun();
+            //Debug.Log(OP_API.OP_TestFunction(true));
         }
 
         private void OnDestroy() // For safety
@@ -32,15 +37,24 @@ namespace op.examples
             //Debug.Log("Output: " + output);
             if (type == 0)
             {
+                if (outputFlag) Debug.Log("+1");
                 outputFlag = true;
                 tempOutput = output;
+            }
+            if (type == -1){
+                Debug.Log(output);
             }
         }
 
         private void Update()
         {
+            if (startTime < 0 && outputNum > 0){
+                startTime = Time.time;
+                StartCoroutine(LogFramerate());
+            }
             if (outputFlag)
             {
+                outputNum++;
                 currentFrame = OPFrame.FromJson(tempOutput);
                 if (currentFrame.units.Count > 0)
                 {
@@ -48,6 +62,13 @@ namespace op.examples
                     human.SetActive(true);
                 }
                 outputFlag = false;
+            }
+        }
+
+        IEnumerator LogFramerate(){
+            while (true){
+                yield return new WaitForSeconds(2f);
+                Debug.Log("Avg fr: " + outputNum / (Time.time - startTime));
             }
         }
     }

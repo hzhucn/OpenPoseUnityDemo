@@ -13,18 +13,17 @@ namespace op
     public static class OP_API
     {
         #region OP API
-        //[DllImport("openpose")] public static extern int OP_TestFunction();
+        [DllImport("openpose")] public static extern int OP_TestFunction(bool log);
         [DllImport("openpose")] private static extern void OP_RegisterDebugCallback(DebugCallback callback);
+        [DllImport("openpose")] private static extern void OP_SetDebugEnable(bool enable);
         [DllImport("openpose")] private static extern void OP_RegisterOutputCallback(OutputCallback callback);
+        [DllImport("openpose")] private static extern void OP_SetOutputEnable(bool enable);
         [DllImport("openpose")] private static extern void OP_SetParameters(int argc, string[] argv);
         [DllImport("openpose")] private static extern void OP_Run();
         [DllImport("openpose")] private static extern void OP_Shutdown();
         #endregion
 
-        #region Settings & Control
-        // Settings
-        public static bool EnableDebug = true;
-        
+        #region Settings & Control        
         // Parameters
         private static Dictionary<OPFlag, string> Parameters = new Dictionary<OPFlag, string>();
 
@@ -49,6 +48,14 @@ namespace op
             Parameters.Clear();
         }
 
+        public static void OPDebugEnable(bool enable = true){
+            OP_SetDebugEnable(enable);
+        }
+
+        public static void OPOutputEnable(bool enable = true){
+            OP_SetOutputEnable(enable);
+        }
+
         public static void OPRegisterOutputCallback(OutputCallback callback)
         {
             OP_RegisterOutputCallback(callback);
@@ -63,7 +70,6 @@ namespace op
             {
                 // Register OP log callback
                 OP_RegisterDebugCallback(new DebugCallback(OPLog));
-                //OP_RegisterOutputCallback(new OutputCallback(OPOutput));
                 // Start OP thread
                 opThread = new Thread(new ThreadStart(OPExecuteThread));
                 opThread.Start();
@@ -77,7 +83,6 @@ namespace op
         
         private static void OPLog(string message, int type = 0)
         {
-            if (!EnableDebug) return;
             switch (type)
             {
                 case 0: Debug.Log("OP_Log: " + message); break;
@@ -110,7 +115,7 @@ namespace op
         // OP thread
         private static void OPExecuteThread()
         {
-            if (EnableDebug) Debug.Log("OP_Start");
+            //Debug.Log("OP_Start");
 
             string[] args = GenerateArgs();
             try
@@ -118,19 +123,19 @@ namespace op
                 OP_SetParameters(args.Length, args);
             } catch(Exception err)
             {
-                Debug.LogError("OP_ParamSettingError: " + err.Message + " AT " + err.Source);
+                Debug.LogError("OP_ParamSettingError: " + err.Message);
             }
 
             try
             {
-                OP_Run();
+                OP_Run(); // ----------------------------------------------------
             } catch(Exception err)
             {
-                Debug.LogError("OP_RunError: " + err.Message + " AT " + err.Source);
-                OP_Shutdown();
+                Debug.LogError("OP_RunError: " + err.Message);
+                //OP_Shutdown();
             }
-
-            if (EnableDebug) Debug.Log("OP_End");
+            
+            //Debug.Log("OP_End");
         }
     }
 
