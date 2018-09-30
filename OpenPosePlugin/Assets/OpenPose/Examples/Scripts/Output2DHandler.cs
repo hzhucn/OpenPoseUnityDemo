@@ -17,17 +17,26 @@ namespace op.examples
 
         private void Awake()
         {
+            OP_API.OP_Start();
             // Start OpenPose
             OP_API.OPRegisterOutputCallback(OPOutput);
             OP_API.OPOutputEnable(true);
             OP_API.OPDebugEnable(true);
-            OP_API.OPSetParameter(OPFlag.HAND);
-            OP_API.OPSetParameter(OPFlag.MODEL_FOLDER, Application.streamingAssetsPath + "/models");
+            //OP_API.OPSetParameter(OPFlag.NUMBER_PEOPLE_MAX, "1");
+            //OP_API.OPSetParameter(OPFlag.HAND);
+            //OP_API.OPSetParameter(OPFlag.MODEL_FOLDER, Application.streamingAssetsPath + "/models");
+            OP_API.OP_ConfigurePose(false, -1, 368, -1, -1, 0, -1, 0, 1, 0.3f, -1, "BODY_25", false, 0.6f, 0.7f, 0, 
+                Application.streamingAssetsPath + "/models", false, false, false, 2, false, 0.05f, 1);
+            OP_API.OP_ConfigureHand(true);
+            OP_API.OP_ConfigureFace();
+            OP_API.OP_ConfigureExtra();
+            OP_API.OP_ConfigureInput();
+            OP_API.OP_ConfigureOutput();
             OP_API.OPRun();
             //Debug.Log(OP_API.OP_TestFunction(true));
         }
 
-        private void OnDestroy() // For safety
+        private void OnDestroy()
         {
             OP_API.OPShutdown();
         }
