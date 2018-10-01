@@ -10,10 +10,10 @@ namespace op.examples
 
         private void Awake()
         {
-            OP_API.OPDebugEnable(true);
-            OP_API.OPRegisterOutputCallback(OPOutput);
-            OP_API.OPSetParameter(OPFlag.HAND);
-            OP_API.OPRun();
+            //OP_API.OPDebugEnable(true);
+            //OP_API.OPRegisterOutputCallback(OPOutput);
+            //OP_API.OPSetParameter(OPFlag.HAND);
+            //OP_API.OPRun();
         }
 
         private void OPOutput(string message, int type = 0)

@@ -76,44 +76,43 @@ namespace op
         private static Thread opThread;
         #endregion
 
-        public static void OPSetParameter(OPFlag param, string value = "")
-        {
-            if (param == OPFlag.NONE) return;
-            if (Parameters.ContainsKey(param))
-            {
-                Parameters[param] = value;
-            } else
-            {
-                Parameters.Add(param, value);
-            }
+        private static bool outputEnabled;
+        private static OutputCallback outputCallback;
+
+        public static void OPSetOutputCallback(bool enable, OutputCallback callback){
+            Debug.AssertFormat(callback != null, "Callback function is null");
+            outputEnabled = enable;
+            outputCallback = callback;
         }
 
-        public static void OPClearParameters()
-        {
-            Parameters.Clear();
-        }
+        // public static void OPSetParameter(OPFlag param, string value = "")
+        // {
+        //     if (param == OPFlag.NONE) return;
+        //     if (Parameters.ContainsKey(param))
+        //     {
+        //         Parameters[param] = value;
+        //     } else
+        //     {
+        //         Parameters.Add(param, value);
+        //     }
+        // }
+
+        // public static void OPClearParameters()
+        // {
+        //     Parameters.Clear();
+        // }
 
         public static void OPDebugEnable(bool enable = true){
             OP_SetDebugEnable(enable);
         }
 
-        //public static void OPOutputEnable(bool enable = true){
-        //    OP_SetOutputEnable(enable);
-        //}
-
-        //public static void OPRegisterOutputCallback(OutputCallback callback){
-        //    OP_RegisterOutputCallback(callback);
-        //}
-
-        public static void OPRun(bool enableOutput, OutputCallback callback)
+        public static void OPRun()
         {
             if (opThread != null && opThread.IsAlive)
             {
                 Debug.Log("OP already started");
             } else
             {
-                // Register OP log callback
-                OP_RegisterDebugCallback(new DebugCallback(OPLog));
                 // Start OP thread
                 opThread = new Thread(new ThreadStart(OPExecuteThread));
                 opThread.Start();
@@ -141,45 +140,30 @@ namespace op
             //Debug.Log("OP_Output: " + output);
         //}
         
-        private static string[] GenerateArgs()
-        {
-            List<string> args = new List<string>();
-            args.Add("program_name"); // First parameter always be the program name
-            foreach (var p in Parameters)
-            {
-                args.Add(OPConfig.ParamInfo[p.Key].flagName);
-                if (p.Value != "")
-                {
-                    args.Add(p.Value);
-                }
-            }
-            return args.ToArray();
-        }
+        // private static string[] GenerateArgs()
+        // {
+        //     List<string> args = new List<string>();
+        //     args.Add("program_name"); // First parameter always be the program name
+        //     foreach (var p in Parameters)
+        //     {
+        //         args.Add(OPConfig.ParamInfo[p.Key].flagName);
+        //         if (p.Value != "")
+        //         {
+        //             args.Add(p.Value);
+        //         }
+        //     }
+        //     return args.ToArray();
+        // }
 
         // OP thread
         private static void OPExecuteThread()
         {
-            //Debug.Log("OP_Start");
-
-            string[] args = GenerateArgs();
-            try
-            {
-                //OP_SetParameters(args.Length, args);
-            } catch(Exception err)
-            {
-                Debug.LogError("OP_ParamSettingError: " + err.Message);
-            }
-
-            try
-            {
-                //OP_Run(); 
-            } catch(Exception err)
-            {
-                Debug.LogError("OP_RunError: " + err.Message);
-                //OP_Shutdown();
-            }
             
-            //Debug.Log("OP_End");
+            // Register OP log callback
+            OP_RegisterDebugCallback(new DebugCallback(OPLog));
+
+            // Start OP with output callback
+            OP_Run(outputEnabled, outputCallback);
         }
     }
 

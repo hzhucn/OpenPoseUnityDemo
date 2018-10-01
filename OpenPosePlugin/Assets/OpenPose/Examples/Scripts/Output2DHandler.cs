@@ -12,28 +12,27 @@ namespace op.examples
         private static string tempOutput;
         private OPFrame currentFrame;
 
-        private int outputNum = 0;
-        private float startTime = -1f;
+        // Frame rate
+        public float avgFrameRate = 0f;
+        [Range(0f, 1f)] public float frameRateSmoothRatio = 0.8f;
+        private float avgFrameTime = -1f;
+        private float lastFrameTime = -1f;
 
         private void Awake()
         {
-            OP_API.OP_Start();
             // Start OpenPose
-            OP_API.OPRegisterOutputCallback(OPOutput);
-            OP_API.OPOutputEnable(true);
             OP_API.OPDebugEnable(true);
-            //OP_API.OPSetParameter(OPFlag.NUMBER_PEOPLE_MAX, "1");
-            //OP_API.OPSetParameter(OPFlag.HAND);
-            //OP_API.OPSetParameter(OPFlag.MODEL_FOLDER, Application.streamingAssetsPath + "/models");
+
             OP_API.OP_ConfigurePose(false, -1, 368, -1, -1, 0, -1, 0, 1, 0.3f, -1, "BODY_25", false, 0.6f, 0.7f, 0, 
-                Application.streamingAssetsPath + "/models", false, false, false, 2, false, 0.05f, 1);
+               Application.streamingAssetsPath + "/models", false, false, false, 2, false, 0.05f, 1);
             OP_API.OP_ConfigureHand(true);
             OP_API.OP_ConfigureFace();
             OP_API.OP_ConfigureExtra();
-            OP_API.OP_ConfigureInput();
+            //OP_API.OP_ConfigureInput(); // Dont Use This
             OP_API.OP_ConfigureOutput();
+
+            OP_API.OPSetOutputCallback(true, OPOutput);
             OP_API.OPRun();
-            //Debug.Log(OP_API.OP_TestFunction(true));
         }
 
         private void OnDestroy()
@@ -41,43 +40,42 @@ namespace op.examples
             OP_API.OPShutdown();
         }
 
-        private void OPOutput(string output, int type) // run in OpenPose thread
+        // Called from OpenPose threads
+        private void OPOutput(string output, int type)
         {
-            //Debug.Log("Output: " + output);
-            if (type == 0)
+            if (type == 0) // Normal output
             {
-                if (outputFlag) Debug.Log("+1");
+                // Turn on flag and store the data
                 outputFlag = true;
                 tempOutput = output;
-            }
-            if (type == -1){
-                Debug.Log(output);
             }
         }
 
         private void Update()
         {
-            if (startTime < 0 && outputNum > 0){
-                startTime = Time.time;
-                StartCoroutine(LogFramerate());
-            }
+            // When output received
             if (outputFlag)
             {
-                outputNum++;
+                // Parse data
                 currentFrame = OPFrame.FromJson(tempOutput);
+
+                // Draw the first person in data
                 if (currentFrame.units.Count > 0)
                 {
                     human.PushNewUnitData(currentFrame.units[0]);
                     human.SetActive(true);
                 }
-                outputFlag = false;
-            }
-        }
 
-        IEnumerator LogFramerate(){
-            while (true){
-                yield return new WaitForSeconds(2f);
-                Debug.Log("Avg fr: " + outputNum / (Time.time - startTime));
+                // Turn off output flag to receive next data
+                outputFlag = false;
+
+                // Calculate framerate
+                if (lastFrameTime < 0f) lastFrameTime = Time.time;
+                else if (avgFrameTime < 0f) avgFrameTime = Time.time - lastFrameTime;
+                else {
+                    avgFrameTime = Mathf.Lerp(Time.time - lastFrameTime, avgFrameTime, frameRateSmoothRatio);
+                    avgFrameRate = 1f / avgFrameTime;
+                }
             }
         }
     }
