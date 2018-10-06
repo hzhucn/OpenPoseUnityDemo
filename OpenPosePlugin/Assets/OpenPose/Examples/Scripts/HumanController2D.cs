@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace op.examples
+namespace OpenPose.Example
 {
     public class HumanController2D : MonoBehaviour
     {

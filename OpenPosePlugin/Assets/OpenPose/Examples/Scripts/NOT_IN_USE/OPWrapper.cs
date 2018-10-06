@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace op.examples
+namespace OpenPose.Example
 {
     public class OPWrapper : MonoBehaviour
     {

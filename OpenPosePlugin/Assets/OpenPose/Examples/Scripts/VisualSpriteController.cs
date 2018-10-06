@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace op.examples
+namespace OpenPose.Example
 {
     public class VisualSpriteController : MonoBehaviour
     {

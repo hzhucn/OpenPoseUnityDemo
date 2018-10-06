@@ -3,8 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace op
+namespace OpenPose
 {
+    /*
+    Data for a frame. 
+    units: List of person detected
+     */
     [Serializable]
     public class OPFrame
     {
@@ -24,6 +28,12 @@ namespace op
         }
     }
 
+    /*
+    Data for a person in a frame
+    poseKeypoints: info of keypoints on body, including the screen position and confidence
+    handKeypoints: info of keypoints on hands (L/R), including the screen position and confidence
+    faceKeypoints: info of keypoints on face, including the screen position and confidence
+     */
     [Serializable]
     public class OPUnit
     {
@@ -33,6 +43,10 @@ namespace op
         public List<Vector3> faceKeypoints = new List<Vector3>(); // (x, y) screen position, z stands for confidence (0 - 1)
     }
 
+    /*
+    Data for an image
+    NOT IN USE currently
+     */
     [Serializable]
     public class OPImage
     {
