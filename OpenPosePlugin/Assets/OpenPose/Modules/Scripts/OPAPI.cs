@@ -5,13 +5,16 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using UnityEngine;
 
-namespace OpenPose
-{
+namespace OpenPose {
     // Delegate for output callback
-    public delegate void OutputCallback(string output, int type);
+    //public delegate void OutputCallback(string output, int type);
 
-    // Delegate for debug callback
+    // Logging callback delegate
     public delegate void DebugCallback(string message, int type);
+
+    // Output callback delegate
+    public delegate void OutputCallback(ref IntPtr val, IntPtr sizes, int sizeSize, int valType, int outputType);
+    //public delegate void OutputTestTest(ref IntPtr val, ref int size, int type);
 
     public static class OPAPI
     {
@@ -19,7 +22,10 @@ namespace OpenPose
         /*
         Send a callback function to openpose logging system. No message will be received if no callback is sent. 
         The function will be called in op::log() or op::logError().
-         */
+         */ 
+        //[DllImport("openpose")] public static extern void OPT_RegisterTest(OutputCallback<IntPtr> intFunc, OutputCallback<IntPtr> floatFunc, OutputTestTest byteFunc);
+        //[DllImport("openpose")] public static extern void OPT_CallbackTestFunctions();
+
         [DllImport("openpose")] private static extern void OP_RegisterDebugCallback(DebugCallback callback);
 
         /*
@@ -98,12 +104,6 @@ namespace OpenPose
         private static OutputCallback outputCallback;
 
         // User functions
-        public static void OPSetOutputCallback(bool enable, OutputCallback callback){
-            Debug.AssertFormat(callback != null, "Callback function is null");
-            outputEnabled = enable;
-            outputCallback = callback;
-        }
-
         public static void OPEnableDebug(bool enable = true){
             OP_SetDebugEnable(enable);
         }
@@ -135,21 +135,49 @@ namespace OpenPose
             OP_Shutdown();
         }
         
-        private static void OPLog(string message, int type = 0)
-        {
-            switch (type)
-            {
+        private static DebugCallback OPLog = delegate(string message, int type){
+            switch (type){
                 case 0: Debug.Log("OP_Log: " + message); break;
                 case -1: Debug.LogError("OP_Error: " + message); break;
                 case 1: Debug.LogWarning("OP_Warning: " + message); break;
             }
-        }
+        };
+
+        private static OutputCallback OPOutput = delegate(ref IntPtr val, IntPtr sizes, int sizeSize, int valT, int outputT){
+            ValType valType = (ValType) valT;
+            OutputType outputType = (OutputType) outputT;
+            
+            int[] sizesArray = new int[sizeSize];
+            Marshal.Copy(sizes, sizesArray, 0, sizeSize);
+            int volume = 0;
+            foreach(var i in sizesArray){ volume *= i; }
+
+            switch (valType){
+                case ValType.Byte: 
+                    break;
+                case ValType.Float:
+                    break;
+                case ValType.Int:
+                    Debug.Log(pIntArray[3]);
+                    break;
+                case ValType.Long:
+                    break;
+                case ValType.String:
+                    break;
+                default: 
+                    break;
+            }
+        };
+
+
 
         // OP thread
         private static void OPExecuteThread()
         {            
             // Register OP log callback
             OP_RegisterDebugCallback(new DebugCallback(OPLog));
+
+            // Register OP output callback
 
             // Start OP with output callback
             OP_Run(outputEnabled, outputCallback);

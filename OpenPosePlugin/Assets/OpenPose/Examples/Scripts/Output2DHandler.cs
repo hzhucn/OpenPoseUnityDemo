@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using System;
+using System.Runtime.InteropServices;
+
 namespace OpenPose.Example
 {
     public class Output2DHandler : MonoBehaviour
@@ -22,15 +25,45 @@ namespace OpenPose.Example
 
         private void Awake()
         {
+            //OPAPI.OPT_RegisterTest(FuncInt, FuncFloat, FuncByte);
+            //OPAPI.OPT_CallbackTestFunctions();
+
             // Enable openpose log to unity
             OPAPI.OPEnableDebug(true);
             // Configure openpose with default value
             OPAPI.OPConfigure();
-            // Enable receiving output and send the callback function
-            OPAPI.OPSetOutputCallback(true, OPOutput);
             // Start openpose
             OPAPI.OPRun();
         }
+
+        /*private void FuncInt(ref IntPtr ptr, ref int size, int type){
+            int[] pIntArray = new int[size];
+            Marshal.Copy(ptr, pIntArray, 0, size);
+            Debug.Log(pIntArray[3]);
+        }
+
+        private void FuncFloat(ref IntPtr ptr, ref int size, int type){
+            float[] floatArr = new float[size];
+            Marshal.Copy(ptr, floatArr, 0, size);
+            Debug.Log(floatArr[2]);
+            
+        }
+
+        private void FuncByte(ref IntPtr ptr, ref int size, int type){
+            switch (type){
+                case 0: 
+                    //Debug.Log(ptr.ToPointer());
+                    int[] pIntArray = new int[size];
+                    Marshal.Copy(ptr, pIntArray, 0, size);
+                    Debug.Log(pIntArray[3]);
+                    break;
+                case 1: 
+                    //float[] floatArr = new float[size];
+                    //Marshal.Copy(ptr, floatArr, 0, size);
+                    //Debug.Log(floatArr[2]);
+                    break;
+            }
+        }*/
 
         private void OnDestroy()
         {

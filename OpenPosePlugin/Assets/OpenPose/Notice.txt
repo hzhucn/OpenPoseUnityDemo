@@ -1,0 +1,5 @@
+This asset is governed by the Asset Store EULA; however, the following components are governed by the licenses indicated below:
+
+A. [name of third party component]
+[name of license; e.g., “IT”, “MIT/X11”, “Apache 2.0”]
+[license and copyright/accreditation details—determined by relevant license]
