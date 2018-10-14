@@ -10,10 +10,10 @@ namespace OpenPose {
     //public delegate void OutputCallback(string output, int type);
 
     // Logging callback delegate
-    public delegate void DebugCallback(string message, int type);
+    internal delegate void DebugCallback(string message, int type);
 
     // Output callback delegate
-    public delegate void OutputCallback(ref IntPtr val, IntPtr sizes, int sizeSize, int valType, int outputType);
+    internal delegate void OutputCallback(ref IntPtr val, IntPtr sizes, int sizeSize, int valType, int outputType);
     //public delegate void OutputTestTest(ref IntPtr val, ref int size, int type);
 
     public static class OPAPI
@@ -95,15 +95,20 @@ namespace OpenPose {
             string write_bvh = "", string udp_host = "", string udp_port = "8051"
         );
         #endregion      
+        
+        // Output
+        private static OPDatum currentData;
+        private static bool outputEnabled;
+        private static OutputCallback outputCallback;
 
         // Thread 
         private static Thread opThread;
 
-        // Output
-        private static bool outputEnabled;
-        private static OutputCallback outputCallback;
-
         // User functions
+        public static OPDatum OPGetOutput(){
+            return currentData;
+        }
+
         public static void OPEnableDebug(bool enable = true){
             OP_SetDebugEnable(enable);
         }
@@ -143,33 +148,73 @@ namespace OpenPose {
             }
         };
 
-        private static OutputCallback OPOutput = delegate(ref IntPtr val, IntPtr sizes, int sizeSize, int valT, int outputT){
+        private static OutputCallback OPOutput = delegate(ref IntPtr valPtr, IntPtr sizePtr, int sizeSize, int valT, int outputT){
             ValType valType = (ValType) valT;
             OutputType outputType = (OutputType) outputT;
             
-            int[] sizesArray = new int[sizeSize];
-            Marshal.Copy(sizes, sizesArray, 0, sizeSize);
+            var sizeArray = new int[sizeSize];
+            Marshal.Copy(sizePtr, sizeArray, 0, sizeSize);
+            var sizeList = new List<int>(sizeArray);
             int volume = 0;
-            foreach(var i in sizesArray){ volume *= i; }
+            foreach(var i in sizeArray){ volume *= i; }
 
             switch (valType){
-                case ValType.Byte: 
+                case ValType.Byte: {
+                    var valArray = new byte[volume];
+                    Marshal.Copy(valPtr, valArray, 0, volume);
+                    var valList = new List<byte>(valArray);
+                    ParseOutput<byte>(valList, sizeList, outputType);
                     break;
-                case ValType.Float:
+                }
+                case ValType.Float:{
+                    var valArray = new float[volume];
+                    Marshal.Copy(valPtr, valArray, 0, volume);
+                    var valList = new List<float>(valArray);
+                    ParseOutput<float>(valList, sizeList, outputType);
                     break;
-                case ValType.Int:
-                    Debug.Log(pIntArray[3]);
+                }
+                case ValType.Int: {
+                    var valArray = new int[volume];
+                    Marshal.Copy(valPtr, valArray, 0, volume);
+                    var valList = new List<int>(valArray);
+                    ParseOutput<int>(valList, sizeList, outputType);
                     break;
-                case ValType.Long:
+                }
+                case ValType.Long:{
+                    var valArray = new long[volume];
+                    Marshal.Copy(valPtr, valArray, 0, volume);
+                    var valList = new List<long>(valArray);
+                    ParseOutput<long>(valList, sizeList, outputType);
                     break;
-                case ValType.String:
+                }
+                case ValType.String:{ // TODO
+                    //var valArray = new char[volume];
+                    //Marshal.Copy(valPtr, valArray, 0, volume);
+                    //string str = new string(valArray);
+                    //ParseOutput<string>(str, sizeList, outputType);
                     break;
+                }
                 default: 
                     break;
             }
         };
 
-
+        private static void ParseOutput<T>(List<T> vals, List<int> sizes, OutputType type){
+            switch (type){
+                case OutputType.PoseKeypoints:{
+                    Debug.AssertFormat(sizes.Count == 3, "Invalid size of sizes");
+                    for (int person = 0; person < sizes[0]; person++){
+                        //for (int ) // Working on
+                    }
+                    //currentData.poseKeypoints;
+                    break;
+                }
+                case OutputType.HandKeypoints:{
+                    break;
+                }
+            }
+            // TODO
+        }
 
         // OP thread
         private static void OPExecuteThread()

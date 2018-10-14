@@ -35,7 +35,7 @@ namespace OpenPose
          * It has been resized to the desired output resolution (e.g. `resolution` flag in the demo).
          * Size: #people x #body parts (e.g. 18 for COCO or 15 for MPI) x 3 ((x,y) coordinates + score)
          */
-        public List<float> poseKeypoints;
+        public List<List<Vector3>> poseKeypoints;
 
         /**
          * People ID
@@ -163,6 +163,7 @@ namespace OpenPose
     }
 
     public class Pair<T> : List<T>{
+        // Constructors
         public Pair() : base(2){}
         public Pair(IEnumerable<T> collection) : base(collection){
             if (Count > 2) this.RemoveRange(2, Count - 2);
@@ -171,7 +172,7 @@ namespace OpenPose
             this.left = left;
             this.right = right;
         }
-        private Pair(int capacity) : base(2){}
+        private Pair(int capacity){}
 
         // Access the left element [0]
         public T left {
@@ -184,6 +185,45 @@ namespace OpenPose
             get { return this[1]; } 
             set { this[1] = value; }
         }
+    }
+
+    public class MultiArray<T> : List<T>{
+        // Constructors
+        public MultiArray() : base(){ Resize(); }
+        public MultiArray(params int[] sizes) : base(){ Resize(sizes); }
+        public MultiArray(IEnumerable<T> collection, params int[] sizes) : base(collection){ Resize(sizes); }
+        private MultiArray(int capacity){}
+        private MultiArray(IEnumerable<T> collection){}
+
+        public void Resize(params int[] sizes){
+            this.sizes = new List<int>(sizes);            
+            if (sizes.Length == 0) volume = 0;
+            else {
+                volume = 1;
+                foreach (var i in sizes){ volume *= i; }
+            }
+            Capacity = volume;
+        }
+
+        public List<int> GetSize(){
+            return new List<int>(sizes);
+        }
+        public int GetSize(int layer){
+            if (layer < 0 || layer >= sizes.Count) return 0;
+            return sizes[layer];
+        }
+
+        public int GetNumberDimensions(){
+            return sizes.Count;
+        }
+
+        public int GetVolume(){
+            return volume;
+        }
+
+        // Members
+        private List<int> sizes;
+        private int volume;
     }
 
     /*
