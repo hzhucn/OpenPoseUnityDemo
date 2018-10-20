@@ -5,6 +5,7 @@ using UnityEngine;
 
 namespace OpenPose.Example
 {
+    /*
     public class OPWrapper : MonoBehaviour
     {
 
@@ -35,4 +36,5 @@ namespace OpenPose.Example
         }
         
     }
+    */
 }

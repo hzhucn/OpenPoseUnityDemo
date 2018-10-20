@@ -4,8 +4,9 @@ using UnityEngine;
 
 namespace OpenPose.Example
 {
+    /*
     public class OutputController : MonoBehaviour
-    {
+    {        
         #region Singleton instance
         public static OutputController instance { get; private set; }
         private void Awake() { instance = this; }
@@ -52,5 +53,6 @@ namespace OpenPose.Example
 
         }
     }
+    */
 }
 

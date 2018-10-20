@@ -13,93 +13,31 @@ namespace OpenPose.Example
         [SerializeField] HumanController2D human;
 
         // Output control
-        private static bool outputFlag = false;
-        private static string tempOutput;
-        private OPFrame currentFrame;
+        private OPDatum datum;
 
         // Frame rate calculation
         public float avgFrameRate = 0f;
-        [Range(0f, 1f)] public float frameRateSmoothRatio = 0.8f;
+        [Range(0f, 1f)] 
+        public float frameRateSmoothRatio = 0.8f;
         private float avgFrameTime = -1f;
         private float lastFrameTime = -1f;
 
-        private void Awake()
+        private void Start()
         {
-            //OPAPI.OPT_RegisterTest(FuncInt, FuncFloat, FuncByte);
-            //OPAPI.OPT_CallbackTestFunctions();
-
             // Enable openpose log to unity
-            OPAPI.OPEnableDebug(true);
+            OPControl.OPEnableDebug(true);
             // Configure openpose with default value
-            OPAPI.OPConfigure();
+            OPControl.OPConfigure(true, true, false, 1);
             // Start openpose
-            OPAPI.OPRun();
+            OPControl.OPRun();
         }
 
-        /*private void FuncInt(ref IntPtr ptr, ref int size, int type){
-            int[] pIntArray = new int[size];
-            Marshal.Copy(ptr, pIntArray, 0, size);
-            Debug.Log(pIntArray[3]);
-        }
-
-        private void FuncFloat(ref IntPtr ptr, ref int size, int type){
-            float[] floatArr = new float[size];
-            Marshal.Copy(ptr, floatArr, 0, size);
-            Debug.Log(floatArr[2]);
-            
-        }
-
-        private void FuncByte(ref IntPtr ptr, ref int size, int type){
-            switch (type){
-                case 0: 
-                    //Debug.Log(ptr.ToPointer());
-                    int[] pIntArray = new int[size];
-                    Marshal.Copy(ptr, pIntArray, 0, size);
-                    Debug.Log(pIntArray[3]);
-                    break;
-                case 1: 
-                    //float[] floatArr = new float[size];
-                    //Marshal.Copy(ptr, floatArr, 0, size);
-                    //Debug.Log(floatArr[2]);
-                    break;
-            }
-        }*/
-
-        private void OnDestroy()
-        {
-            // Stop openpose
-            OPAPI.OPShutdown();
-        }
-
-        // Output callback from openpose
-        // Note: it is good to make this function as simple as possible, to reduce the workload of openpose. 
-        private void OPOutput(string output, int type)
-        {
-            if (type == 0) // Normal output
-            {
-                // Turn on flag and store the data
-                outputFlag = true;
-                tempOutput = output;
-            }
-        }
-
-        private void Update()
-        {
-            // When output received
-            if (outputFlag)
-            {
-                // Parse data
-                currentFrame = OPFrame.FromJson(tempOutput);
-
+        private void Update() {
+            // New data received
+            if (OPControl.OPGetOutput(out datum)){
+                
                 // Draw the first person in data
-                if (currentFrame.units.Count > 0)
-                {
-                    human.PushNewUnitData(currentFrame.units[0]);
-                    human.SetActive(true);
-                }
-
-                // Turn off output flag to receive next data
-                outputFlag = false;
+                human.DrawHuman(ref datum, 0);
 
                 // Calculate framerate
                 if (lastFrameTime > 0f) {

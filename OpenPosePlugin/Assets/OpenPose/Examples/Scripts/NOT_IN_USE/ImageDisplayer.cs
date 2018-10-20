@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace OpenPose.Example
 {
+    /*
     public class ImageDisplayer : MonoBehaviour {
 
         [SerializeField] Material ImageMaterial;
@@ -54,4 +55,5 @@ namespace OpenPose.Example
             }
         }
     }
+    */
 }

@@ -4,8 +4,8 @@ using UnityEngine;
 
 namespace OpenPose.Example
 {
-    public class HumanController2D : MonoBehaviour
-    {
+    public class HumanController2D : MonoBehaviour {
+
         public int PoseKeypointsCount = 25;
         public int HandKeypointsCount = 21;
         public float ScoreThres = 0.05f;
@@ -13,24 +13,83 @@ namespace OpenPose.Example
         [SerializeField] Transform PoseParent;
         [SerializeField] Transform LHandParent;
         [SerializeField] Transform RHandParent;
-
-        private OPUnit unitData;
-        private bool active;
         private List<Transform> poseJoints = new List<Transform>();
         private List<Transform> lHandJoints = new List<Transform>();
         private List<Transform> rHandJoints = new List<Transform>();
 
-        public void PushNewUnitData (OPUnit unitData) 
-        {
-            if (unitData != null)
-            {
-                this.unitData = unitData;
+        public void DrawHuman(ref OPDatum datum, int bodyIndex, bool hand = true, bool face = true){
+            if (bodyIndex >= datum.poseKeypoints.GetSize(0)){
+                ClearHuman();
+            } else {
+                DrawBody(ref datum, bodyIndex);
+                if (hand) DrawHand(ref datum, bodyIndex);
+                //if (face) DrawFace(ref datum, bodyIndex);
+            }
+
+        }
+
+        public void ClearHuman(){
+            for (int part = 0; part < poseJoints.Count; part++) {
+                poseJoints[part].gameObject.SetActive(false);
             }
         }
 
-        public void SetActive(bool active)
-        {
-            this.active = active;
+        private void DrawBody(ref OPDatum datum, int bodyIndex){
+            for (int part = 0; part < poseJoints.Count; part++) {
+                // Joints overflow
+                if (part >= datum.poseKeypoints.GetSize(1)) {
+                    poseJoints[part].gameObject.SetActive(false);
+                    continue;
+                }
+                // Compare score
+                if (datum.poseKeypoints.Get(bodyIndex, part, 2) < ScoreThres) {
+                    poseJoints[part].gameObject.SetActive(false);
+                } else {
+                    poseJoints[part].gameObject.SetActive(true);
+                    Vector3 pos = new Vector3(datum.poseKeypoints.Get(bodyIndex, part, 0), datum.poseKeypoints.Get(bodyIndex, part, 1), 0f);
+                    poseJoints[part].localPosition = pos;
+                }
+            }
+        }
+
+        private void DrawHand(ref OPDatum datum, int bodyIndex) {
+            bool invalid = datum.handKeypoints == null;
+            // Left
+            for (int part = 0; part < lHandJoints.Count; part++) {
+                // Joints overflow
+                if (invalid || part >= datum.handKeypoints.left.GetSize(0)) {
+                    lHandJoints[part].gameObject.SetActive(false);
+                    continue;
+                }
+                // Compare score
+                if (datum.handKeypoints.left.Get(bodyIndex, part, 2) < ScoreThres) {
+                    lHandJoints[part].gameObject.SetActive(false);
+                } else {
+                    lHandJoints[part].gameObject.SetActive(true);
+                    Vector3 pos = new Vector3(datum.handKeypoints.left.Get(bodyIndex, part, 0), datum.handKeypoints.left.Get(bodyIndex, part, 1), 0f);
+                    lHandJoints[part].localPosition = pos;
+                }
+            }
+            // Right
+            for (int part = 0; part < rHandJoints.Count; part++) {
+                // Joints overflow
+                if (invalid || part >= datum.handKeypoints.right.GetSize(0)) {
+                    rHandJoints[part].gameObject.SetActive(false);
+                    continue;
+                }
+                // Compare score
+                if (datum.handKeypoints.right.Get(bodyIndex, part, 2) < ScoreThres) {
+                    rHandJoints[part].gameObject.SetActive(false);
+                } else {
+                    lHandJoints[part].gameObject.SetActive(true);
+                    Vector3 pos = new Vector3(datum.handKeypoints.right.Get(bodyIndex, part, 0), datum.handKeypoints.right.Get(bodyIndex, part, 1), 0f);
+                    rHandJoints[part].localPosition = pos;
+                }
+            }
+        }
+
+        private void DrawFace(ref OPDatum datum, int bodyIndex){
+            // TODO
         }
         
         // Use this for initialization
@@ -39,110 +98,32 @@ namespace OpenPose.Example
             InitJoints();
         }
 
-        private void InitJoints()
-        {
-            if (PoseParent != null)
-            {
+        private void InitJoints() {
+            if (PoseParent != null) {
                 Debug.Assert(PoseParent.childCount == PoseKeypointsCount);
-                if (PoseParent.childCount == PoseKeypointsCount)
-                {
-                    for (int i = 0; i < PoseParent.childCount; i++)
-                    {
+                if (PoseParent.childCount == PoseKeypointsCount) {
+                    for (int i = 0; i < PoseParent.childCount; i++) {
                         poseJoints.Add(PoseParent.GetChild(i));
                     }
                 }                
             }
-            if (LHandParent != null)
-            {
+            if (LHandParent != null) {
                 Debug.Assert(LHandParent.childCount == HandKeypointsCount);
-                if (LHandParent.childCount == HandKeypointsCount)
-                {
-                    for (int i = 0; i < LHandParent.childCount; i++)
-                    {
+                if (LHandParent.childCount == HandKeypointsCount) {
+                    for (int i = 0; i < LHandParent.childCount; i++) {
                         lHandJoints.Add(LHandParent.GetChild(i));
                     }
                 }
             }
-            if (RHandParent != null)
-            {
+            if (RHandParent != null) {
                 Debug.Assert(RHandParent.childCount == HandKeypointsCount);
-                if (RHandParent.childCount == HandKeypointsCount)
-                {
-                    for (int i = 0; i < RHandParent.childCount; i++)
-                    {
+                if (RHandParent.childCount == HandKeypointsCount) {
+                    for (int i = 0; i < RHandParent.childCount; i++) {
                         rHandJoints.Add(RHandParent.GetChild(i));
                     }
                 }
             }
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-            if (unitData != null && unitData.poseKeypoints.Count == PoseKeypointsCount)
-            {
-                UpdatePositions();
-            }            
-        }
-        
-        private void UpdatePositions() // Only work in main thread
-        {
-            for (int i = 0; i < poseJoints.Count; i++)
-            {
-                if (!active || i >= unitData.poseKeypoints.Count)
-                {
-                    poseJoints[i].gameObject.SetActive(false);
-                    continue;
-                }
-
-                if (unitData.poseKeypoints[i].z < ScoreThres)
-                {
-                    poseJoints[i].gameObject.SetActive(false);
-                }
-                else
-                {
-                    poseJoints[i].gameObject.SetActive(true);
-                    poseJoints[i].localPosition = new Vector3(unitData.poseKeypoints[i].x, unitData.poseKeypoints[i].y, 0f);
-                }
-            }
-
-            for (int i = 0; i < lHandJoints.Count; i++)
-            {
-                if (!active || i >= unitData.handKeypoints_L.Count)
-                {
-                    lHandJoints[i].gameObject.SetActive(false);
-                    continue;
-                }
-
-                if (unitData.handKeypoints_L[i].z < ScoreThres)
-                {
-                    lHandJoints[i].gameObject.SetActive(false);
-                } else
-                {
-                    lHandJoints[i].gameObject.SetActive(true);
-                    lHandJoints[i].localPosition = new Vector3(unitData.handKeypoints_L[i].x, unitData.handKeypoints_L[i].y, 0f);
-                }
-            }
-
-            for (int i = 0; i < rHandJoints.Count; i++)
-            {
-                if (!active || i >= unitData.handKeypoints_R.Count)
-                {
-                    rHandJoints[i].gameObject.SetActive(false);
-                    continue;
-                }
-
-                if (unitData.handKeypoints_R[i].z < ScoreThres)
-                {
-                    rHandJoints[i].gameObject.SetActive(false);
-                }
-                else
-                {
-                    rHandJoints[i].gameObject.SetActive(true);
-                    rHandJoints[i].localPosition = new Vector3(unitData.handKeypoints_R[i].x, unitData.handKeypoints_R[i].y, 0f);
-                }
-            }
-        }
+        }        
     }
 }
 

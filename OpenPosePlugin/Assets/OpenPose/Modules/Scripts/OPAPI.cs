@@ -1,24 +1,18 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using System.Threading;
-using UnityEngine;
 
 namespace OpenPose {
     // Delegate for output callback
     //public delegate void OutputCallback(string output, int type);
 
     // Logging callback delegate
-    internal delegate void DebugCallback(string message, int type);
+    public delegate void DebugCallback(string message, int type);
 
     // Output callback delegate
-    internal delegate void OutputCallback(ref IntPtr val, IntPtr sizes, int sizeSize, int valType, int outputType);
+    public delegate void OutputCallback(ref IntPtr val, IntPtr sizes, int sizeSize, int valType, int outputType);
     //public delegate void OutputTestTest(ref IntPtr val, ref int size, int type);
 
-    public static class OPAPI
-    {
-        #region OP API
+    public static class OPAPI {
         /*
         Send a callback function to openpose logging system. No message will be received if no callback is sent. 
         The function will be called in op::log() or op::logError().
@@ -26,27 +20,27 @@ namespace OpenPose {
         //[DllImport("openpose")] public static extern void OPT_RegisterTest(OutputCallback<IntPtr> intFunc, OutputCallback<IntPtr> floatFunc, OutputTestTest byteFunc);
         //[DllImport("openpose")] public static extern void OPT_CallbackTestFunctions();
 
-        [DllImport("openpose")] private static extern void OP_RegisterDebugCallback(DebugCallback callback);
+        [DllImport("openpose")] public static extern void OP_RegisterDebugCallback(DebugCallback callback);
 
         /*
         Enable / disable logging callback. Disable when you don't want to receive loggings from openpose. 
         Disable logging may increase the speed a little bit. 
          */
-        [DllImport("openpose")] private static extern void OP_SetDebugEnable(bool enable);
+        [DllImport("openpose")] public static extern void OP_SetDebugEnable(bool enable);
 
         /*
         Run openpose and giving the output callback function. No output will be received if no callback is sent. 
         Disable if you don't want to receive any output
          */
-        [DllImport("openpose")] private static extern void OP_Run(bool enableOutput, OutputCallback callback);
+        [DllImport("openpose")] public static extern void OP_Run(bool enableOutput, OutputCallback callback);
 
         /*
         Shut down openpose program if it is running. It may take several seconds to fully stop it. 
          */
-        [DllImport("openpose")] private static extern void OP_Shutdown();
+        [DllImport("openpose")] public static extern void OP_Shutdown();
 
-        /* Openpose configurations - please read openpose documentation to understand all the parameters*/
-        [DllImport("openpose")] private static extern void OP_ConfigurePose(
+        /* Openpose configurations - please read openpose documentation for explanation*/
+        [DllImport("openpose")] public static extern void OP_ConfigurePose(
             bool body_disable = false,  
             string model_folder = "models/", int number_people_max = -1, // moved
             int net_resolution_x = -1, int net_resolution_y = 368, // Point
@@ -61,22 +55,22 @@ namespace OpenPose {
             int heatmaps_scale = 2, // HeatMapScaleMode
             bool part_candidates = false, float render_threshold = 0.05f
         );
-        [DllImport("openpose")] private static extern void OP_ConfigureHand(
+        [DllImport("openpose")] public static extern void OP_ConfigureHand(
             bool hand = false, 
             int hand_net_resolution_x = 368, int hand_net_resolution_y = 368, // Point
             int hand_scale_number = 1, float hand_scale_range = 0.4f, bool hand_tracking = false,
             int hand_render = -1, bool _3d = false, int _3d_views = 1, bool flir_camera = false, int render_pose = -1, // RenderMode
             float hand_alpha_pose = 0.6f, float hand_alpha_heatmap = 0.7f, float hand_render_threshold = 0.2f
         );
-        [DllImport("openpose")] private static extern void OP_ConfigureFace(
+        [DllImport("openpose")] public static extern void OP_ConfigureFace(
             bool face = false, int face_net_resolution_x = 368, int face_net_resolution_y = 368,
             int face_renderer = -1, int render_pose = -1, 
             float face_alpha_pose = 0.6f, float face_alpha_heatmap = 0.7f, float face_render_threshold = 0.4f
         );
-        [DllImport("openpose")] private static extern void OP_ConfigureExtra(
+        [DllImport("openpose")] public static extern void OP_ConfigureExtra(
             bool _3d = false, int _3d_min_views = -1, bool _identification = false, int _tracking = -1,	int _ik_threads = 0
         );
-        [DllImport("openpose")] private static extern void OP_ConfigureInput(
+        [DllImport("openpose")] public static extern void OP_ConfigureInput(
             int frame_first = 0, int frame_last = -1, // unsigned long long (uint64)
             bool process_real_time = false, bool frame_flip = false,
             int frame_rotate = 0, bool frames_repeat = false, 
@@ -86,7 +80,7 @@ namespace OpenPose {
             string camera_parameter_folder = "models / cameraParameters / flir / ", bool frame_keep_distortion = false,
             int _3d_views = 1, int flir_camera_index = -1
         );
-        [DllImport("openpose")] private static extern void OP_ConfigureOutput(            
+        [DllImport("openpose")] public static extern void OP_ConfigureOutput(            
             string write_keypoint = "",
             string write_keypoint_format = "yml", string write_json = "", string write_coco_json = "",
             string write_coco_foot_json = "", string write_images = "", string write_images_format = "png", string write_video = "",
@@ -94,138 +88,5 @@ namespace OpenPose {
             string write_heatmaps = "", string write_heatmaps_format = "png", string write_video_adam = "",
             string write_bvh = "", string udp_host = "", string udp_port = "8051"
         );
-        #endregion      
-        
-        // Output
-        private static OPDatum currentData;
-        private static bool outputEnabled;
-        private static OutputCallback outputCallback;
-
-        // Thread 
-        private static Thread opThread;
-
-        // User functions
-        public static OPDatum OPGetOutput(){
-            return currentData;
-        }
-
-        public static void OPEnableDebug(bool enable = true){
-            OP_SetDebugEnable(enable);
-        }
-
-        public static void OPConfigure(bool bodyEnabled = true, bool handEnabled = true, bool faceEnabled = false, int maxPeopleNum = -1){
-            OP_ConfigurePose(!bodyEnabled, Application.streamingAssetsPath + "/models");
-            OP_ConfigureHand(handEnabled);
-            OP_ConfigureFace(faceEnabled);
-            OP_ConfigureExtra();
-            //OP_ConfigureInput(); // don't use this now
-            OP_ConfigureOutput();
-        }
-
-        public static void OPRun()
-        {
-            if (opThread != null && opThread.IsAlive)
-            {
-                Debug.Log("OP already started");
-            } else
-            {
-                // Start OP thread
-                opThread = new Thread(new ThreadStart(OPExecuteThread));
-                opThread.Start();
-            }
-        }
-
-        public static void OPShutdown()
-        {
-            OP_Shutdown();
-        }
-        
-        private static DebugCallback OPLog = delegate(string message, int type){
-            switch (type){
-                case 0: Debug.Log("OP_Log: " + message); break;
-                case -1: Debug.LogError("OP_Error: " + message); break;
-                case 1: Debug.LogWarning("OP_Warning: " + message); break;
-            }
-        };
-
-        private static OutputCallback OPOutput = delegate(ref IntPtr valPtr, IntPtr sizePtr, int sizeSize, int valT, int outputT){
-            ValType valType = (ValType) valT;
-            OutputType outputType = (OutputType) outputT;
-            
-            var sizeArray = new int[sizeSize];
-            Marshal.Copy(sizePtr, sizeArray, 0, sizeSize);
-            var sizeList = new List<int>(sizeArray);
-            int volume = 0;
-            foreach(var i in sizeArray){ volume *= i; }
-
-            switch (valType){
-                case ValType.Byte: {
-                    var valArray = new byte[volume];
-                    Marshal.Copy(valPtr, valArray, 0, volume);
-                    var valList = new List<byte>(valArray);
-                    ParseOutput<byte>(valList, sizeList, outputType);
-                    break;
-                }
-                case ValType.Float:{
-                    var valArray = new float[volume];
-                    Marshal.Copy(valPtr, valArray, 0, volume);
-                    var valList = new List<float>(valArray);
-                    ParseOutput<float>(valList, sizeList, outputType);
-                    break;
-                }
-                case ValType.Int: {
-                    var valArray = new int[volume];
-                    Marshal.Copy(valPtr, valArray, 0, volume);
-                    var valList = new List<int>(valArray);
-                    ParseOutput<int>(valList, sizeList, outputType);
-                    break;
-                }
-                case ValType.Long:{
-                    var valArray = new long[volume];
-                    Marshal.Copy(valPtr, valArray, 0, volume);
-                    var valList = new List<long>(valArray);
-                    ParseOutput<long>(valList, sizeList, outputType);
-                    break;
-                }
-                case ValType.String:{ // TODO
-                    //var valArray = new char[volume];
-                    //Marshal.Copy(valPtr, valArray, 0, volume);
-                    //string str = new string(valArray);
-                    //ParseOutput<string>(str, sizeList, outputType);
-                    break;
-                }
-                default: 
-                    break;
-            }
-        };
-
-        private static void ParseOutput<T>(List<T> vals, List<int> sizes, OutputType type){
-            switch (type){
-                case OutputType.PoseKeypoints:{
-                    Debug.AssertFormat(sizes.Count == 3, "Invalid size of sizes");
-                    for (int person = 0; person < sizes[0]; person++){
-                        //for (int ) // Working on
-                    }
-                    //currentData.poseKeypoints;
-                    break;
-                }
-                case OutputType.HandKeypoints:{
-                    break;
-                }
-            }
-            // TODO
-        }
-
-        // OP thread
-        private static void OPExecuteThread()
-        {            
-            // Register OP log callback
-            OP_RegisterDebugCallback(new DebugCallback(OPLog));
-
-            // Register OP output callback
-
-            // Start OP with output callback
-            OP_Run(outputEnabled, outputCallback);
-        }
     }
 }

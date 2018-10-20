@@ -35,7 +35,7 @@ namespace OpenPose
          * It has been resized to the desired output resolution (e.g. `resolution` flag in the demo).
          * Size: #people x #body parts (e.g. 18 for COCO or 15 for MPI) x 3 ((x,y) coordinates + score)
          */
-        public List<List<Vector3>> poseKeypoints;
+        public MultiArray<float> poseKeypoints;
 
         /**
          * People ID
@@ -44,7 +44,7 @@ namespace OpenPose
          * If either person identification is disabled or poseKeypoints is empty, poseIds will also be empty.
          * Size: #people
          */
-        public List<long> poseIds;
+        public MultiArray<long> poseIds;
 
         /**
          * Body pose global confidence/score for each person in the image.
@@ -54,7 +54,7 @@ namespace OpenPose
          * If poseKeypoints is empty, poseScores will also be empty.
          * Size: #people
          */
-        public List<float> poseScores;
+        public MultiArray<float> poseScores;
 
         /**
          * Body pose heatmaps (body parts, background and/or PAFs) for the whole image.
@@ -68,7 +68,7 @@ namespace OpenPose
          * `heatmaps_scale` flag in {OpenPose_path}doc/demo_overview.md for more details.
          * Size: #heatmaps x output_net_height x output_net_width
          */
-        public List<float> poseHeatMaps;
+        public MultiArray<float> poseHeatMaps;
 
         /**
          * Body pose candidates for the whole image.
@@ -93,14 +93,14 @@ namespace OpenPose
          * It has been resized to the same resolution as `poseKeypoints`.
          * Size: #people x #face parts (70) x 3 ((x,y) coordinates + score)
          */
-        public List<float> faceKeypoints;
+        public MultiArray<float> faceKeypoints;
 
         /**
          * Face pose heatmaps (face parts and/or background) for the whole image.
          * Analogous of bodyHeatMaps applied to face. However, there is no PAFs and the size is different.
          * Size: #people x #face parts (70) x output_net_height x output_net_width
          */
-        public List<float> faceHeatMaps;
+        public MultiArray<float> faceHeatMaps;
 
         /**
          * Hand detection locations (x,y,width,height) for each person in the image.
@@ -115,28 +115,28 @@ namespace OpenPose
          * handKeypoints[0] corresponds to left hands, and handKeypoints[1] to right ones.
          * Size each Array: #people x #hand parts (21) x 3 ((x,y) coordinates + score)
          */
-        public Pair<List<float>> handKeypoints;
+        public Pair<MultiArray<float>> handKeypoints;
 
         /**
          * Hand pose heatmaps (hand parts and/or background) for the whole image.
          * Analogous of faceHeatMaps applied to face.
          * Size each Array: #people x #hand parts (21) x output_net_height x output_net_width
          */
-        public Pair<List<float>> handHeatMaps;
+        public Pair<MultiArray<float>> handHeatMaps;
 
         // ---------------------------------------- 3-D Reconstruction parameters ---------------------------------------- //
         /**
          * Body pose (x,y,z,score) locations for each person in the image.
          * Size: #people x #body parts (e.g. 18 for COCO or 15 for MPI) x 4 ((x,y,z) coordinates + score)
          */
-        public List<float> poseKeypoints3D;
+        public MultiArray<float> poseKeypoints3D;
 
         /**
          * Face keypoints (x,y,z,score) locations for each person in the image.
          * It has been resized to the same resolution as `poseKeypoints3D`.
          * Size: #people x #face parts (70) x 4 ((x,y,z) coordinates + score)
          */
-        public List<float> faceKeypoints3D;
+        public MultiArray<float> faceKeypoints3D;
 
         /**
          * Hand keypoints (x,y,z,score) locations for each person in the image.
@@ -144,7 +144,7 @@ namespace OpenPose
          * handKeypoints[0] corresponds to left hands, and handKeypoints[1] to right ones.
          * Size each Array: #people x #hand parts (21) x 4 ((x,y,z) coordinates + score)
          */
-        public Pair<List<float>> handKeypoints3D;
+        public Pair<MultiArray<float>> handKeypoints3D;
 
         /**
          * 3x4 camera matrix of the camera (equivalent to cameraIntrinsics * cameraExtrinsics).
@@ -195,7 +195,7 @@ namespace OpenPose
         private MultiArray(int capacity){}
         private MultiArray(IEnumerable<T> collection){}
 
-        public void Resize(params int[] sizes){
+        private void Resize(params int[] sizes){
             this.sizes = new List<int>(sizes);            
             if (sizes.Length == 0) volume = 0;
             else {
@@ -203,6 +203,10 @@ namespace OpenPose
                 foreach (var i in sizes){ volume *= i; }
             }
             Capacity = volume;
+        }
+
+        public T Get(params int[] idx){            
+            return this[GetIndex(idx)];
         }
 
         public List<int> GetSize(){
@@ -221,83 +225,24 @@ namespace OpenPose
             return volume;
         }
 
+        private int GetIndex(params int[] indexes){
+            Debug.AssertFormat(indexes.Length == GetNumberDimensions(), "Wrong count of params");
+            int index = 0;
+            int accumulated = 1;
+            for (int i = indexes.Length - 1; i >= 0; i--)
+            {
+                if (indexes[i] >= sizes[i]) {
+                    Debug.LogError("Size overflow at dimension: " + i);
+                    return -1;
+                }
+                index += accumulated * indexes[i];
+                accumulated *= sizes[i];
+            }
+            return index;
+        }
+
         // Members
         private List<int> sizes;
         private int volume;
-    }
-
-    /*
-    Data for a frame. 
-    units: List of person detected
-     */
-    [Serializable]
-    public class OPFrame
-    {
-        public List<OPUnit> units = new List<OPUnit>();
-
-        public static OPFrame FromJson(string json)
-        {
-            try
-            {
-                return JsonUtility.FromJson<OPFrame>(json);
-            } catch(Exception err)
-            {
-                Debug.LogError(err);
-                Debug.Log(json);
-                return null;
-            }
-        }
-    }
-
-    /*
-    Data for a person in a frame
-    poseKeypoints: info of keypoints on body, including the screen position and confidence
-    handKeypoints: info of keypoints on hands (L/R), including the screen position and confidence
-    faceKeypoints: info of keypoints on face, including the screen position and confidence
-     */
-    [Serializable]
-    public class OPUnit
-    {
-        public List<Vector3> poseKeypoints = new List<Vector3>(); // (x, y) screen position, z stands for confidence (0 - 1)
-        public List<Vector3> handKeypoints_L = new List<Vector3>(); // (x, y) screen position, z stands for confidence (0 - 1)
-        public List<Vector3> handKeypoints_R = new List<Vector3>(); // (x, y) screen position, z stands for confidence (0 - 1)
-        public List<Vector3> faceKeypoints = new List<Vector3>(); // (x, y) screen position, z stands for confidence (0 - 1)
-    }
-
-    /*
-    Data for an image
-    NOT IN USE currently
-     */
-    [Serializable]
-    public class OPImage
-    {
-        [SerializeField] Vector2Int size;
-        [SerializeField] List<Vector3Int> pixels = new List<Vector3Int>();
-
-        public int w { get { return size.x; } }
-        public int h { get { return size.y; } }
-
-        public Color GetColorAt(int x, int y)
-        {
-            if (x >= w || y >= h) return Color.black;
-
-            Debug.Assert(pixels.Count == w * h);
-            Vector3Int res = pixels[y * w + x];
-            return new Color(res.x / 255f, res.y / 255f, res.z / 255f);
-        }
-
-        public static OPImage FromJson(string json)
-        {
-            try
-            {
-                return JsonUtility.FromJson<OPImage>(json);
-            }
-            catch (Exception err)
-            {
-                Debug.LogError(err);
-                Debug.Log(json);
-                return null;
-            }
-        }
     }
 }
