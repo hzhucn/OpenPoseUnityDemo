@@ -9,8 +9,7 @@ namespace OpenPose {
     public delegate void DebugCallback(string message, int type);
 
     // Output callback delegate
-    public delegate void OutputCallback(ref IntPtr val, IntPtr sizes, int sizeSize, int valType, int outputType);
-    //public delegate void OutputTestTest(ref IntPtr val, ref int size, int type);
+    public delegate void OutputCallback(IntPtr ptrs, int ptrSize, IntPtr sizes, int sizeSize, int outputType);
 
     public static class OPAPI {
         /*

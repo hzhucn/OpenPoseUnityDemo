@@ -7,17 +7,17 @@ using System.Threading;
 using UnityEngine;
 
 namespace OpenPose {
-	public class OPControl : MonoBehaviour {
+	public class OPWrapper : MonoBehaviour {
 
 		# region Singleton instance
-		private static OPControl _instance;
-		public static OPControl instance {
+		private static OPWrapper _instance;
+		public static OPWrapper instance {
 			get {
-				Debug.AssertFormat(_instance, "No OPControl instance found");
+				Debug.AssertFormat(_instance, "No OPWrapper instance found");
 				return _instance;
 			}
 			private set {
-				Debug.AssertFormat(!_instance, "Multiple OPControl instances found");
+				Debug.AssertFormat(!_instance, "Multiple OPWrapper instances found");
 				_instance = value;
 			}
 		}
@@ -37,11 +37,9 @@ namespace OpenPose {
             data = currentData;
 			return dataFlag;
         }
-
         public static void OPEnableDebug(bool enable = true){
             OPAPI.OP_SetDebugEnable(enable);
         }
-
         public static void OPConfigure(bool bodyEnabled = true, bool handEnabled = true, bool faceEnabled = false, int maxPeopleNum = -1){
             OPAPI.OP_ConfigurePose(!bodyEnabled, Application.streamingAssetsPath + "/models");
             OPAPI.OP_ConfigureHand(handEnabled);
@@ -50,9 +48,7 @@ namespace OpenPose {
             //OPAPI.OP_ConfigureInput(); // don't use this now
             OPAPI.OP_ConfigureOutput();
         }
-
-        public static void OPRun()
-        {
+        public static void OPRun() {
             if (opThread != null && opThread.IsAlive)
             {
                 Debug.Log("OP already started");
@@ -64,11 +60,11 @@ namespace OpenPose {
             }
         }
 
-        public static void OPShutdown()
-        {
+        public static void OPShutdown() {
             OPAPI.OP_Shutdown();
         }
         
+		// Log callback
         private static DebugCallback OPLog = delegate(string message, int type){
             switch (type){
                 case 0: Debug.Log("OP_Log: " + message); break;
@@ -77,36 +73,25 @@ namespace OpenPose {
             }
         };
 
-        private static OutputCallback OPOutput = delegate(ref IntPtr valPtr, IntPtr sizePtr, int sizeSize, int valType, int outputType){
+		// Output callback
+        private static OutputCallback OPOutput = delegate(IntPtr ptrPtr, int ptrSize, IntPtr sizePtr, int sizeSize, int outputType){
+			// Safety check
+            if (ptrSize <= 0 || sizeSize <= 0) return;
+
+            // Parse ptrPtr to ptrArray
+			var ptrArray = new IntPtr[ptrSize];
+            Marshal.Copy(ptrPtr, ptrArray, 0, ptrSize);
+
+            // Parse sizePtr to sizeArray
 			var sizeArray = new int[sizeSize];
             Marshal.Copy(sizePtr, sizeArray, 0, sizeSize);
-			ParseOutput(valPtr, sizeArray, (OutputType)outputType);
+
+            // Write output to data struct
+			OPOutputParser.ParseOutput(ref currentData, ptrArray, sizeArray, (OutputType)outputType);
+            
+            // Turn on the flag to suggest new output is received 
 			dataFlag = true;
         };
-
-        private static void ParseOutput(IntPtr valPtr, int[] sizeArray, OutputType type){        
-            int volume = 1;
-            foreach(var i in sizeArray){ volume *= i; }
-
-			switch (type){
-				case OutputType.PoseKeypoints: {
-					var valArray = new float[volume];
-					Marshal.Copy(valPtr, valArray, 0, volume);
-					currentData.poseKeypoints = new MultiArray<float>(valArray, sizeArray);
-					break;
-				}
-				case OutputType.HandKeypoints: {
-					Debug.Log("handhand");
-					var valArray = new float[volume];
-					Marshal.Copy(valPtr, valArray, 0, volume);
-					int[] newSizeArray = sizeArray.Skip(1).ToArray();
-					var handKeypointsL = new MultiArray<float>(valArray, newSizeArray);// Working on
-					//var handKeypointsR = new MultiArray<float>(valArray2, newSizeArray);
-					//currentData.handKeypoints = new Pair<MultiArray<float>>(handKeypointsL, handKeypointsR);
-					break;
-				}
-			}
-        }
 
         // OP thread
         private static void OPExecuteThread() {            
@@ -126,7 +111,10 @@ namespace OpenPose {
         }
 
 		private void Update(){
+			// If new data, clear flag after the frame
 			if (dataFlag) StartCoroutine(ClearDataFlagCoroutine());
+
+			// Shutdown key
 			if (Input.GetKeyDown(KeyCode.Escape)){
 				OPShutdown();
 			}
@@ -135,6 +123,7 @@ namespace OpenPose {
 		private IEnumerator ClearDataFlagCoroutine(){
 			yield return new WaitForEndOfFrame();
 			dataFlag = false;
+			currentData = new OPDatum();
 		}
 	}
 }

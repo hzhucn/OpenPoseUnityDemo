@@ -22,19 +22,18 @@ namespace OpenPose.Example
         private float avgFrameTime = -1f;
         private float lastFrameTime = -1f;
 
-        private void Start()
-        {
+        private void Start() {
             // Enable openpose log to unity
-            OPControl.OPEnableDebug(true);
+            OPWrapper.OPEnableDebug(true);
             // Configure openpose with default value
-            OPControl.OPConfigure(true, true, false, 1);
+            OPWrapper.OPConfigure(true, true, false, 1);
             // Start openpose
-            OPControl.OPRun();
+            OPWrapper.OPRun();
         }
 
         private void Update() {
             // New data received
-            if (OPControl.OPGetOutput(out datum)){
+            if (OPWrapper.OPGetOutput(out datum)){
                 
                 // Draw the first person in data
                 human.DrawHuman(ref datum, 0);

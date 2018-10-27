@@ -168,10 +168,7 @@ namespace OpenPose
         public Pair(IEnumerable<T> collection) : base(collection){
             if (Count > 2) this.RemoveRange(2, Count - 2);
         }
-        public Pair(T left, T right) : base(2){
-            this.left = left;
-            this.right = right;
-        }
+        public Pair(T left, T right) : base(new List<T>(){left, right}){}
         private Pair(int capacity){}
 
         // Access the left element [0]

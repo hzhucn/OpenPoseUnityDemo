@@ -18,7 +18,7 @@ namespace OpenPose.Example
         private List<Transform> rHandJoints = new List<Transform>();
 
         public void DrawHuman(ref OPDatum datum, int bodyIndex, bool hand = true, bool face = true){
-            if (bodyIndex >= datum.poseKeypoints.GetSize(0)){
+            if (datum.poseKeypoints == null || bodyIndex >= datum.poseKeypoints.GetSize(0)){
                 ClearHuman();
             } else {
                 DrawBody(ref datum, bodyIndex);
@@ -57,7 +57,7 @@ namespace OpenPose.Example
             // Left
             for (int part = 0; part < lHandJoints.Count; part++) {
                 // Joints overflow
-                if (invalid || part >= datum.handKeypoints.left.GetSize(0)) {
+                if (invalid || part >= datum.handKeypoints.left.GetSize(1)) {
                     lHandJoints[part].gameObject.SetActive(false);
                     continue;
                 }
@@ -73,7 +73,7 @@ namespace OpenPose.Example
             // Right
             for (int part = 0; part < rHandJoints.Count; part++) {
                 // Joints overflow
-                if (invalid || part >= datum.handKeypoints.right.GetSize(0)) {
+                if (invalid || part >= datum.handKeypoints.right.GetSize(1)) {
                     rHandJoints[part].gameObject.SetActive(false);
                     continue;
                 }
@@ -81,7 +81,7 @@ namespace OpenPose.Example
                 if (datum.handKeypoints.right.Get(bodyIndex, part, 2) < ScoreThres) {
                     rHandJoints[part].gameObject.SetActive(false);
                 } else {
-                    lHandJoints[part].gameObject.SetActive(true);
+                    rHandJoints[part].gameObject.SetActive(true);
                     Vector3 pos = new Vector3(datum.handKeypoints.right.Get(bodyIndex, part, 0), datum.handKeypoints.right.Get(bodyIndex, part, 1), 0f);
                     rHandJoints[part].localPosition = pos;
                 }
