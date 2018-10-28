@@ -88,7 +88,7 @@ namespace OpenPose {
 
             // Write output to data struct
 			OPOutputParser.ParseOutput(ref currentData, ptrArray, sizeArray, (OutputType)outputType);
-            
+
             // Turn on the flag to suggest new output is received 
 			dataFlag = true;
         };
@@ -104,17 +104,16 @@ namespace OpenPose {
             OPAPI.OP_Run(outputEnabled, OPOutput);
         }
 
-        private void OnDestroy()
-        {
+        private void OnDestroy() {
             // Stop openpose
-            //OPShutdown(); // TODO: investigate why this one crash
+            OPShutdown(); // TODO: investigate why this one crash
         }
 
 		private void Update(){
 			// If new data, clear flag after the frame
 			if (dataFlag) StartCoroutine(ClearDataFlagCoroutine());
 
-			// Shutdown key
+			// Shutdown
 			if (Input.GetKeyDown(KeyCode.Escape)){
 				OPShutdown();
 			}

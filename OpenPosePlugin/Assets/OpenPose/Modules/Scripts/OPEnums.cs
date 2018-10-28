@@ -3,14 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace OpenPose {
-	public enum ValType : int {
-		Byte = 0,
-		Int = 1,
-		Long = 2,
-		Float = 3, 
-		String = 4
-	}
-
 	public enum OutputType : int {
 		None = 0, 
 		Ids = 1, 

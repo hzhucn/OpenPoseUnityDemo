@@ -479,7 +479,7 @@ MonoBehaviour:
   human: {fileID: 1975463759}
   avgFrameRate: 0
   frameRateSmoothRatio: 0.8
---- !u!1001 &1975463757
+--- !u!1001 &1856457976
 Prefab:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -583,10 +583,10 @@ Prefab:
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 224010362344866068, guid: 831a1ca4df7dbba40a51933985fa4083,
     type: 2}
-  m_PrefabInternal: {fileID: 1975463757}
+  m_PrefabInternal: {fileID: 1856457976}
 --- !u!114 &1975463759 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 114006422057181508, guid: 831a1ca4df7dbba40a51933985fa4083,
     type: 2}
-  m_PrefabInternal: {fileID: 1975463757}
+  m_PrefabInternal: {fileID: 1856457976}
   m_Script: {fileID: 11500000, guid: 202d02d63c7a5cb4b9387827db6feef1, type: 3}

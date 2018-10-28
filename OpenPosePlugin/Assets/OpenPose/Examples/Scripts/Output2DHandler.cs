@@ -26,7 +26,7 @@ namespace OpenPose.Example
             // Enable openpose log to unity
             OPWrapper.OPEnableDebug(true);
             // Configure openpose with default value
-            OPWrapper.OPConfigure(true, true, false, 1);
+            OPWrapper.OPConfigure(true, true, true, 1);
             // Start openpose
             OPWrapper.OPRun();
         }
@@ -51,7 +51,7 @@ namespace OpenPose.Example
         }
 
         private void OnGUI(){
-            GUI.Label(new Rect(0, 0, Screen.width, Screen.height),"AVG Frame Rate: " + avgFrameRate);
+            GUI.Label(new Rect(0, 0, Screen.width, Screen.height),"Avg Frame Rate: " + avgFrameRate);
         }
     }
 }

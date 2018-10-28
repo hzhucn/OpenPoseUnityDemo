@@ -42,7 +42,7 @@ namespace OpenPose {
         [DllImport("openpose")] public static extern void OP_ConfigurePose(
             bool body_disable = false,  
             string model_folder = "models/", int number_people_max = -1, // moved
-            int net_resolution_x = -1, int net_resolution_y = 368, // Point
+            int net_resolution_x = -1, int net_resolution_y = 256, // Point
             int output_resolution_x = -1, int output_resolution_y = -1, // Point
             int keypoint_scale = 0, // ScaleMode
             int num_gpu = -1, int num_gpu_start = 0, int scale_number = 1, float scale_gap = 0.3f,
@@ -56,13 +56,13 @@ namespace OpenPose {
         );
         [DllImport("openpose")] public static extern void OP_ConfigureHand(
             bool hand = false, 
-            int hand_net_resolution_x = 368, int hand_net_resolution_y = 368, // Point
+            int hand_net_resolution_x = 320, int hand_net_resolution_y = 320, // Point
             int hand_scale_number = 1, float hand_scale_range = 0.4f, bool hand_tracking = false,
             int hand_render = -1, bool _3d = false, int _3d_views = 1, bool flir_camera = false, int render_pose = -1, // RenderMode
             float hand_alpha_pose = 0.6f, float hand_alpha_heatmap = 0.7f, float hand_render_threshold = 0.2f
         );
         [DllImport("openpose")] public static extern void OP_ConfigureFace(
-            bool face = false, int face_net_resolution_x = 368, int face_net_resolution_y = 368,
+            bool face = false, int face_net_resolution_x = 320, int face_net_resolution_y = 320,
             int face_renderer = -1, int render_pose = -1, 
             float face_alpha_pose = 0.6f, float face_alpha_heatmap = 0.7f, float face_render_threshold = 0.4f
         );
