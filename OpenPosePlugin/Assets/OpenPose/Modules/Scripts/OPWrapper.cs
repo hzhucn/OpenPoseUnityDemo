@@ -26,40 +26,39 @@ namespace OpenPose {
 
 		// Output
         private static OPDatum currentData;
-        private static bool outputEnabled = true;
 		private static bool dataFlag = false;
 
         // Thread 
         private static Thread opThread;
 
-        // User functions
-        public static bool OPGetOutput(out OPDatum data){
-            data = currentData;
-			return dataFlag;
-        }
+        // User functions        
         public static void OPEnableDebug(bool enable = true){
             OPAPI.OP_SetDebugEnable(enable);
+        }
+        public static void OPEnableOutput(bool enable = true){
+            OPAPI.OP_SetOutputEnable(enable);
         }
         public static void OPConfigure(bool bodyEnabled = true, bool handEnabled = true, bool faceEnabled = false, int maxPeopleNum = -1){
             OPAPI.OP_ConfigurePose(!bodyEnabled, Application.streamingAssetsPath + "/models");
             OPAPI.OP_ConfigureHand(handEnabled);
             OPAPI.OP_ConfigureFace(faceEnabled);
             OPAPI.OP_ConfigureExtra();
-            //OPAPI.OP_ConfigureInput(); // don't use this now
+            OPAPI.OP_ConfigureInput((byte) ProducerType.Webcam, "-1");
             OPAPI.OP_ConfigureOutput();
         }
         public static void OPRun() {
-            if (opThread != null && opThread.IsAlive)
-            {
+            if (opThread != null && opThread.IsAlive) {
                 Debug.Log("OP already started");
-            } else
-            {
+            } else {
                 // Start OP thread
                 opThread = new Thread(new ThreadStart(OPExecuteThread));
                 opThread.Start();
             }
         }
-
+        public static bool OPGetOutput(out OPDatum data){
+            data = currentData;
+			return dataFlag;
+        }
         public static void OPShutdown() {
             OPAPI.OP_Shutdown();
         }
@@ -96,27 +95,23 @@ namespace OpenPose {
         // OP thread
         private static void OPExecuteThread() {            
             // Register OP log callback
-            OPAPI.OP_RegisterDebugCallback(new DebugCallback(OPLog));
+            OPAPI.OP_RegisterDebugCallback(OPLog);
 
             // Register OP output callback
+            OPAPI.OP_RegisterOutputCallback(OPOutput);
 
             // Start OP with output callback
-            OPAPI.OP_Run(outputEnabled, OPOutput);
+            OPAPI.OP_Run();
         }
 
         private void OnDestroy() {
             // Stop openpose
-            OPShutdown(); // TODO: investigate why this one crash
+            OPShutdown();
         }
 
 		private void Update(){
 			// If new data, clear flag after the frame
 			if (dataFlag) StartCoroutine(ClearDataFlagCoroutine());
-
-			// Shutdown
-			if (Input.GetKeyDown(KeyCode.Escape)){
-				OPShutdown();
-			}
 		}
 
 		private IEnumerator ClearDataFlagCoroutine(){

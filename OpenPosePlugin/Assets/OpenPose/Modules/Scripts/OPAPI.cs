@@ -13,12 +13,15 @@ namespace OpenPose {
 
     public static class OPAPI {
         /*
+        TODO: add comments
+         */ 
+        [DllImport("openpose")] public static extern void OP_RegisterOutputCallback(OutputCallback callback);
+        [DllImport("openpose")] public static extern void OP_SetOutputEnable(bool enable);
+        
+        /*
         Send a callback function to openpose logging system. No message will be received if no callback is sent. 
         The function will be called in op::log() or op::logError().
          */ 
-        //[DllImport("openpose")] public static extern void OPT_RegisterTest(OutputCallback<IntPtr> intFunc, OutputCallback<IntPtr> floatFunc, OutputTestTest byteFunc);
-        //[DllImport("openpose")] public static extern void OPT_CallbackTestFunctions();
-
         [DllImport("openpose")] public static extern void OP_RegisterDebugCallback(DebugCallback callback);
 
         /*
@@ -31,7 +34,7 @@ namespace OpenPose {
         Run openpose and giving the output callback function. No output will be received if no callback is sent. 
         Disable if you don't want to receive any output
          */
-        [DllImport("openpose")] public static extern void OP_Run(bool enableOutput, OutputCallback callback);
+        [DllImport("openpose")] public static extern void OP_Run();
 
         /*
         Shut down openpose program if it is running. It may take several seconds to fully stop it. 
@@ -70,14 +73,13 @@ namespace OpenPose {
             bool _3d = false, int _3d_min_views = -1, bool _identification = false, int _tracking = -1,	int _ik_threads = 0
         );
         [DllImport("openpose")] public static extern void OP_ConfigureInput(
-            int frame_first = 0, int frame_last = -1, // unsigned long long (uint64)
+            byte producer_type = (byte) ProducerType.None, string producer_string = "",
+            ulong frame_first = 0, ulong frame_step = 1, ulong frame_last = ulong.MaxValue,
             bool process_real_time = false, bool frame_flip = false,
-            int frame_rotate = 0, bool frames_repeat = false, 
-            // Producer
-            string image_dir = "", string video = "", string ip_camera = "", int camera = -1,
-            bool flir_camera = false, int camera_resolution_x = -1, int camera_resolution_y = -1, double camera_fps = 30.0,
-            string camera_parameter_folder = "models / cameraParameters / flir / ", bool frame_keep_distortion = false,
-            int _3d_views = 1, int flir_camera_index = -1
+            int frame_rotate = 0, bool frames_repeat = false,
+            int camera_resolution_x = -1, int camera_resolution_y = -1, double webcam_fps = 30.0, 
+            string camera_parameter_path = "models/cameraParameters/", 
+            bool undistort_image = true, uint image_directory_stereo = 1
         );
         [DllImport("openpose")] public static extern void OP_ConfigureOutput(            
             string write_keypoint = "",
