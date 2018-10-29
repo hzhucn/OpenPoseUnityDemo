@@ -28,7 +28,7 @@ namespace OpenPose.Example
             // Enable openpose output to unity
             OPWrapper.OPEnableOutput(true);
             // Configure openpose with default value
-            OPWrapper.OPConfigure(true, false, false, 1);
+            OPWrapper.OPConfigure(true, true, true, 1);
             // Start openpose
             OPWrapper.OPRun();
         }

@@ -11,14 +11,17 @@ namespace OpenPose.Example
         public int FaceKeypointsCount = 70;
         public float ScoreThres = 0.05f;
 
-        [SerializeField] Transform PoseParent;
-        [SerializeField] Transform LHandParent;
-        [SerializeField] Transform RHandParent;
-        [SerializeField] Transform FaceParent;
-        private List<Transform> poseJoints = new List<Transform>();
-        private List<Transform> lHandJoints = new List<Transform>();
-        private List<Transform> rHandJoints = new List<Transform>();
-        private List<Transform> faceJoints = new List<Transform>();
+        [SerializeField] RectTransform PoseParent;
+        [SerializeField] RectTransform LHandParent;
+        [SerializeField] RectTransform RHandParent;
+        [SerializeField] RectTransform FaceParent;
+        [SerializeField] RectTransform LHandRectangle;
+        [SerializeField] RectTransform RHandRectangle;
+        [SerializeField] RectTransform FaceRectangle;
+        private List<RectTransform> poseJoints = new List<RectTransform>();
+        private List<RectTransform> lHandJoints = new List<RectTransform>();
+        private List<RectTransform> rHandJoints = new List<RectTransform>();
+        private List<RectTransform> faceJoints = new List<RectTransform>();
 
         public void DrawHuman(ref OPDatum datum, int bodyIndex){
             if (bodyIndex >= datum.poseKeypoints.GetSize(0)){
@@ -106,28 +109,37 @@ namespace OpenPose.Example
             }
         }
 
-        private void DrawFace(ref OPDatum datum, int bodyIndex){
+        private void DrawFace(ref OPDatum datum, int bodyIndex){            
+            // Face
             if (datum.faceKeypoints == null) {
                 FaceParent.gameObject.SetActive(false);
-                return;
             } else {
                 FaceParent.gameObject.SetActive(true);
-            }
-            // Face
-            for (int part = 0; part < faceJoints.Count; part++) {
-                // Joints overflow
-                if (part >= datum.faceKeypoints.GetSize(1)) {
-                    faceJoints[part].gameObject.SetActive(false);
-                    continue;
+
+                for (int part = 0; part < faceJoints.Count; part++) {
+                    // Joints overflow
+                    if (part >= datum.faceKeypoints.GetSize(1)) {
+                        faceJoints[part].gameObject.SetActive(false);
+                        continue;
+                    }
+                    // Compare score
+                    if (datum.faceKeypoints.Get(bodyIndex, part, 2) < ScoreThres) {
+                        faceJoints[part].gameObject.SetActive(false);
+                    } else {
+                        faceJoints[part].gameObject.SetActive(true);
+                        Vector3 pos = new Vector3(datum.faceKeypoints.Get(bodyIndex, part, 0), datum.faceKeypoints.Get(bodyIndex, part, 1), 0f);
+                        faceJoints[part].localPosition = pos;
+                    }
                 }
-                // Compare score
-                if (datum.faceKeypoints.Get(bodyIndex, part, 2) < ScoreThres) {
-                    faceJoints[part].gameObject.SetActive(false);
-                } else {
-                    faceJoints[part].gameObject.SetActive(true);
-                    Vector3 pos = new Vector3(datum.faceKeypoints.Get(bodyIndex, part, 0), datum.faceKeypoints.Get(bodyIndex, part, 1), 0f);
-                    faceJoints[part].localPosition = pos;
-                }
+            }           
+
+            // Face rect
+            if (datum.faceRectangles != null){
+                FaceRectangle.gameObject.SetActive(true);
+                FaceRectangle.localPosition = datum.faceRectangles[bodyIndex].center;
+                FaceRectangle.sizeDelta = datum.faceRectangles[bodyIndex].size;
+            } else {
+                FaceRectangle.gameObject.SetActive(false);
             }
         }
         
@@ -141,28 +153,31 @@ namespace OpenPose.Example
             if (PoseParent) {
                 Debug.Assert(PoseParent.childCount == PoseKeypointsCount, "Pose joint count not match");
                 for (int i = 0; i < PoseKeypointsCount; i++) {
-                    poseJoints.Add(PoseParent.GetChild(i));
+                    poseJoints.Add(PoseParent.GetChild(i) as RectTransform);
                 }
             }
             // LHand
             if (LHandParent) {
                 Debug.Assert(LHandParent.childCount == HandKeypointsCount, "LHand joint count not match");
+                //LHandRectangle = LHandParent.GetChild(0) as RectTransform;
                 for (int i = 0; i < HandKeypointsCount; i++) {
-                    lHandJoints.Add(LHandParent.GetChild(i));
+                    lHandJoints.Add(LHandParent.GetChild(i) as RectTransform);
                 }
             }
             // RHand
             if (RHandParent) {
                 Debug.Assert(RHandParent.childCount == HandKeypointsCount, "RHand joint count not match");
+                //RHandRectangle = RHandParent.GetChild(0) as RectTransform;
                 for (int i = 0; i < HandKeypointsCount; i++) {
-                    rHandJoints.Add(RHandParent.GetChild(i));
+                    rHandJoints.Add(RHandParent.GetChild(i) as RectTransform);
                 }
             }
             // Face
             if (FaceParent){
                 Debug.Assert(FaceParent.childCount == FaceKeypointsCount, "Face joint count not match");
+                //FaceRectangle = FaceParent.GetChild(0) as RectTransform;
                 for (int i = 0; i < FaceKeypointsCount; i++){
-                    faceJoints.Add(FaceParent.GetChild(i));
+                    faceJoints.Add(FaceParent.GetChild(i) as RectTransform);
                 }
             }
         }
