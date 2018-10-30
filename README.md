@@ -7,14 +7,14 @@ This repository contains two projects:
 2. OpenPosePlugin: This project is developed to create a OpenPose plugin for Unity users. It uses modified OpenPose dll library and provides formatted OpenPose output and some examples. 
 
 ## To run OpenPosePlugin: 
-You need to get additional files (dll and model files) from this Google Drive link:
-https://drive.google.com/drive/folders/1b4lbMjkqAJtTCszKwBAjxC_TeBKZ-dqM?usp=sharing
+You need to get additional files (dll and model files) from [this Google Drive link](https://drive.google.com/drive/folders/1b4lbMjkqAJtTCszKwBAjxC_TeBKZ-dqM?usp=sharing)
 
 And follow the steps: 
-1. Clone or download the project into your local machine. 
-2. Put the unzipped “models” folder, from the link above, into “OpenPosePlugin/Assets/StreamingAssets” root folder.
-3. Put the unzipped “Plugins” folder into “OpenPosePlugin/Assets/OpenPose” folder. 
-4. Try to run the Output2D scene in Unity editor. 
+1. Install CUDA and CUDNN as OpenPose prerequisites refering to [OpenPose Installation Guide](https://github.com/CMU-Perceptual-Computing-Lab/openpose/blob/master/doc/installation.md#prerequisites).
+2. Clone or download the project into your local machine. 
+3. Put the unzipped “models” folder, from the link above, into “OpenPosePlugin/Assets/StreamingAssets” root folder.
+4. Put the unzipped “Plugins” folder into “OpenPosePlugin/Assets/OpenPose” folder. 
+5. Try to run the Output2D scene in Unity editor. 
 
 NOTICE: 
 
