@@ -38,13 +38,119 @@ namespace OpenPose {
         public static void OPEnableOutput(bool enable = true){
             OPAPI.OP_SetOutputEnable(enable);
         }
-        public static void OPConfigure(bool bodyEnabled = true, bool handEnabled = true, bool faceEnabled = false, int maxPeopleNum = -1){
-            OPAPI.OP_ConfigurePose(!bodyEnabled, Application.streamingAssetsPath + "/models");
-            OPAPI.OP_ConfigureHand(handEnabled);
-            OPAPI.OP_ConfigureFace(faceEnabled);
-            OPAPI.OP_ConfigureExtra();
-            OPAPI.OP_ConfigureInput((byte) ProducerType.Webcam, "-1");
-            OPAPI.OP_ConfigureOutput();
+        public static void OPConfigureAllInDefault(){
+            OPConfigurePose();
+            OPConfigureHand();
+            OPConfigureFace();
+            OPConfigureExtra();
+            OPConfigureInput();
+            OPConfigureOutput();
+        }
+        public static void OPConfigurePose(
+            bool body_disable = false, Vector2Int? net_resolution = null, Vector2Int? output_resolution = null,
+            ScaleMode keypoint_scale_mode = ScaleMode.NoScale,
+            int num_gpu = -1, int num_gpu_start = 0, int scale_number = 1, float scale_gap = 0.3f,
+            RenderMode pose_render_mode = RenderMode.None, PoseModel model_pose = PoseModel.BODY_25,
+            bool disable_blending = false, float alpha_pose = 0.6f, float alpha_heatmap = 0.7f,
+            int part_to_show = 0, string model_folder = null, 
+            HeatMapType heatmap_type = HeatMapType.None, 
+            ScaleMode heatmap_scale_mode = ScaleMode.NoScale, 
+            bool part_candidates = false, float render_threshold = 0.05f, int number_people_max = -1){
+            
+            // Other default values
+            Vector2Int _net_res = net_resolution ?? new Vector2Int(-1, 256);
+            Vector2Int _output_res = output_resolution ?? new Vector2Int(-1, -1);
+            model_folder = model_folder ?? Application.streamingAssetsPath + "/models/";
+
+            OPAPI.OP_ConfigurePose(
+                body_disable,
+                _net_res.x, _net_res.y, // Point
+                _output_res.x, _output_res.y, // Point
+                (byte) keypoint_scale_mode, // ScaleMode
+                num_gpu, num_gpu_start, scale_number, scale_gap,
+                (byte) pose_render_mode, // RenderMode
+                (byte) model_pose, // PoseModel
+                disable_blending, alpha_pose, alpha_heatmap, part_to_show, model_folder,
+                Convert.ToBoolean(heatmap_type & HeatMapType.Parts), 
+                Convert.ToBoolean(heatmap_type & HeatMapType.Background), 
+                Convert.ToBoolean(heatmap_type & HeatMapType.PAFs), // vector<HeatMapType> 
+                (byte) heatmap_scale_mode, // ScaleMode
+                part_candidates, render_threshold, number_people_max
+            );
+        }
+        public static void OPConfigureHand(
+            bool hand = false, Vector2Int? hand_net_resolution = null,
+            int hand_scale_number = 1, float hand_scale_range = 0.4f, bool hand_tracking = false,
+            RenderMode hand_render_mode = RenderMode.None, 
+            float hand_alpha_pose = 0.6f, float hand_alpha_heatmap = 0.7f, float hand_render_threshold = 0.2f){
+
+            // Other default values
+            Vector2Int _hand_res = hand_net_resolution ?? new Vector2Int(320, 320);
+            
+            OPAPI.OP_ConfigureHand(
+                hand, _hand_res.x, _hand_res.y, // Point
+                hand_scale_number, hand_scale_range, hand_tracking,
+                (byte) hand_render_mode, // RenderMode
+                hand_alpha_pose, hand_alpha_heatmap, hand_render_threshold
+            );
+        }
+        public static void OPConfigureFace(
+            bool face = false, Vector2Int? face_net_resolution = null,
+            RenderMode face_render_mode = RenderMode.None, 
+            float face_alpha_pose = 0.6f, float face_alpha_heatmap = 0.7f, float face_render_threshold = 0.4f){
+
+            // Other default values
+            Vector2Int _face_res = face_net_resolution ?? new Vector2Int(320, 320);
+                
+            OPAPI.OP_ConfigureFace(
+                face, _face_res.x, _face_res.y, // Point
+                (byte) face_render_mode, // RenderMode
+                face_alpha_pose, face_alpha_heatmap, face_render_threshold
+            );
+        }
+        public static void OPConfigureExtra(
+            bool _3d = false, int _3d_min_views = -1, bool _identification = false, int _tracking = -1,	int _ik_threads = 0){
+            
+            OPAPI.OP_ConfigureExtra(_3d, _3d_min_views, _identification, _tracking, _ik_threads);
+        }
+        public static void OPConfigureInput(
+            ProducerType producer_type = ProducerType.Webcam, string producer_string = "-1",
+            ulong frame_first = 0, ulong frame_step = 1, ulong frame_last = ulong.MaxValue,
+            bool process_real_time = false, bool frame_flip = false,
+            int frame_rotate = 0, bool frames_repeat = false,
+            Vector2Int? camera_resolution = null, double webcam_fps = 30.0, 
+            string camera_parameter_path = null, 
+            bool undistort_image = true, uint image_directory_stereo = 1){
+
+            // Other default values
+            Vector2Int _camera_res = camera_resolution ?? new Vector2Int(-1, -1);
+            camera_parameter_path = camera_parameter_path ?? Application.streamingAssetsPath + "/models/cameraParameters/";
+
+            OPAPI.OP_ConfigureInput(
+                (byte) producer_type, producer_string, // ProducerType and string
+                frame_first, frame_step, frame_last,
+                process_real_time, frame_flip, frame_rotate, frames_repeat, 
+                _camera_res.x, _camera_res.y, // Point
+                webcam_fps, camera_parameter_path, undistort_image, image_directory_stereo
+            );
+        }
+        public static void OPConfigureOutput(
+            DisplayMode display_mode = DisplayMode.NoDisplay, 
+            bool gui_verbose = false, bool full_screen = false, string write_keypoint = "",
+            DataFormat write_keypoint_format = DataFormat.Yml, string write_json = "", string write_coco_json = "",
+            string write_coco_foot_json = "", string write_images = "", string write_images_format = "png", string write_video = "",
+            double camera_fps = 30.0, string write_heatmaps = "", string write_heatmaps_format = "png", 
+            string write_video_adam = "", string write_bvh = "", string udp_host = "", string udp_port = "8051"){
+                
+            OPAPI.OP_ConfigureOutput(
+                (ushort) display_mode, // DisplayMode
+                gui_verbose, full_screen, write_keypoint,
+                (byte) write_keypoint_format, // DataFormat
+                write_json, write_coco_json, write_coco_foot_json, 
+                write_images, write_images_format, write_video,
+                camera_fps, write_heatmaps, write_heatmaps_format, 
+                write_video_adam, write_bvh, udp_host, udp_port
+            );
         }
         public static void OPRun() {
             if (opThread != null && opThread.IsAlive) {
@@ -73,7 +179,7 @@ namespace OpenPose {
         };
 
 		// Output callback
-        private static OutputCallback OPOutput = delegate(IntPtr ptrPtr, int ptrSize, IntPtr sizePtr, int sizeSize, int outputType){
+        private static OutputCallback OPOutput = delegate(IntPtr ptrPtr, int ptrSize, IntPtr sizePtr, int sizeSize, byte outputType){
 			// Safety check
             if (ptrSize <= 0 || sizeSize <= 0) return;
 
@@ -104,20 +210,23 @@ namespace OpenPose {
             OPAPI.OP_Run();
         }
 
+        private void Start() {
+            StartCoroutine(ClearDataFlagCoroutine());
+        }
+
+		private IEnumerator ClearDataFlagCoroutine(){
+            while (true) {
+                yield return new WaitForEndOfFrame();
+                if (dataFlag) {
+                    dataFlag = false;
+                    currentData = new OPDatum();
+                }
+            }
+		}
+
         private void OnDestroy() {
             // Stop openpose
             OPShutdown();
         }
-
-		private void Update(){
-			// If new data, clear flag after the frame
-			if (dataFlag) StartCoroutine(ClearDataFlagCoroutine());
-		}
-
-		private IEnumerator ClearDataFlagCoroutine(){
-			yield return new WaitForEndOfFrame();
-			dataFlag = false;
-			currentData = new OPDatum();
-		}
 	}
 }

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
 using UnityEngine;
 
@@ -28,6 +27,10 @@ namespace OpenPose {
 			var valArray = new float[volume];
 			Marshal.Copy(ptrArray[0], valArray, 0, volume);
 			datum.poseKeypoints = new MultiArray<float>(valArray, sizeArray);
+		}
+
+		public static void ParsePoseIds(ref OPDatum datum, IntPtr[] ptrArray, int[] sizeArray){
+			
 		}
 
 		public static void ParseHandKeypoints(ref OPDatum datum, IntPtr[] ptrArray, int[] sizeArray){
