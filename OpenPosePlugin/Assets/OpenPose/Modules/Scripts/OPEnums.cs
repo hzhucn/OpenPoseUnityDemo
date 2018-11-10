@@ -5,6 +5,7 @@ using UnityEngine;
 namespace OpenPose {
 	
 	public enum OutputType : byte {
+		None,
 		DatumsInfo,
 		Name,
 		PoseKeypoints,

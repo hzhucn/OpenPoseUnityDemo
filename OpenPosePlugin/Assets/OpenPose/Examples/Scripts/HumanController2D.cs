@@ -24,14 +24,9 @@ namespace OpenPose.Example
         private List<RectTransform> faceJoints = new List<RectTransform>();
 
         public void DrawHuman(ref OPDatum datum, int bodyIndex){
-            if (bodyIndex >= datum.poseKeypoints.GetSize(0)){
-                ClearHuman();
-            } else {
-                DrawBody(ref datum, bodyIndex);
-                DrawHand(ref datum, bodyIndex);
-                DrawFace(ref datum, bodyIndex);
-            }
-
+            DrawBody(ref datum, bodyIndex);
+            DrawHand(ref datum, bodyIndex);
+            DrawFace(ref datum, bodyIndex);
         }
 
         public void ClearHuman(){
@@ -42,7 +37,7 @@ namespace OpenPose.Example
         }
 
         private void DrawBody(ref OPDatum datum, int bodyIndex){
-            if (datum.poseKeypoints == null) {
+            if (datum.poseKeypoints == null || bodyIndex >= datum.poseKeypoints.GetSize(0)) {
                 PoseParent.gameObject.SetActive(false);
                 return;
             } else {
@@ -67,51 +62,53 @@ namespace OpenPose.Example
         }
 
         private void DrawHand(ref OPDatum datum, int bodyIndex) {
-            if (datum.handKeypoints == null) {
-                LHandParent.gameObject.SetActive(false);
-                RHandParent.gameObject.SetActive(false);
-                return;
-            } else {                
-                LHandParent.gameObject.SetActive(true);
-                RHandParent.gameObject.SetActive(true);
-            }
             // Left
-            for (int part = 0; part < lHandJoints.Count; part++) {
-                // Joints overflow
-                if (part >= datum.handKeypoints.left.GetSize(1)) {
-                    lHandJoints[part].gameObject.SetActive(false);
-                    continue;
-                }
-                // Compare score
-                if (datum.handKeypoints.left.Get(bodyIndex, part, 2) < ScoreThres) {
-                    lHandJoints[part].gameObject.SetActive(false);
-                } else {
-                    lHandJoints[part].gameObject.SetActive(true);
-                    Vector3 pos = new Vector3(datum.handKeypoints.left.Get(bodyIndex, part, 0), datum.handKeypoints.left.Get(bodyIndex, part, 1), 0f);
-                    lHandJoints[part].localPosition = pos;
+            if (datum.handKeypoints == null || bodyIndex >= datum.handKeypoints.left.GetSize(0)){
+                LHandParent.gameObject.SetActive(false);
+            } else {
+                LHandParent.gameObject.SetActive(true);
+                for (int part = 0; part < lHandJoints.Count; part++) {
+                    // Joints overflow
+                    if (part >= datum.handKeypoints.left.GetSize(1)) {
+                        lHandJoints[part].gameObject.SetActive(false);
+                        continue;
+                    }
+                    // Compare score
+                    if (datum.handKeypoints.left.Get(bodyIndex, part, 2) < ScoreThres) {
+                        lHandJoints[part].gameObject.SetActive(false);
+                    } else {
+                        lHandJoints[part].gameObject.SetActive(true);
+                        Vector3 pos = new Vector3(datum.handKeypoints.left.Get(bodyIndex, part, 0), datum.handKeypoints.left.Get(bodyIndex, part, 1), 0f);
+                        lHandJoints[part].localPosition = pos;
+                    }
                 }
             }
             // Right
-            for (int part = 0; part < rHandJoints.Count; part++) {
-                // Joints overflow
-                if (part >= datum.handKeypoints.right.GetSize(1)) {
-                    rHandJoints[part].gameObject.SetActive(false);
-                    continue;
-                }
-                // Compare score
-                if (datum.handKeypoints.right.Get(bodyIndex, part, 2) < ScoreThres) {
-                    rHandJoints[part].gameObject.SetActive(false);
-                } else {
-                    rHandJoints[part].gameObject.SetActive(true);
-                    Vector3 pos = new Vector3(datum.handKeypoints.right.Get(bodyIndex, part, 0), datum.handKeypoints.right.Get(bodyIndex, part, 1), 0f);
-                    rHandJoints[part].localPosition = pos;
+            if (datum.handKeypoints == null || bodyIndex >= datum.handKeypoints.right.GetSize(0)){
+                RHandParent.gameObject.SetActive(false);
+            } else {
+                RHandParent.gameObject.SetActive(true);
+                for (int part = 0; part < rHandJoints.Count; part++) {
+                    // Joints overflow
+                    if (part >= datum.handKeypoints.right.GetSize(1)) {
+                        rHandJoints[part].gameObject.SetActive(false);
+                        continue;
+                    }
+                    // Compare score
+                    if (datum.handKeypoints.right.Get(bodyIndex, part, 2) < ScoreThres) {
+                        rHandJoints[part].gameObject.SetActive(false);
+                    } else {
+                        rHandJoints[part].gameObject.SetActive(true);
+                        Vector3 pos = new Vector3(datum.handKeypoints.right.Get(bodyIndex, part, 0), datum.handKeypoints.right.Get(bodyIndex, part, 1), 0f);
+                        rHandJoints[part].localPosition = pos;
+                    }
                 }
             }
         }
 
         private void DrawFace(ref OPDatum datum, int bodyIndex){            
             // Face
-            if (datum.faceKeypoints == null) {
+            if (datum.faceKeypoints == null || bodyIndex >= datum.faceKeypoints.GetSize(0)) {
                 FaceParent.gameObject.SetActive(false);
             } else {
                 FaceParent.gameObject.SetActive(true);
@@ -134,12 +131,12 @@ namespace OpenPose.Example
             }           
 
             // Face rect
-            if (datum.faceRectangles != null){
+            if (datum.faceRectangles == null || bodyIndex >= datum.faceRectangles.Count){
+                FaceRectangle.gameObject.SetActive(false);
+            } else {
                 FaceRectangle.gameObject.SetActive(true);
                 FaceRectangle.localPosition = datum.faceRectangles[bodyIndex].center;
                 FaceRectangle.sizeDelta = datum.faceRectangles[bodyIndex].size;
-            } else {
-                FaceRectangle.gameObject.SetActive(false);
             }
         }
         

@@ -40,25 +40,25 @@ namespace OpenPose {
         }
         public static void OPConfigureAllInDefault(){
             OPConfigurePose();
-            OPConfigureHand();
-            OPConfigureFace();
+            OPConfigureHand(true);
+            OPConfigureFace(true);
             OPConfigureExtra();
             OPConfigureInput();
             OPConfigureOutput();
         }
         public static void OPConfigurePose(
             bool body_disable = false, Vector2Int? net_resolution = null, Vector2Int? output_resolution = null,
-            ScaleMode keypoint_scale_mode = ScaleMode.NoScale,
+            ScaleMode keypoint_scale_mode = ScaleMode.InputResolution,
             int num_gpu = -1, int num_gpu_start = 0, int scale_number = 1, float scale_gap = 0.3f,
-            RenderMode pose_render_mode = RenderMode.None, PoseModel model_pose = PoseModel.BODY_25,
+            RenderMode pose_render_mode = RenderMode.Gpu, PoseModel model_pose = PoseModel.BODY_25,
             bool disable_blending = false, float alpha_pose = 0.6f, float alpha_heatmap = 0.7f,
             int part_to_show = 0, string model_folder = null, 
             HeatMapType heatmap_type = HeatMapType.None, 
-            ScaleMode heatmap_scale_mode = ScaleMode.NoScale, 
+            ScaleMode heatmap_scale_mode = ScaleMode.UnsignedChar, 
             bool part_candidates = false, float render_threshold = 0.05f, int number_people_max = -1){
             
             // Other default values
-            Vector2Int _net_res = net_resolution ?? new Vector2Int(-1, 256);
+            Vector2Int _net_res = net_resolution ?? new Vector2Int(-1, 320);
             Vector2Int _output_res = output_resolution ?? new Vector2Int(-1, -1);
             model_folder = model_folder ?? Application.streamingAssetsPath + "/models/";
 
@@ -85,7 +85,7 @@ namespace OpenPose {
             float hand_alpha_pose = 0.6f, float hand_alpha_heatmap = 0.7f, float hand_render_threshold = 0.2f){
 
             // Other default values
-            Vector2Int _hand_res = hand_net_resolution ?? new Vector2Int(320, 320);
+            Vector2Int _hand_res = hand_net_resolution ?? new Vector2Int(256, 256);
             
             OPAPI.OP_ConfigureHand(
                 hand, _hand_res.x, _hand_res.y, // Point
@@ -180,8 +180,14 @@ namespace OpenPose {
 
 		// Output callback
         private static OutputCallback OPOutput = delegate(IntPtr ptrPtr, int ptrSize, IntPtr sizePtr, int sizeSize, byte outputType){
+            // End of frame signal is received, turn on the flag
+            if ((OutputType)outputType == OutputType.None) {
+                dataFlag = true;
+                return;
+            }
+
 			// Safety check
-            if (ptrSize <= 0 || sizeSize <= 0) return;
+            if (ptrSize < 0 || sizeSize < 0) return;
 
             // Parse ptrPtr to ptrArray
 			var ptrArray = new IntPtr[ptrSize];
@@ -193,9 +199,6 @@ namespace OpenPose {
 
             // Write output to data struct
 			OPOutputParser.ParseOutput(ref currentData, ptrArray, sizeArray, (OutputType)outputType);
-
-            // Turn on the flag to suggest new output is received 
-			dataFlag = true;
         };
 
         // OP thread
