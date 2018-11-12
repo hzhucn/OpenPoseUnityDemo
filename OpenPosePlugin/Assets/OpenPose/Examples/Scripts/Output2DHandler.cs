@@ -10,25 +10,25 @@ namespace OpenPose.Example
     public class Output2DHandler : MonoBehaviour
     {
         // The 2D human to control
-        [SerializeField] HumanController2D human;
+        [SerializeField] List<HumanController2D> humans;
 
         // Output control
         private OPDatum datum;
 
         // Frame rate calculation
-        public float avgFrameRate = 0f;
         [Range(0f, 1f)] 
         public float frameRateSmoothRatio = 0.8f;
+        private float avgFrameRate = 0f;
         private float avgFrameTime = -1f;
         private float lastFrameTime = -1f;
 
         private void Start() {
+            // Configure openpose with default value
+            OPWrapper.OPConfigureAllInDefault();
             // Enable openpose log to unity
             OPWrapper.OPEnableDebug(true);
             // Enable openpose output to unity
             OPWrapper.OPEnableOutput(true);
-            // Configure openpose with default value
-            OPWrapper.OPConfigure(true, true, true, 1);
             // Start openpose
             OPWrapper.OPRun();
         }
@@ -37,8 +37,10 @@ namespace OpenPose.Example
             // New data received
             if (OPWrapper.OPGetOutput(out datum)){
                 
-                // Draw the first person in data
-                human.DrawHuman(ref datum, 0);
+                // Draw human in data
+                for (int i = 0; i < humans.Count; i++){
+                    humans[i].DrawHuman(ref datum, i);
+                }
 
                 // Calculate framerate
                 if (lastFrameTime > 0f) {

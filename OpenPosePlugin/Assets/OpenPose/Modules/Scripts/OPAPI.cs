@@ -9,85 +9,81 @@ namespace OpenPose {
     public delegate void DebugCallback(string message, int type);
 
     // Output callback delegate
-    public delegate void OutputCallback(IntPtr ptrs, int ptrSize, IntPtr sizes, int sizeSize, int outputType);
+    public delegate void OutputCallback(IntPtr ptrs, int ptrSize, IntPtr sizes, int sizeSize, byte outputType);
 
     public static class OPAPI {
         /*
-        TODO: add comments
+         * Send a callback function to openpose output. No output will be received if no callback is sent. 
+         * Enable/disable the output callback. Can be set at runtime.
          */ 
         [DllImport("openpose")] public static extern void OP_RegisterOutputCallback(OutputCallback callback);
         [DllImport("openpose")] public static extern void OP_SetOutputEnable(bool enable);
         
         /*
-        Send a callback function to openpose logging system. No message will be received if no callback is sent. 
-        The function will be called in op::log() or op::logError().
+         * Send a callback function to openpose logging system. No message will be received if no callback is sent. 
+         * The function will be called in op::log() or op::logError().
+         * Enable/disable the debug callback. Can be set at runtime.
          */ 
         [DllImport("openpose")] public static extern void OP_RegisterDebugCallback(DebugCallback callback);
-
-        /*
-        Enable / disable logging callback. Disable when you don't want to receive loggings from openpose. 
-        Disable logging may increase the speed a little bit. 
-         */
         [DllImport("openpose")] public static extern void OP_SetDebugEnable(bool enable);
 
         /*
-        Run openpose and giving the output callback function. No output will be received if no callback is sent. 
-        Disable if you don't want to receive any output
+         * Run openpose if not running. It may take several seconds to fully start. 
          */
         [DllImport("openpose")] public static extern void OP_Run();
 
         /*
-        Shut down openpose program if it is running. It may take several seconds to fully stop it. 
+         * Shut down openpose program if it is running. It may take several seconds to fully stop it. 
          */
         [DllImport("openpose")] public static extern void OP_Shutdown();
 
-        /* Openpose configurations - please read openpose documentation for explanation*/
+        /* 
+         * Openpose configurations - please read openpose documentation for explanation
+         */
         [DllImport("openpose")] public static extern void OP_ConfigurePose(
-            bool body_disable = false,  
-            string model_folder = "models/", int number_people_max = -1, // moved
-            int net_resolution_x = -1, int net_resolution_y = 256, // Point
-            int output_resolution_x = -1, int output_resolution_y = -1, // Point
-            int keypoint_scale = 0, // ScaleMode
-            int num_gpu = -1, int num_gpu_start = 0, int scale_number = 1, float scale_gap = 0.3f,
-            int render_pose = -1, // bool _3d = false, int _3d_views = 1, bool flir_camera = false, // RenderMode
-            string model_pose = "BODY_25", // PoseModel
-            bool disable_blending = false, float alpha_pose = 0.6f, float alpha_heatmap = 0.7f,
-            int part_to_show = 0,
-            bool heatmaps_add_parts = false, bool heatmaps_add_bkg = false, bool heatmaps_add_PAFs = false, // HeatMapType
-            int heatmaps_scale = 2, // HeatMapScaleMode
-            bool part_candidates = false, float render_threshold = 0.05f
+            bool body_disable,
+            int net_resolution_x, int net_resolution_y, // Point
+            int output_resolution_x, int output_resolution_y, // Point
+            byte keypoint_scale_mode, // ScaleMode
+            int num_gpu, int num_gpu_start, int scale_number, float scale_gap,
+            byte pose_render_mode, // RenderMode
+            byte model_pose, // PoseModel
+            bool disable_blending, float alpha_pose, float alpha_heatmap, int part_to_show, string model_folder,
+            bool heatmaps_add_parts, bool heatmaps_add_bkg, bool heatmaps_add_PAFs, // vector<HeatMapType> 
+            byte heatmap_scale_mode, // ScaleMode
+            bool part_candidates, float render_threshold, int number_people_max
         );
         [DllImport("openpose")] public static extern void OP_ConfigureHand(
-            bool hand = false, 
-            int hand_net_resolution_x = 320, int hand_net_resolution_y = 320, // Point
-            int hand_scale_number = 1, float hand_scale_range = 0.4f, bool hand_tracking = false,
-            int hand_render = -1, bool _3d = false, int _3d_views = 1, bool flir_camera = false, int render_pose = -1, // RenderMode
-            float hand_alpha_pose = 0.6f, float hand_alpha_heatmap = 0.7f, float hand_render_threshold = 0.2f
+            bool hand,
+            int hand_net_resolution_x, int hand_net_resolution_y, // Point
+            int hand_scale_number, float hand_scale_range, bool hand_tracking,
+            byte hand_render_mode, // RenderMode
+            float hand_alpha_pose, float hand_alpha_heatmap, float hand_render_threshold
         );
         [DllImport("openpose")] public static extern void OP_ConfigureFace(
-            bool face = false, int face_net_resolution_x = 320, int face_net_resolution_y = 320,
-            int face_renderer = -1, int render_pose = -1, 
-            float face_alpha_pose = 0.6f, float face_alpha_heatmap = 0.7f, float face_render_threshold = 0.4f
+            bool face, 
+            int face_net_resolution_x, int face_net_resolution_y, // Point
+            byte face_render_mode, // RenderMode
+            float face_alpha_pose, float face_alpha_heatmap, float face_render_threshold
         );
         [DllImport("openpose")] public static extern void OP_ConfigureExtra(
-            bool _3d = false, int _3d_min_views = -1, bool _identification = false, int _tracking = -1,	int _ik_threads = 0
+            bool _3d, int _3d_min_views, bool _identification, int _tracking, int _ik_threads
         );
         [DllImport("openpose")] public static extern void OP_ConfigureInput(
-            byte producer_type = (byte) ProducerType.None, string producer_string = "",
-            ulong frame_first = 0, ulong frame_step = 1, ulong frame_last = ulong.MaxValue,
-            bool process_real_time = false, bool frame_flip = false,
-            int frame_rotate = 0, bool frames_repeat = false,
-            int camera_resolution_x = -1, int camera_resolution_y = -1, double webcam_fps = 30.0, 
-            string camera_parameter_path = "models/cameraParameters/", 
-            bool undistort_image = true, uint image_directory_stereo = 1
+            byte producer_type, string producer_string, // ProducerType and string
+            ulong frame_first, ulong frame_step, ulong frame_last,
+            bool process_real_time, bool frame_flip, int frame_rotate, bool frames_repeat, 
+            int camera_resolution_x, int camera_resolution_y, // Point
+            double webcam_fps, string camera_parameter_path, bool undistort_image, uint image_directory_stereo
         );
         [DllImport("openpose")] public static extern void OP_ConfigureOutput(            
-            string write_keypoint = "",
-            string write_keypoint_format = "yml", string write_json = "", string write_coco_json = "",
-            string write_coco_foot_json = "", string write_images = "", string write_images_format = "png", string write_video = "",
-            double camera_fps = 30.0, 
-            string write_heatmaps = "", string write_heatmaps_format = "png", string write_video_adam = "",
-            string write_bvh = "", string udp_host = "", string udp_port = "8051"
+            ushort display_mode, // DisplayMode
+            bool gui_verbose, bool full_screen, string write_keypoint,
+            byte write_keypoint_format, // DataFormat
+            string write_json, string write_coco_json, string write_coco_foot_json, 
+            string write_images, string write_images_format, string write_video,
+            double camera_fps, string write_heatmaps, string write_heatmaps_format, 
+            string write_video_adam, string write_bvh, string udp_host, string udp_port
         );
     }
 }
