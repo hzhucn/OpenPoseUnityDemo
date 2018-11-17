@@ -3,8 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace OpenPose
-{
+namespace OpenPose {
     /*
         Data struct for OP output
         All comments are coppied from OpenPose

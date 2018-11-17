@@ -31,7 +31,7 @@ namespace OpenPose {
         // Thread 
         private static Thread opThread;
 
-        // User functions        
+        # region User functions
         public static void OPEnableDebug(bool enable = true){
             OPAPI.OP_SetDebugEnable(enable);
         }
@@ -40,11 +40,28 @@ namespace OpenPose {
         }
         public static void OPConfigureAllInDefault(){
             OPConfigurePose();
-            OPConfigureHand(true);
-            OPConfigureFace(true);
+            OPConfigureHand();
+            OPConfigureFace();
             OPConfigureExtra();
             OPConfigureInput();
             OPConfigureOutput();
+            OPConfigureGui();
+        }
+        public static void OPRun() {
+            if (opThread != null && opThread.IsAlive) {
+                Debug.Log("OP already started");
+            } else {
+                // Start OP thread
+                opThread = new Thread(new ThreadStart(OPExecuteThread));
+                opThread.Start();
+            }
+        }
+        public static bool OPGetOutput(out OPDatum data){
+            data = currentData;
+			return dataFlag;
+        }
+        public static void OPShutdown() {
+            OPAPI.OP_Shutdown();
         }
         public static void OPConfigurePose(
             bool body_disable = false, Vector2Int? net_resolution = null, Vector2Int? output_resolution = null,
@@ -79,7 +96,7 @@ namespace OpenPose {
             );
         }
         public static void OPConfigureHand(
-            bool hand = false, Vector2Int? hand_net_resolution = null,
+            bool hand = true, Vector2Int? hand_net_resolution = null,
             int hand_scale_number = 1, float hand_scale_range = 0.4f, bool hand_tracking = false,
             RenderMode hand_render_mode = RenderMode.None, 
             float hand_alpha_pose = 0.6f, float hand_alpha_heatmap = 0.7f, float hand_render_threshold = 0.2f){
@@ -95,7 +112,7 @@ namespace OpenPose {
             );
         }
         public static void OPConfigureFace(
-            bool face = false, Vector2Int? face_net_resolution = null,
+            bool face = true, Vector2Int? face_net_resolution = null,
             RenderMode face_render_mode = RenderMode.None, 
             float face_alpha_pose = 0.6f, float face_alpha_heatmap = 0.7f, float face_render_threshold = 0.4f){
 
@@ -135,39 +152,30 @@ namespace OpenPose {
             );
         }
         public static void OPConfigureOutput(
-            DisplayMode display_mode = DisplayMode.NoDisplay, 
-            bool gui_verbose = false, bool full_screen = false, string write_keypoint = "",
-            DataFormat write_keypoint_format = DataFormat.Yml, string write_json = "", string write_coco_json = "",
-            string write_coco_foot_json = "", string write_images = "", string write_images_format = "png", string write_video = "",
+            double verbose = -1.0, string write_keypoint = "", DataFormat write_keypoint_format = DataFormat.Yml, 
+            string write_json = "", string write_coco_json = "", string write_coco_foot_json = "", int write_coco_json_variant = 1,
+            string write_images = "", string write_images_format = "png", string write_video = "",
             double camera_fps = 30.0, string write_heatmaps = "", string write_heatmaps_format = "png", 
             string write_video_adam = "", string write_bvh = "", string udp_host = "", string udp_port = "8051"){
                 
             OPAPI.OP_ConfigureOutput(
-                (ushort) display_mode, // DisplayMode
-                gui_verbose, full_screen, write_keypoint,
-                (byte) write_keypoint_format, // DataFormat
-                write_json, write_coco_json, write_coco_foot_json, 
+                verbose, write_keypoint, (byte) write_keypoint_format, // DataFormat
+                write_json, write_coco_json, write_coco_foot_json, write_coco_json_variant, 
                 write_images, write_images_format, write_video,
                 camera_fps, write_heatmaps, write_heatmaps_format, 
                 write_video_adam, write_bvh, udp_host, udp_port
             );
         }
-        public static void OPRun() {
-            if (opThread != null && opThread.IsAlive) {
-                Debug.Log("OP already started");
-            } else {
-                // Start OP thread
-                opThread = new Thread(new ThreadStart(OPExecuteThread));
-                opThread.Start();
-            }
+        public static void OPConfigureGui(
+            DisplayMode display_mode = DisplayMode.NoDisplay, 
+            bool gui_verbose = false, bool full_screen = false){
+
+            OPAPI.OP_ConfigureGui(
+                (ushort) display_mode, // DisplayMode
+                gui_verbose, full_screen
+            );
         }
-        public static bool OPGetOutput(out OPDatum data){
-            data = currentData;
-			return dataFlag;
-        }
-        public static void OPShutdown() {
-            OPAPI.OP_Shutdown();
-        }
+        #endregion
         
 		// Log callback
         private static DebugCallback OPLog = delegate(string message, int type){
@@ -218,7 +226,9 @@ namespace OpenPose {
         }
 
 		private IEnumerator ClearDataFlagCoroutine(){
+            // Check if data receive finished every frame
             while (true) {
+                // New data finished 
                 yield return new WaitForEndOfFrame();
                 if (dataFlag) {
                     dataFlag = false;

@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace OpenPose {
-	
+namespace OpenPose {	
 	public enum OutputType : byte {
 		None,
 		DatumsInfo,
@@ -12,19 +11,20 @@ namespace OpenPose {
 		PoseIds,
 		PoseScores,
 		PoseHeatMaps,
-		PoseCandidates,
+		PoseCandidates, // 
 		FaceRectangles,
 		FaceKeypoints,
 		FaceHeatMaps,
 		HandRectangles,
 		HandKeypoints,
 		HandHeightMaps,
-		PoseKeypoints3D,
-		FaceKeypoints3D,
-		HandKeypoints3D,
-		CameraMatrix,
-		CameraExtrinsics,
-		CameraIntrinsics
+		PoseKeypoints3D, // 
+		FaceKeypoints3D, // 
+		HandKeypoints3D, // 
+		CameraMatrix, // 
+		CameraExtrinsics, // 
+		CameraIntrinsics, //
+        Image
 	}
 	public enum ProducerType : byte {
         /** Stereo FLIR (Point-Grey) camera reader. Based on Spinnaker SDK. */
@@ -51,7 +51,7 @@ namespace OpenPose {
         UnsignedChar, // [0, 255]
         NoScale,
     }
-    public enum HeatMapType : byte { // This is a little different from op::HeatMapType in openpose
+    public enum HeatMapType : byte { // This is different from op::HeatMapType in openpose
 		None = 0, 
         Parts = 1 << 0,
         Background = 1 << 1,

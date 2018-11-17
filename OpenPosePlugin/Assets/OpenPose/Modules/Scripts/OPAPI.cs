@@ -77,13 +77,15 @@ namespace OpenPose {
             double webcam_fps, string camera_parameter_path, bool undistort_image, uint image_directory_stereo
         );
         [DllImport("openpose")] public static extern void OP_ConfigureOutput(            
-            ushort display_mode, // DisplayMode
-            bool gui_verbose, bool full_screen, string write_keypoint,
-            byte write_keypoint_format, // DataFormat
-            string write_json, string write_coco_json, string write_coco_foot_json, 
+            double verbose, string write_keypoint, byte write_keypoint_format, // DataFormat
+            string write_json, string write_coco_json, string write_coco_foot_json, int write_coco_json_variant,
             string write_images, string write_images_format, string write_video,
             double camera_fps, string write_heatmaps, string write_heatmaps_format, 
             string write_video_adam, string write_bvh, string udp_host, string udp_port
+        );
+        [DllImport("openpose")] public static extern void OP_ConfigureGui(            
+            ushort display_mode, // DisplayMode
+            bool gui_verbose, bool full_screen
         );
     }
 }
