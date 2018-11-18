@@ -19,6 +19,7 @@ namespace OpenPose {
 				case OutputType.FaceKeypoints: ParseFaceKeypoints(ref datum, ptrArray, sizeArray); break;
 				case OutputType.HandRectangles: ParseHandRectangles(ref datum, ptrArray, sizeArray); break;
 				case OutputType.HandKeypoints: ParseHandKeypoints(ref datum, ptrArray, sizeArray); break;
+				case OutputType.Image: ParseImage(ref datum, ptrArray, sizeArray); break;
 				default: Debug.Log("Output type not supported yet: " + type); break;
 			}
 		}
@@ -182,6 +183,18 @@ namespace OpenPose {
 			var valArray = new float[volume];
 			Marshal.Copy(ptrArray[0], valArray, 0, volume);
 			datum.faceHeatMaps = new MultiArray<float>(valArray, sizeArray);
+		}
+	
+		public static void ParseImage(ref OPDatum datum, IntPtr[] ptrArray, int[] sizeArray){
+			Debug.AssertFormat(ptrArray.Length == 1, "Image array length invalid: " + ptrArray.Length);
+			Debug.AssertFormat(sizeArray.Length == 3, "Image size length invalid: " + sizeArray.Length);
+            int volume = 1;
+            foreach(var i in sizeArray){ volume *= i; }
+			if (volume == 0) return;
+			
+			var valArray = new byte[volume];
+			Marshal.Copy(ptrArray[0], valArray, 0, volume);
+			datum.cvInputData = new MultiArray<byte>(valArray, sizeArray);
 		}
 	}
 }

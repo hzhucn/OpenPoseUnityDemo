@@ -11,6 +11,7 @@ namespace OpenPose.Example
     {
         // The 2D human to control
         [SerializeField] List<HumanController2D> humans;
+        [SerializeField] ImageRenderer imageRenderer;
 
         // Output control
         private OPDatum datum;
@@ -41,6 +42,9 @@ namespace OpenPose.Example
                 for (int i = 0; i < humans.Count; i++){
                     humans[i].DrawHuman(ref datum, i);
                 }
+
+                // Draw image
+                imageRenderer.UpdateImage(ref datum);
 
                 // Calculate framerate
                 if (lastFrameTime > 0f) {

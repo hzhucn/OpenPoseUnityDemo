@@ -11,19 +11,19 @@ namespace OpenPose {
 		PoseIds,
 		PoseScores,
 		PoseHeatMaps,
-		PoseCandidates, // 
+		PoseCandidates,
 		FaceRectangles,
 		FaceKeypoints,
 		FaceHeatMaps,
 		HandRectangles,
 		HandKeypoints,
 		HandHeightMaps,
-		PoseKeypoints3D, // 
-		FaceKeypoints3D, // 
-		HandKeypoints3D, // 
-		CameraMatrix, // 
-		CameraExtrinsics, // 
-		CameraIntrinsics, //
+		PoseKeypoints3D,
+		FaceKeypoints3D,
+		HandKeypoints3D,
+		CameraMatrix,
+		CameraExtrinsics,
+		CameraIntrinsics,
         Image
 	}
 	public enum ProducerType : byte {

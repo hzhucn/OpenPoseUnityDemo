@@ -26,7 +26,13 @@ namespace OpenPose {
         public ulong frameNumber;
 
         // --------------------------- Input image and rendered version parameters ---------------------------- //
-        // Not enabled now
+        /**
+         * Original image to be processed in cv::Mat uchar format.
+         * Size: (input_width x input_height) x 3 channels
+         */
+        public MultiArray<byte> cvInputData;
+        
+        // Other parameters not available 
 
         // ------------------------------ Resulting Array<float> data parameters ------------------------------ //
         /**
@@ -78,7 +84,7 @@ namespace OpenPose {
          * Rather than vector, it should ideally be:
          * std::array<std::vector<std::array<float,3>>, #BP> poseCandidates;
          */
-        public List<List<Vector3>> poseCandidates;
+        public List<List<Vector3>> poseCandidates; // 
 
         /**
          * Face detection locations (x,y,width,height) for each person in the image.
@@ -219,6 +225,10 @@ namespace OpenPose {
 
         public int GetVolume(){
             return volume;
+        }
+
+        public bool Empty(){
+            return (volume == 0);
         }
 
         private int GetIndex(params int[] indexes){
