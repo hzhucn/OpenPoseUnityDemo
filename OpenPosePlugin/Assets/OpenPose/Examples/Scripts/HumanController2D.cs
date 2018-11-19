@@ -9,14 +9,14 @@ namespace OpenPose.Example
         public int PoseKeypointsCount = 25;
         public int HandKeypointsCount = 21;
         public int FaceKeypointsCount = 70;
-        public float ScoreThres = 0.05f;
+        public float ScoreThres = 0.2f;
 
         [SerializeField] RectTransform PoseParent;
         [SerializeField] RectTransform LHandParent;
         [SerializeField] RectTransform RHandParent;
         [SerializeField] RectTransform FaceParent;
-        [SerializeField] RectTransform LHandRectangle;
-        [SerializeField] RectTransform RHandRectangle;
+        //[SerializeField] RectTransform LHandRectangle; // TODO
+        //[SerializeField] RectTransform RHandRectangle; // TODO
         [SerializeField] RectTransform FaceRectangle;
         private List<RectTransform> poseJoints = new List<RectTransform>();
         private List<RectTransform> lHandJoints = new List<RectTransform>();

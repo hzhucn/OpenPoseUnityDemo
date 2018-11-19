@@ -38,6 +38,9 @@ namespace OpenPose {
         public static void OPEnableOutput(bool enable = true){
             OPAPI.OP_SetOutputEnable(enable);
         }
+        public static void OPEnableImageOutput(bool enable = true){
+            OPAPI.OP_SetImageOutputEnable(enable);
+        }
         public static void OPConfigureAllInDefault(){
             OPConfigurePose();
             OPConfigureHand();

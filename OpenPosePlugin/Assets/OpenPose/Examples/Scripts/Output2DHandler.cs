@@ -5,16 +5,23 @@ using UnityEngine;
 using System;
 using System.Runtime.InteropServices;
 
-namespace OpenPose.Example
-{
-    public class Output2DHandler : MonoBehaviour
-    {
+namespace OpenPose.Example {
+    public class Output2DHandler : MonoBehaviour {
+
         // The 2D human to control
         [SerializeField] List<HumanController2D> humans;
         [SerializeField] ImageRenderer imageRenderer;
 
         // Output control
         private OPDatum datum;
+
+        // Bg image
+        private bool renderBgImg = false;
+        public void ToggleRenderBgImg(){
+            renderBgImg = !renderBgImg;
+            OPWrapper.OPEnableImageOutput(renderBgImg);
+            imageRenderer.FadeInOut(renderBgImg);
+        }
 
         // Frame rate calculation
         [Range(0f, 1f)] 

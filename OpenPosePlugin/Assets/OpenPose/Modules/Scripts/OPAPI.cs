@@ -28,6 +28,11 @@ namespace OpenPose {
         [DllImport("openpose")] public static extern void OP_SetDebugEnable(bool enable);
 
         /*
+         * Enable/disable image output callback. Disable will save some time since data is large. 
+         */
+        [DllImport("openpose")] public static extern void OP_SetImageOutputEnable(bool enable);
+
+        /*
          * Run openpose if not running. It may take several seconds to fully start. 
          */
         [DllImport("openpose")] public static extern void OP_Run();

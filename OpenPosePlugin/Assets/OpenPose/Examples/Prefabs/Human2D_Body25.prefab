@@ -4559,6 +4559,7 @@ MonoBehaviour:
   mode: 2
   Joint0: {fileID: 224888973164536760}
   Joint1: {fileID: 224738714264414344}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 0.5
   scaleMultiplier: 1
@@ -4577,6 +4578,7 @@ MonoBehaviour:
   mode: 1
   Joint0: {fileID: 224808704987596702}
   Joint1: {fileID: 224808704987596702}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 1
   scaleMultiplier: 1
@@ -4627,8 +4629,6 @@ MonoBehaviour:
   LHandParent: {fileID: 224361909899959206}
   RHandParent: {fileID: 224745229846397596}
   FaceParent: {fileID: 224141051237329376}
-  LHandRectangle: {fileID: 224268122419065358}
-  RHandRectangle: {fileID: 224925575690925868}
   FaceRectangle: {fileID: 224188557123920864}
 --- !u!114 &114006810755565590
 MonoBehaviour:
@@ -4644,6 +4644,7 @@ MonoBehaviour:
   mode: 1
   Joint0: {fileID: 224498323250347574}
   Joint1: {fileID: 224498323250347574}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 1
   scaleMultiplier: 1
@@ -4662,6 +4663,7 @@ MonoBehaviour:
   mode: 2
   Joint0: {fileID: 224738714264414344}
   Joint1: {fileID: 224956468829796918}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 0.5
   scaleMultiplier: 1
@@ -4680,6 +4682,7 @@ MonoBehaviour:
   mode: 1
   Joint0: {fileID: 224118669899766568}
   Joint1: {fileID: 224118669899766568}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 1
   scaleMultiplier: 1
@@ -4698,6 +4701,7 @@ MonoBehaviour:
   mode: 2
   Joint0: {fileID: 224037187623376676}
   Joint1: {fileID: 224108698697180294}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 0.5
   scaleMultiplier: 1
@@ -4716,6 +4720,7 @@ MonoBehaviour:
   mode: 1
   Joint0: {fileID: 224381402084287876}
   Joint1: {fileID: 224381402084287876}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 1
   scaleMultiplier: 1
@@ -4761,6 +4766,7 @@ MonoBehaviour:
   mode: 1
   Joint0: {fileID: 224234474761637624}
   Joint1: {fileID: 224234474761637624}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 1
   scaleMultiplier: 1
@@ -4779,6 +4785,7 @@ MonoBehaviour:
   mode: 1
   Joint0: {fileID: 224841368476701052}
   Joint1: {fileID: 224841368476701052}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 1
   scaleMultiplier: 1
@@ -5013,6 +5020,7 @@ MonoBehaviour:
   mode: 1
   Joint0: {fileID: 224824063785144884}
   Joint1: {fileID: 224824063785144884}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 1
   scaleMultiplier: 1
@@ -5085,6 +5093,7 @@ MonoBehaviour:
   mode: 1
   Joint0: {fileID: 224190569084855160}
   Joint1: {fileID: 224190569084855160}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 1
   scaleMultiplier: 1
@@ -5103,6 +5112,7 @@ MonoBehaviour:
   mode: 1
   Joint0: {fileID: 224409020115682090}
   Joint1: {fileID: 224409020115682090}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 1
   scaleMultiplier: 1
@@ -5229,6 +5239,7 @@ MonoBehaviour:
   mode: 2
   Joint0: {fileID: 224494143335444758}
   Joint1: {fileID: 224294480876939240}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 0.5
   scaleMultiplier: 1
@@ -5247,6 +5258,7 @@ MonoBehaviour:
   mode: 1
   Joint0: {fileID: 224688703917903186}
   Joint1: {fileID: 224688703917903186}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 1
   scaleMultiplier: 1
@@ -5265,6 +5277,7 @@ MonoBehaviour:
   mode: 2
   Joint0: {fileID: 224353323349559816}
   Joint1: {fileID: 224208525547817636}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 0.5
   scaleMultiplier: 1
@@ -5337,6 +5350,7 @@ MonoBehaviour:
   mode: 2
   Joint0: {fileID: 224496806308468500}
   Joint1: {fileID: 224602095470045530}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 0.5
   scaleMultiplier: 1
@@ -5436,6 +5450,7 @@ MonoBehaviour:
   mode: 1
   Joint0: {fileID: 224503356542388270}
   Joint1: {fileID: 224503356542388270}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 1
   scaleMultiplier: 1
@@ -5616,6 +5631,7 @@ MonoBehaviour:
   mode: 2
   Joint0: {fileID: 224369340552132360}
   Joint1: {fileID: 224457819751982912}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 0.5
   scaleMultiplier: 1
@@ -5688,6 +5704,7 @@ MonoBehaviour:
   mode: 2
   Joint0: {fileID: 224294480876939240}
   Joint1: {fileID: 224902260881154302}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 0.5
   scaleMultiplier: 1
@@ -5706,6 +5723,7 @@ MonoBehaviour:
   mode: 1
   Joint0: {fileID: 224154191643183706}
   Joint1: {fileID: 224154191643183706}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 1
   scaleMultiplier: 1
@@ -5724,6 +5742,7 @@ MonoBehaviour:
   mode: 2
   Joint0: {fileID: 224292817093106604}
   Joint1: {fileID: 224654760815936826}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 0.5
   scaleMultiplier: 1
@@ -5742,6 +5761,7 @@ MonoBehaviour:
   mode: 2
   Joint0: {fileID: 224325572350185986}
   Joint1: {fileID: 224966488043169254}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 0.5
   scaleMultiplier: 1
@@ -5787,6 +5807,7 @@ MonoBehaviour:
   mode: 1
   Joint0: {fileID: 224502488638054634}
   Joint1: {fileID: 224502488638054634}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 1
   scaleMultiplier: 1
@@ -5805,6 +5826,7 @@ MonoBehaviour:
   mode: 2
   Joint0: {fileID: 224467985830663548}
   Joint1: {fileID: 224087603661504504}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 0.5
   scaleMultiplier: 1
@@ -5823,6 +5845,7 @@ MonoBehaviour:
   mode: 1
   Joint0: {fileID: 224354044247661404}
   Joint1: {fileID: 224354044247661404}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 1
   scaleMultiplier: 1
@@ -5841,6 +5864,7 @@ MonoBehaviour:
   mode: 1
   Joint0: {fileID: 224522549978586954}
   Joint1: {fileID: 224522549978586954}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 1
   scaleMultiplier: 1
@@ -5859,6 +5883,7 @@ MonoBehaviour:
   mode: 2
   Joint0: {fileID: 224108698697180294}
   Joint1: {fileID: 224868904494333732}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 0.5
   scaleMultiplier: 1
@@ -5877,6 +5902,7 @@ MonoBehaviour:
   mode: 1
   Joint0: {fileID: 224345672603065414}
   Joint1: {fileID: 224345672603065414}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 1
   scaleMultiplier: 1
@@ -5895,6 +5921,7 @@ MonoBehaviour:
   mode: 2
   Joint0: {fileID: 224072226268165322}
   Joint1: {fileID: 224154968795546392}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 0.5
   scaleMultiplier: 1
@@ -5913,6 +5940,7 @@ MonoBehaviour:
   mode: 1
   Joint0: {fileID: 224072540566561684}
   Joint1: {fileID: 224072540566561684}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 1
   scaleMultiplier: 1
@@ -5958,6 +5986,7 @@ MonoBehaviour:
   mode: 1
   Joint0: {fileID: 224452050556487950}
   Joint1: {fileID: 224452050556487950}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 1
   scaleMultiplier: 1
@@ -5976,6 +6005,7 @@ MonoBehaviour:
   mode: 1
   Joint0: {fileID: 224537583680605078}
   Joint1: {fileID: 224537583680605078}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 1
   scaleMultiplier: 1
@@ -5994,6 +6024,7 @@ MonoBehaviour:
   mode: 2
   Joint0: {fileID: 224325572350185986}
   Joint1: {fileID: 224360985117717544}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 0.5
   scaleMultiplier: 1
@@ -6012,6 +6043,7 @@ MonoBehaviour:
   mode: 1
   Joint0: {fileID: 224063329400969260}
   Joint1: {fileID: 224063329400969260}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 1
   scaleMultiplier: 1
@@ -6030,6 +6062,7 @@ MonoBehaviour:
   mode: 2
   Joint0: {fileID: 224611083173534612}
   Joint1: {fileID: 224024904283202440}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 0.5
   scaleMultiplier: 1
@@ -6048,6 +6081,7 @@ MonoBehaviour:
   mode: 2
   Joint0: {fileID: 224956468829796918}
   Joint1: {fileID: 224443673150238498}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 0.5
   scaleMultiplier: 1
@@ -6093,6 +6127,7 @@ MonoBehaviour:
   mode: 1
   Joint0: {fileID: 224345347703680398}
   Joint1: {fileID: 224345347703680398}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 1
   scaleMultiplier: 1
@@ -6165,6 +6200,7 @@ MonoBehaviour:
   mode: 4
   Joint0: {fileID: 224613243362196066}
   Joint1: {fileID: 224325572350185986}
+  KeypointsParent: {fileID: 224141051237329376}
   Rect0: {fileID: 224188557123920864}
   pin: 0
   scaleMultiplier: 1
@@ -6183,6 +6219,7 @@ MonoBehaviour:
   mode: 1
   Joint0: {fileID: 224618467964661842}
   Joint1: {fileID: 224618467964661842}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 1
   scaleMultiplier: 1
@@ -6201,6 +6238,7 @@ MonoBehaviour:
   mode: 1
   Joint0: {fileID: 224446653228144508}
   Joint1: {fileID: 224446653228144508}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 1
   scaleMultiplier: 1
@@ -6219,6 +6257,7 @@ MonoBehaviour:
   mode: 1
   Joint0: {fileID: 224386191524502866}
   Joint1: {fileID: 224386191524502866}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 1
   scaleMultiplier: 1
@@ -6237,6 +6276,7 @@ MonoBehaviour:
   mode: 2
   Joint0: {fileID: 224729428124889820}
   Joint1: {fileID: 224461309875740924}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 0.5
   scaleMultiplier: 1
@@ -6336,6 +6376,7 @@ MonoBehaviour:
   mode: 1
   Joint0: {fileID: 224983326442159228}
   Joint1: {fileID: 224983326442159228}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 1
   scaleMultiplier: 1
@@ -6408,6 +6449,7 @@ MonoBehaviour:
   mode: 2
   Joint0: {fileID: 224514365146336820}
   Joint1: {fileID: 224152080764322212}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 0.5
   scaleMultiplier: 1
@@ -6426,6 +6468,7 @@ MonoBehaviour:
   mode: 1
   Joint0: {fileID: 224469154646500882}
   Joint1: {fileID: 224469154646500882}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 1
   scaleMultiplier: 1
@@ -6444,6 +6487,7 @@ MonoBehaviour:
   mode: 2
   Joint0: {fileID: 224154968795546392}
   Joint1: {fileID: 224777769271221608}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 0.5
   scaleMultiplier: 1
@@ -6462,6 +6506,7 @@ MonoBehaviour:
   mode: 1
   Joint0: {fileID: 224907447262225252}
   Joint1: {fileID: 224907447262225252}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 1
   scaleMultiplier: 1
@@ -6534,6 +6579,7 @@ MonoBehaviour:
   mode: 1
   Joint0: {fileID: 224126183461387344}
   Joint1: {fileID: 224126183461387344}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 1
   scaleMultiplier: 1
@@ -6579,6 +6625,7 @@ MonoBehaviour:
   mode: 2
   Joint0: {fileID: 224515087984033070}
   Joint1: {fileID: 224997901366529458}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 0.5
   scaleMultiplier: 1
@@ -6597,6 +6644,7 @@ MonoBehaviour:
   mode: 2
   Joint0: {fileID: 224611083173534612}
   Joint1: {fileID: 224024904283202440}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 0.5
   scaleMultiplier: 1
@@ -6615,6 +6663,7 @@ MonoBehaviour:
   mode: 2
   Joint0: {fileID: 224080224031895852}
   Joint1: {fileID: 224072226268165322}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 0.5
   scaleMultiplier: 1
@@ -6633,6 +6682,7 @@ MonoBehaviour:
   mode: 2
   Joint0: {fileID: 224299786996320744}
   Joint1: {fileID: 224129021939149388}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 0.5
   scaleMultiplier: 1
@@ -6651,6 +6701,7 @@ MonoBehaviour:
   mode: 2
   Joint0: {fileID: 224369340552132360}
   Joint1: {fileID: 224395570219599514}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 0.5
   scaleMultiplier: 1
@@ -6723,6 +6774,7 @@ MonoBehaviour:
   mode: 1
   Joint0: {fileID: 224903748771350030}
   Joint1: {fileID: 224903748771350030}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 1
   scaleMultiplier: 1
@@ -6741,6 +6793,7 @@ MonoBehaviour:
   mode: 1
   Joint0: {fileID: 224416651049199458}
   Joint1: {fileID: 224416651049199458}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 1
   scaleMultiplier: 1
@@ -6867,6 +6920,7 @@ MonoBehaviour:
   mode: 2
   Joint0: {fileID: 224664082567053342}
   Joint1: {fileID: 224632714499730332}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 0.5
   scaleMultiplier: 1
@@ -6912,6 +6966,7 @@ MonoBehaviour:
   mode: 1
   Joint0: {fileID: 224889720226079418}
   Joint1: {fileID: 224889720226079418}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 1
   scaleMultiplier: 1
@@ -6984,6 +7039,7 @@ MonoBehaviour:
   mode: 1
   Joint0: {fileID: 224509702195064208}
   Joint1: {fileID: 224509702195064208}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 1
   scaleMultiplier: 1
@@ -7029,6 +7085,7 @@ MonoBehaviour:
   mode: 1
   Joint0: {fileID: 224891435994435770}
   Joint1: {fileID: 224891435994435770}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 1
   scaleMultiplier: 1
@@ -7047,6 +7104,7 @@ MonoBehaviour:
   mode: 2
   Joint0: {fileID: 224985021277671786}
   Joint1: {fileID: 224611083173534612}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 0.5
   scaleMultiplier: 1
@@ -7146,6 +7204,7 @@ MonoBehaviour:
   mode: 1
   Joint0: {fileID: 224048976242738862}
   Joint1: {fileID: 224048976242738862}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 1
   scaleMultiplier: 1
@@ -7218,6 +7277,7 @@ MonoBehaviour:
   mode: 2
   Joint0: {fileID: 224395570219599514}
   Joint1: {fileID: 224664082567053342}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 0.5
   scaleMultiplier: 1
@@ -7290,6 +7350,7 @@ MonoBehaviour:
   mode: 2
   Joint0: {fileID: 224360985117717544}
   Joint1: {fileID: 224631469632508340}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 0.5
   scaleMultiplier: 1
@@ -7308,6 +7369,7 @@ MonoBehaviour:
   mode: 2
   Joint0: {fileID: 224602095470045530}
   Joint1: {fileID: 224036116586872922}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 0.5
   scaleMultiplier: 1
@@ -7434,6 +7496,7 @@ MonoBehaviour:
   mode: 2
   Joint0: {fileID: 224369340552132360}
   Joint1: {fileID: 224299786996320744}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 0.5
   scaleMultiplier: 1
@@ -7452,6 +7515,7 @@ MonoBehaviour:
   mode: 1
   Joint0: {fileID: 224958999001917356}
   Joint1: {fileID: 224958999001917356}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 1
   scaleMultiplier: 1
@@ -7470,6 +7534,7 @@ MonoBehaviour:
   mode: 1
   Joint0: {fileID: 224076035798374774}
   Joint1: {fileID: 224076035798374774}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 1
   scaleMultiplier: 1
@@ -7488,6 +7553,7 @@ MonoBehaviour:
   mode: 2
   Joint0: {fileID: 224494143335444758}
   Joint1: {fileID: 224272412966449782}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 0.5
   scaleMultiplier: 1
@@ -7506,6 +7572,7 @@ MonoBehaviour:
   mode: 2
   Joint0: {fileID: 224457819751982912}
   Joint1: {fileID: 224125829696566440}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 0.5
   scaleMultiplier: 1
@@ -7524,6 +7591,7 @@ MonoBehaviour:
   mode: 1
   Joint0: {fileID: 224611797172751512}
   Joint1: {fileID: 224611797172751512}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 1
   scaleMultiplier: 1
@@ -7650,6 +7718,7 @@ MonoBehaviour:
   mode: 2
   Joint0: {fileID: 224272412966449782}
   Joint1: {fileID: 224985021277671786}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 0.5
   scaleMultiplier: 1
@@ -7695,6 +7764,7 @@ MonoBehaviour:
   mode: 1
   Joint0: {fileID: 224704306246687228}
   Joint1: {fileID: 224704306246687228}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 1
   scaleMultiplier: 1
@@ -7713,6 +7783,7 @@ MonoBehaviour:
   mode: 2
   Joint0: {fileID: 224369340552132360}
   Joint1: {fileID: 224961703038188464}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 0.5
   scaleMultiplier: 1
@@ -7731,6 +7802,7 @@ MonoBehaviour:
   mode: 2
   Joint0: {fileID: 224791273148563634}
   Joint1: {fileID: 224122037701524416}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 0.5
   scaleMultiplier: 1
@@ -7749,6 +7821,7 @@ MonoBehaviour:
   mode: 2
   Joint0: {fileID: 224494143335444758}
   Joint1: {fileID: 224572808514830604}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 0.5
   scaleMultiplier: 1
@@ -7767,6 +7840,7 @@ MonoBehaviour:
   mode: 1
   Joint0: {fileID: 224256908003421048}
   Joint1: {fileID: 224256908003421048}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 1
   scaleMultiplier: 1
@@ -7785,6 +7859,7 @@ MonoBehaviour:
   mode: 1
   Joint0: {fileID: 224132388058470058}
   Joint1: {fileID: 224132388058470058}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 1
   scaleMultiplier: 1
@@ -7803,6 +7878,7 @@ MonoBehaviour:
   mode: 2
   Joint0: {fileID: 224970847597313386}
   Joint1: {fileID: 224514365146336820}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 0.5
   scaleMultiplier: 1
@@ -7848,6 +7924,7 @@ MonoBehaviour:
   mode: 1
   Joint0: {fileID: 224584614485938632}
   Joint1: {fileID: 224584614485938632}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 1
   scaleMultiplier: 1
@@ -7893,6 +7970,7 @@ MonoBehaviour:
   mode: 2
   Joint0: {fileID: 224572808514830604}
   Joint1: {fileID: 224515416226394580}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 0.5
   scaleMultiplier: 1
@@ -7911,6 +7989,7 @@ MonoBehaviour:
   mode: 2
   Joint0: {fileID: 224970847597313386}
   Joint1: {fileID: 224515087984033070}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 0.5
   scaleMultiplier: 1
@@ -7956,6 +8035,7 @@ MonoBehaviour:
   mode: 2
   Joint0: {fileID: 224369340552132360}
   Joint1: {fileID: 224436206701734578}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 0.5
   scaleMultiplier: 1
@@ -7974,6 +8054,7 @@ MonoBehaviour:
   mode: 2
   Joint0: {fileID: 224436206701734578}
   Joint1: {fileID: 224496806308468500}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 0.5
   scaleMultiplier: 1
@@ -7992,6 +8073,7 @@ MonoBehaviour:
   mode: 1
   Joint0: {fileID: 224588249943683344}
   Joint1: {fileID: 224588249943683344}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 1
   scaleMultiplier: 1
@@ -8010,6 +8092,7 @@ MonoBehaviour:
   mode: 1
   Joint0: {fileID: 224855765139938922}
   Joint1: {fileID: 224855765139938922}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 1
   scaleMultiplier: 1
@@ -8055,6 +8138,7 @@ MonoBehaviour:
   mode: 1
   Joint0: {fileID: 224053849904016736}
   Joint1: {fileID: 224053849904016736}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 1
   scaleMultiplier: 1
@@ -8154,6 +8238,7 @@ MonoBehaviour:
   mode: 1
   Joint0: {fileID: 224004619597988524}
   Joint1: {fileID: 224004619597988524}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 1
   scaleMultiplier: 1
@@ -8226,6 +8311,7 @@ MonoBehaviour:
   mode: 2
   Joint0: {fileID: 224902260881154302}
   Joint1: {fileID: 224791273148563634}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 0.5
   scaleMultiplier: 1
@@ -8244,6 +8330,7 @@ MonoBehaviour:
   mode: 1
   Joint0: {fileID: 224857974680919538}
   Joint1: {fileID: 224857974680919538}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 1
   scaleMultiplier: 1
@@ -8262,6 +8349,7 @@ MonoBehaviour:
   mode: 1
   Joint0: {fileID: 224011561215694472}
   Joint1: {fileID: 224011561215694472}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 1
   scaleMultiplier: 1
@@ -8280,6 +8368,7 @@ MonoBehaviour:
   mode: 1
   Joint0: {fileID: 224136349386329028}
   Joint1: {fileID: 224136349386329028}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 1
   scaleMultiplier: 1
@@ -8298,6 +8387,7 @@ MonoBehaviour:
   mode: 1
   Joint0: {fileID: 224373746839318112}
   Joint1: {fileID: 224373746839318112}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 1
   scaleMultiplier: 1
@@ -8343,6 +8433,7 @@ MonoBehaviour:
   mode: 1
   Joint0: {fileID: 224424794018625878}
   Joint1: {fileID: 224424794018625878}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 1
   scaleMultiplier: 1
@@ -8361,6 +8452,7 @@ MonoBehaviour:
   mode: 1
   Joint0: {fileID: 224692358303075858}
   Joint1: {fileID: 224692358303075858}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 1
   scaleMultiplier: 1
@@ -8433,6 +8525,7 @@ MonoBehaviour:
   mode: 1
   Joint0: {fileID: 224764488027392480}
   Joint1: {fileID: 224764488027392480}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 1
   scaleMultiplier: 1
@@ -8451,6 +8544,7 @@ MonoBehaviour:
   mode: 1
   Joint0: {fileID: 224223260737254100}
   Joint1: {fileID: 224223260737254100}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 1
   scaleMultiplier: 1
@@ -8523,6 +8617,7 @@ MonoBehaviour:
   mode: 1
   Joint0: {fileID: 224920164054401694}
   Joint1: {fileID: 224920164054401694}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 1
   scaleMultiplier: 1
@@ -8676,6 +8771,7 @@ MonoBehaviour:
   mode: 1
   Joint0: {fileID: 224575607277698080}
   Joint1: {fileID: 224575607277698080}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 1
   scaleMultiplier: 1
@@ -8694,6 +8790,7 @@ MonoBehaviour:
   mode: 1
   Joint0: {fileID: 224192602321322660}
   Joint1: {fileID: 224192602321322660}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 1
   scaleMultiplier: 1
@@ -8766,6 +8863,7 @@ MonoBehaviour:
   mode: 1
   Joint0: {fileID: 224603892201160438}
   Joint1: {fileID: 224603892201160438}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 1
   scaleMultiplier: 1
@@ -8811,6 +8909,7 @@ MonoBehaviour:
   mode: 1
   Joint0: {fileID: 224148515820397676}
   Joint1: {fileID: 224148515820397676}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 1
   scaleMultiplier: 1
@@ -8856,6 +8955,7 @@ MonoBehaviour:
   mode: 1
   Joint0: {fileID: 224205235541316818}
   Joint1: {fileID: 224205235541316818}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 1
   scaleMultiplier: 1
@@ -8874,6 +8974,7 @@ MonoBehaviour:
   mode: 2
   Joint0: {fileID: 224631469632508340}
   Joint1: {fileID: 224537280964347392}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 0.5
   scaleMultiplier: 1
@@ -8946,6 +9047,7 @@ MonoBehaviour:
   mode: 1
   Joint0: {fileID: 224336811130675830}
   Joint1: {fileID: 224336811130675830}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 1
   scaleMultiplier: 1
@@ -8964,6 +9066,7 @@ MonoBehaviour:
   mode: 2
   Joint0: {fileID: 224997901366529458}
   Joint1: {fileID: 224108359378256510}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 0.5
   scaleMultiplier: 1
@@ -8982,6 +9085,7 @@ MonoBehaviour:
   mode: 1
   Joint0: {fileID: 224840986952309344}
   Joint1: {fileID: 224840986952309344}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 1
   scaleMultiplier: 1
@@ -9000,6 +9104,7 @@ MonoBehaviour:
   mode: 2
   Joint0: {fileID: 224274188522261118}
   Joint1: {fileID: 224241580405710114}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 0.5
   scaleMultiplier: 1
@@ -9099,6 +9204,7 @@ MonoBehaviour:
   mode: 2
   Joint0: {fileID: 224515416226394580}
   Joint1: {fileID: 224467985830663548}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 0.5
   scaleMultiplier: 1
@@ -9198,6 +9304,7 @@ MonoBehaviour:
   mode: 1
   Joint0: {fileID: 224527763803037962}
   Joint1: {fileID: 224527763803037962}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 1
   scaleMultiplier: 1
@@ -9216,6 +9323,7 @@ MonoBehaviour:
   mode: 2
   Joint0: {fileID: 224108359378256510}
   Joint1: {fileID: 224124523745582432}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 0.5
   scaleMultiplier: 1
@@ -9261,6 +9369,7 @@ MonoBehaviour:
   mode: 1
   Joint0: {fileID: 224899783951804170}
   Joint1: {fileID: 224899783951804170}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 1
   scaleMultiplier: 1
@@ -9333,6 +9442,7 @@ MonoBehaviour:
   mode: 1
   Joint0: {fileID: 224931701141690944}
   Joint1: {fileID: 224931701141690944}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 1
   scaleMultiplier: 1
@@ -9378,6 +9488,7 @@ MonoBehaviour:
   mode: 2
   Joint0: {fileID: 224325572350185986}
   Joint1: {fileID: 224970847597313386}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 0.5
   scaleMultiplier: 1
@@ -9423,6 +9534,7 @@ MonoBehaviour:
   mode: 2
   Joint0: {fileID: 224494143335444758}
   Joint1: {fileID: 224888973164536760}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 0.5
   scaleMultiplier: 1
@@ -9495,6 +9607,7 @@ MonoBehaviour:
   mode: 1
   Joint0: {fileID: 224691671406277196}
   Joint1: {fileID: 224691671406277196}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 1
   scaleMultiplier: 1
@@ -9648,6 +9761,7 @@ MonoBehaviour:
   mode: 2
   Joint0: {fileID: 224125829696566440}
   Joint1: {fileID: 224353323349559816}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 0.5
   scaleMultiplier: 1
@@ -9720,6 +9834,7 @@ MonoBehaviour:
   mode: 1
   Joint0: {fileID: 224220217010040358}
   Joint1: {fileID: 224220217010040358}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 1
   scaleMultiplier: 1
@@ -9765,6 +9880,7 @@ MonoBehaviour:
   mode: 2
   Joint0: {fileID: 224966488043169254}
   Joint1: {fileID: 224292817093106604}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 0.5
   scaleMultiplier: 1
@@ -9810,6 +9926,7 @@ MonoBehaviour:
   mode: 2
   Joint0: {fileID: 224494143335444758}
   Joint1: {fileID: 224080224031895852}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 0.5
   scaleMultiplier: 1
@@ -9828,6 +9945,7 @@ MonoBehaviour:
   mode: 1
   Joint0: {fileID: 224779740665959210}
   Joint1: {fileID: 224779740665959210}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 1
   scaleMultiplier: 1
@@ -9846,6 +9964,7 @@ MonoBehaviour:
   mode: 2
   Joint0: {fileID: 224152080764322212}
   Joint1: {fileID: 224274188522261118}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 0.5
   scaleMultiplier: 1
@@ -9945,6 +10064,7 @@ MonoBehaviour:
   mode: 2
   Joint0: {fileID: 224961703038188464}
   Joint1: {fileID: 224037187623376676}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 0.5
   scaleMultiplier: 1
@@ -10017,6 +10137,7 @@ MonoBehaviour:
   mode: 2
   Joint0: {fileID: 224129021939149388}
   Joint1: {fileID: 224729428124889820}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 0.5
   scaleMultiplier: 1
@@ -10035,6 +10156,7 @@ MonoBehaviour:
   mode: 1
   Joint0: {fileID: 224874152685082056}
   Joint1: {fileID: 224874152685082056}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 1
   scaleMultiplier: 1
@@ -10053,6 +10175,7 @@ MonoBehaviour:
   mode: 1
   Joint0: {fileID: 224577040069046660}
   Joint1: {fileID: 224577040069046660}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 1
   scaleMultiplier: 1
@@ -10179,6 +10302,7 @@ MonoBehaviour:
   mode: 1
   Joint0: {fileID: 224086645873213290}
   Joint1: {fileID: 224086645873213290}
+  KeypointsParent: {fileID: 0}
   Rect0: {fileID: 0}
   pin: 1
   scaleMultiplier: 1
@@ -11143,7 +11267,7 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1275772725644782}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
