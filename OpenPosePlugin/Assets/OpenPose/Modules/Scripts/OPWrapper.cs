@@ -44,7 +44,7 @@ namespace OpenPose {
         public static void OPConfigureAllInDefault(){
             OPConfigurePose();
             OPConfigureHand();
-            OPConfigureFace();
+            OPConfigureFace(true);
             OPConfigureExtra();
             OPConfigureInput();
             OPConfigureOutput();
@@ -99,7 +99,7 @@ namespace OpenPose {
             );
         }
         public static void OPConfigureHand(
-            bool hand = true, Vector2Int? hand_net_resolution = null,
+            bool hand = false, Vector2Int? hand_net_resolution = null,
             int hand_scale_number = 1, float hand_scale_range = 0.4f, bool hand_tracking = false,
             RenderMode hand_render_mode = RenderMode.None, 
             float hand_alpha_pose = 0.6f, float hand_alpha_heatmap = 0.7f, float hand_render_threshold = 0.2f){
@@ -115,7 +115,7 @@ namespace OpenPose {
             );
         }
         public static void OPConfigureFace(
-            bool face = true, Vector2Int? face_net_resolution = null,
+            bool face = false, Vector2Int? face_net_resolution = null,
             RenderMode face_render_mode = RenderMode.None, 
             float face_alpha_pose = 0.6f, float face_alpha_heatmap = 0.7f, float face_render_threshold = 0.4f){
 

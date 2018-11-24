@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace OpenPose.Example
-{
+namespace OpenPose.Example {
     public class HumanController2D : MonoBehaviour {
 
         public int PoseKeypointsCount = 25;
@@ -15,8 +14,8 @@ namespace OpenPose.Example
         [SerializeField] RectTransform LHandParent;
         [SerializeField] RectTransform RHandParent;
         [SerializeField] RectTransform FaceParent;
-        //[SerializeField] RectTransform LHandRectangle; // TODO
-        //[SerializeField] RectTransform RHandRectangle; // TODO
+        [SerializeField] RectTransform LHandRectangle;
+        [SerializeField] RectTransform RHandRectangle;
         [SerializeField] RectTransform FaceRectangle;
         private List<RectTransform> poseJoints = new List<RectTransform>();
         private List<RectTransform> lHandJoints = new List<RectTransform>();
@@ -27,13 +26,7 @@ namespace OpenPose.Example
             DrawBody(ref datum, bodyIndex);
             DrawHand(ref datum, bodyIndex);
             DrawFace(ref datum, bodyIndex);
-        }
-
-        public void ClearHuman(){
-            PoseParent.gameObject.SetActive(false);
-            LHandParent.gameObject.SetActive(false);
-            RHandParent.gameObject.SetActive(false);
-            FaceParent.gameObject.SetActive(false);
+            DrawRectangles(ref datum, bodyIndex);
         }
 
         private void DrawBody(ref OPDatum datum, int bodyIndex){
@@ -110,6 +103,7 @@ namespace OpenPose.Example
             // Face
             if (datum.faceKeypoints == null || bodyIndex >= datum.faceKeypoints.GetSize(0)) {
                 FaceParent.gameObject.SetActive(false);
+                return;
             } else {
                 FaceParent.gameObject.SetActive(true);
 
@@ -128,8 +122,26 @@ namespace OpenPose.Example
                         faceJoints[part].localPosition = pos;
                     }
                 }
-            }           
+            }
+        }
 
+        private void DrawRectangles(ref OPDatum datum, int bodyIndex){
+            // Hand rect
+            if (datum.handRectangles == null || bodyIndex >= datum.handRectangles.Count){
+                LHandRectangle.gameObject.SetActive(false);
+                RHandRectangle.gameObject.SetActive(false);
+            } else {
+                var rects = datum.handRectangles[bodyIndex];
+                // Left
+                LHandRectangle.gameObject.SetActive(true);
+                LHandRectangle.localPosition = rects.left.center;
+                LHandRectangle.sizeDelta = rects.left.size;
+                // Right
+                RHandRectangle.gameObject.SetActive(true);
+                RHandRectangle.localPosition = rects.right.center;
+                RHandRectangle.sizeDelta = rects.right.size;
+            }
+            
             // Face rect
             if (datum.faceRectangles == null || bodyIndex >= datum.faceRectangles.Count){
                 FaceRectangle.gameObject.SetActive(false);
