@@ -5,6 +5,9 @@ using System.Runtime.InteropServices;
 using UnityEngine;
 
 namespace OpenPose {
+	/*
+	 * Function set to parse output
+	 */
 	public static class OPOutputParser {
 
 		public static void ParseOutput(ref OPDatum datum, IntPtr[] ptrArray, int[] sizeArray, OutputType type){

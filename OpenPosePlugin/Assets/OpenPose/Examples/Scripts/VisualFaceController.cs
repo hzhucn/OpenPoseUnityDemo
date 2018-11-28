@@ -1,10 +1,14 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 namespace OpenPose.Example {
-	public class VisualFaceController : MonoBehaviour {
+    /*
+     * Visualize face/head according to situations (for better looking): 
+     * If face is disabled, draw simple circle on nose
+     * If face is enabled && keypoints detected >= 20, draw circle according to the kepoints rect
+     * If face is enabled && keypoints detected < 20, draw circle according to the FaceRectangle output
+     */
+    public class VisualFaceController : MonoBehaviour {
 
 		// Face center joint (nose)
 		[SerializeField] RectTransform faceCenter;
@@ -25,17 +29,17 @@ namespace OpenPose.Example {
             foreach (var t in keypoints){
                 if (t == keypointsParent) continue;
                 res = true;
-                if (t.position.x < xMin) {
-                    xMin = t.position.x;
+                if (t.localPosition.x < xMin) {
+                    xMin = t.localPosition.x;
                 }
-                if (t.position.x > xMax) {
-                    xMax = t.position.x;
+                if (t.localPosition.x > xMax) {
+                    xMax = t.localPosition.x;
                 }
-                if (t.position.y < yMin) {
-                    yMin = t.position.y;
+                if (t.localPosition.y < yMin) {
+                    yMin = t.localPosition.y;
                 }
-                if (t.position.y > yMax) {
-                    yMax = t.position.y;
+                if (t.localPosition.y > yMax) {
+                    yMax = t.localPosition.y;
                 }
             }
             rect = new Rect();
@@ -47,7 +51,7 @@ namespace OpenPose.Example {
 		// Update is called once per frame
 		void Update () {
 			if (keypointsParent){
-                // Face enabled
+                // Face enabled, 
                 if (keypointsParent.gameObject.activeSelf){
                     var childList = keypointsParent.GetComponentsInChildren<RectTransform>(false);
                     // If >= 20 keypoints detected, draw face using keypoints rect. 
@@ -55,7 +59,7 @@ namespace OpenPose.Example {
                         Rect rect;
                         if (findKeypointsRect(childList, out rect)) {
                             image.enabled = true;
-                            rectTransform.position = rect.center; 
+                            rectTransform.localPosition = rect.center; 
                             rectTransform.sizeDelta = rect.size * 1.5f;
                         }
                     } 
@@ -64,7 +68,7 @@ namespace OpenPose.Example {
                         if (faceRect){
                             if (faceRect.gameObject.activeInHierarchy) {
                                 image.enabled = true;
-                                rectTransform.position = faceRect.position;
+                                rectTransform.localPosition = faceRect.localPosition;
                                 rectTransform.sizeDelta = faceRect.sizeDelta * 0.8f;
                             } else {                                
                                 image.enabled = false;
@@ -77,8 +81,7 @@ namespace OpenPose.Example {
                     if (faceCenter) {
                         image.enabled = faceCenter.gameObject.activeInHierarchy;
                         rectTransform.sizeDelta = Vector2.one * 150f;
-                        rectTransform.position = faceCenter.position;
-                        //rectTransform.localRotation = Quaternion.Euler(0f, 0f, Mathf.Atan2((faceCenter.position - faceCenter.position).y, (faceCenter.position - faceCenter.position).x) * Mathf.Rad2Deg);
+                        rectTransform.localPosition = faceCenter.localPosition;
                     }
                 }
             }

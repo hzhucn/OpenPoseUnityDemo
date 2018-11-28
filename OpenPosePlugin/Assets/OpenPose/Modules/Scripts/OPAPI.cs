@@ -2,16 +2,17 @@
 using System.Runtime.InteropServices;
 
 namespace OpenPose {
-    // Delegate for output callback
-    //public delegate void OutputCallback(string output, int type);
-
-    // Logging callback delegate
-    public delegate void DebugCallback(string message, int type);
-
-    // Output callback delegate
-    public delegate void OutputCallback(IntPtr ptrs, int ptrSize, IntPtr sizes, int sizeSize, byte outputType);
-
+    /*
+     * OPAPI connects original API to OpenPose C++ library (openpose.dll)
+     */
     public static class OPAPI {
+
+        // Output callback delegate
+        public delegate void OutputCallback(IntPtr ptrs, int ptrSize, IntPtr sizes, int sizeSize, byte outputType);
+
+        // Logging callback delegate
+        public delegate void DebugCallback(string message, int type);
+
         /*
          * Send a callback function to openpose output. No output will be received if no callback is sent. 
          * Enable/disable the output callback. Can be set at runtime.

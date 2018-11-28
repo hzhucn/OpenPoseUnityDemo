@@ -2,7 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace OpenPose {	
+namespace OpenPose {
+
+    public enum OPState : byte {
+        None, 
+        Ready, 
+        Running, 
+        Stopping        
+    }
+
+    // Output type for output callback
 	public enum OutputType : byte {
 		None,
 		DatumsInfo,
@@ -26,6 +35,8 @@ namespace OpenPose {
 		CameraIntrinsics,
         Image
 	}
+
+    // From OpenPose: op::ProducerType
 	public enum ProducerType : byte {
         /** Stereo FLIR (Point-Grey) camera reader. Based on Spinnaker SDK. */
         FlirCamera,
@@ -42,6 +53,7 @@ namespace OpenPose {
         /** No type defined. Default state when no specific Producer has been picked yet. */
         None,
     }
+    // From OpenPose: op::ScaleMode
     public enum ScaleMode : byte {
         InputResolution,
         NetOutputResolution,
@@ -51,25 +63,29 @@ namespace OpenPose {
         UnsignedChar, // [0, 255]
         NoScale,
     }
-    public enum HeatMapType : byte { // This is different from op::HeatMapType in openpose
+    // From OpenPose: op::HeatMapType // This one is DIFFERENT 
+    public enum HeatMapType : byte { 
 		None = 0, 
         Parts = 1 << 0,
         Background = 1 << 1,
         PAFs = 1 << 2,
 		All = Parts | Background | PAFs
     }
-	public enum RenderMode : byte {
+	// From OpenPose: op::RenderMode
+    public enum RenderMode : byte {
         None,
         Cpu,
         Gpu,
     }
+    // From OpenPose: op::ElementToRender
     public enum ElementToRender : byte {
         Skeleton,
         Background,
         AddKeypoints,
         AddPAFs,
     }
-	public enum PoseModel : byte {
+	// From OpenPose: op::PoseModel
+    public enum PoseModel : byte {
         /**
          * COCO + 6 foot keypoints + neck + lower abs model, with 25+1 components (see poseParameters.hpp for details).
          */
@@ -90,6 +106,7 @@ namespace OpenPose {
         CAR_22,         /**< Experimental. Do not use. */
         Size,
     }	
+    // From OpenPose: op::DisplayMode
     public enum DisplayMode : ushort {
         NoDisplay,  /**< No display. */
         DisplayAll, /**< All (2-D and 3-D/Adam) displays */
@@ -97,7 +114,8 @@ namespace OpenPose {
         Display3D,  /**< Only 3-D display. */
         DisplayAdam /**< Only Adam display. */
     }
-	public enum DataFormat : byte {
+	// From OpenPose: op::DataFormat
+    public enum DataFormat : byte {
         Json,
         Xml,
         Yaml,
