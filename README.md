@@ -14,7 +14,7 @@ And follow the steps:
 2. Clone or download the project into your local machine. 
 3. Put the unzipped “models” folder, from the link above, into “OpenPosePlugin/Assets/StreamingAssets” root folder.
 4. Put the unzipped “Plugins” folder into “OpenPosePlugin/Assets/OpenPose” folder. 
-5. Try to run the Output2D scene in Unity editor. 
+5. Open Unity editor and run the "Demo" scene in "Assets/OpenPose/Examples/Scenes". 
 
 NOTICE: 
 
