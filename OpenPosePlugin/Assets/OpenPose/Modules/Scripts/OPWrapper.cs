@@ -82,7 +82,7 @@ namespace OpenPose {
             int part_to_show = 0, string model_folder = null, 
             HeatMapType heatmap_type = HeatMapType.None, 
             ScaleMode heatmap_scale_mode = ScaleMode.UnsignedChar, 
-            bool part_candidates = false, float render_threshold = 0.05f, int number_people_max = -1){
+            bool part_candidates = false, float render_threshold = 0.05f, int number_people_max = 1){
             
             // Other default values
             Vector2Int _net_res = net_resolution ?? new Vector2Int(-1, 320);
@@ -114,7 +114,7 @@ namespace OpenPose {
             float hand_alpha_pose = 0.6f, float hand_alpha_heatmap = 0.7f, float hand_render_threshold = 0.2f){
 
             // Other default values
-            Vector2Int _hand_res = hand_net_resolution ?? new Vector2Int(256, 256);
+            Vector2Int _hand_res = hand_net_resolution ?? new Vector2Int(320, 320);
             
             OPAPI.OP_ConfigureHand(
                 hand, _hand_res.x, _hand_res.y, // Point

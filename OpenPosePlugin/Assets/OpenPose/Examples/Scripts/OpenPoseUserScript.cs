@@ -15,13 +15,13 @@ namespace OpenPose.Example {
         private OPDatum datum;
 
         // User settings
-        public int maxPeople = 5;
+        public int maxPeople = 1;
         public bool 
             handEnabled = false, 
             faceEnabled = false;
         public Vector2Int 
             netResolution = new Vector2Int(-1, 320), 
-            handResolution = new Vector2Int(256, 256), 
+            handResolution = new Vector2Int(320, 320), 
             faceResolution = new Vector2Int(320, 320);
         public void SetHandEnabled(bool enabled) { handEnabled = enabled; }
         public void SetFaceEnabled(bool enabled) { faceEnabled = enabled; }
@@ -59,8 +59,8 @@ namespace OpenPose.Example {
             OPWrapper.OPEnableDebug(true);
             // Enable openpose output to unity (default true)
             OPWrapper.OPEnableOutput(true);
-            // Enable receiving image (default true)
-            OPWrapper.OPEnableImageOutput(true);
+            // Enable receiving image (default false)
+            OPWrapper.OPEnableImageOutput(renderBgImg);
             // Start openpose
             OPWrapper.OPRun();
         }

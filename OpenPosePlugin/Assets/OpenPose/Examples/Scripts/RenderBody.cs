@@ -11,27 +11,14 @@ namespace OpenPose.Example {
         // Bone ends
         public RectTransform Joint0, Joint1;
 
-        // Additional length added to the sprite beyond the length of bone
-        public float stretchAddition = 40f;
-
-        private RectTransform rectTransform { get { return GetComponent<RectTransform>(); } }
-        private Image image { get { return GetComponent<Image>(); } }
+        private LineRenderer lineRenderer { get { return GetComponent<LineRenderer>(); } }
 
         // Update is called once per frame
         void Update() {
-            // Fix the sprite position according to the Joint0 and Joint1
             if (Joint0 && Joint1) {
-                if (Joint0.gameObject.activeInHierarchy && Joint1.gameObject.activeInHierarchy) {
-                    image.enabled = true;
-                    // Set sprite position rotation & size
-                    Vector2 diff = Joint0.localPosition - Joint1.localPosition;
-                    rectTransform.localPosition = 0.5f * (Joint0.localPosition + Joint1.localPosition);
-                    rectTransform.localEulerAngles = new Vector3(0f, 0f, Mathf.Atan2(diff.y, diff.x) * Mathf.Rad2Deg);
-                    rectTransform.sizeDelta = new Vector2((diff.magnitude / rectTransform.localScale.x + stretchAddition), rectTransform.sizeDelta.y);
-                            
-                } else {
-                    image.enabled = false;
-                }
+                lineRenderer.enabled = Joint0.gameObject.activeInHierarchy && Joint1.gameObject.activeInHierarchy;
+                lineRenderer.SetPosition(0, Joint0.localPosition);
+                lineRenderer.SetPosition(1, Joint1.localPosition);
             }
         }
     }
