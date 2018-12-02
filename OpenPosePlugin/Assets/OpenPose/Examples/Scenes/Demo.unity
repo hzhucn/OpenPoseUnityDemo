@@ -826,7 +826,7 @@ GameObject:
   - component: {fileID: 441296458}
   - component: {fileID: 441296457}
   m_Layer: 5
-  m_Name: CameraScreen
+  m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2826,7 +2826,7 @@ GameObject:
   - component: {fileID: 1154263077}
   - component: {fileID: 1154263076}
   m_Layer: 0
-  m_Name: Main Camera
+  m_Name: OrthoCamera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
