@@ -3,6 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace OpenPose.Example {
+    /*
+     * HumanController2D translate the output data into 2D transforms
+     * The Joints child gameObject contains all keypoints info
+     * Transform (x, y): the x and y coordinates on the frame
+     * Active: whether the score of that keypoint is larger than ScoreThres
+     */
     public class HumanController2D : MonoBehaviour {
 
         public int PoseKeypointsCount = 25;

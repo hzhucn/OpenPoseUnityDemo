@@ -1,34 +1,43 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace OpenPose.Example {
-	public class ImageRenderer : MonoBehaviour {
+namespace OpenPose.Example
+{
+    /*
+	 * ImageRenderer renders the pure cvInputData to Texture2D
+	 * The texture is used as background image
+	 */
+    public class ImageRenderer : MonoBehaviour {
+
+		// Initial size of screen, default (1280, 720)
+		[SerializeField] Vector2Int screenSize;
 
 		// Texture to be rendered in image
 		private Texture2D texture;
 
+		private RectTransform rectTransform { get { return GetComponent<RectTransform>(); } }
 		private RawImage image { get { return GetComponent<RawImage>(); } }
 
-		public void UpdateImage(ref OPDatum datum){
-			var data = datum.cvInputData; // width * height * 3 
+		public void UpdateImage(MultiArray<byte> data){
+			// data size: width * height * 3 (BGR)
 			if (data == null || data.Empty()) return;
 			int height = data.GetSize(0), width = data.GetSize(1);
 			
-			/* Unity does not support BGR24 yet, which is the data representation in OpenCV */
-			/* Here we are using RGB24 as data format, then swap R and B in shader */
+			/* TRICK */
+			// Unity does not support BGR24 yet, which is the color format in OpenCV.
+			// Here we are using RGB24 as data format, then swap R and B in shader, to maintain the performance.
+			rectTransform.sizeDelta = new Vector2Int(width, height);
 			texture.Resize(width, height, TextureFormat.RGB24, false);
 			texture.LoadRawTextureData(data.ToArray());
 			texture.Apply();			
 		}
 
+		// Visual effect for image
 		public void FadeInOut(bool renderImage, float duration = 0.5f){
 			if (renderImage) StartCoroutine(FadeCoroutine(Color.white, duration));
 			else StartCoroutine(FadeCoroutine(Color.clear, duration));
 		}
-
 		private IEnumerator FadeCoroutine(Color goal, float duration){
 			Color current = image.color;
 			float t = 0f;
@@ -42,7 +51,7 @@ namespace OpenPose.Example {
 
 		// Use this for initialization
 		void Start () {
-			texture = new Texture2D(1280, 720); 
+			texture = new Texture2D(screenSize.x, screenSize.y); 
 			image.texture = texture;
 		}
 	}

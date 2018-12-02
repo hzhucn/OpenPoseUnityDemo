@@ -6,7 +6,7 @@ using UnityEngine;
 namespace OpenPose {
     /*
         Data struct for OP output
-        All comments are coppied from OpenPose
+        Comments are from OpenPose
      */
     public struct OPDatum{
         public ulong  id; /**< Datum ID. Internally used to sort the Datums if multi-threading is used. */
@@ -28,7 +28,7 @@ namespace OpenPose {
         // --------------------------- Input image and rendered version parameters ---------------------------- //
         /**
          * Original image to be processed in cv::Mat uchar format.
-         * Size: (input_width x input_height) x 3 channels
+         * Size: (input_width x input_height) x 3 channels (BGR)
          */
         public MultiArray<byte> cvInputData;
         
@@ -84,7 +84,7 @@ namespace OpenPose {
          * Rather than vector, it should ideally be:
          * std::array<std::vector<std::array<float,3>>, #BP> poseCandidates;
          */
-        public List<List<Vector3>> poseCandidates; // 
+        public List<List<Vector3>> poseCandidates; // Not supported yet
 
         /**
          * Face detection locations (x,y,width,height) for each person in the image.
@@ -134,14 +134,14 @@ namespace OpenPose {
          * Body pose (x,y,z,score) locations for each person in the image.
          * Size: #people x #body parts (e.g. 18 for COCO or 15 for MPI) x 4 ((x,y,z) coordinates + score)
          */
-        public MultiArray<float> poseKeypoints3D;
+        public MultiArray<float> poseKeypoints3D; // Not supported yet
 
         /**
          * Face keypoints (x,y,z,score) locations for each person in the image.
          * It has been resized to the same resolution as `poseKeypoints3D`.
          * Size: #people x #face parts (70) x 4 ((x,y,z) coordinates + score)
          */
-        public MultiArray<float> faceKeypoints3D;
+        public MultiArray<float> faceKeypoints3D; // Not supported yet
 
         /**
          * Hand keypoints (x,y,z,score) locations for each person in the image.
@@ -149,24 +149,25 @@ namespace OpenPose {
          * handKeypoints[0] corresponds to left hands, and handKeypoints[1] to right ones.
          * Size each Array: #people x #hand parts (21) x 4 ((x,y,z) coordinates + score)
          */
-        public Pair<MultiArray<float>> handKeypoints3D;
+        public Pair<MultiArray<float>> handKeypoints3D; // Not supported yet
 
         /**
          * 3x4 camera matrix of the camera (equivalent to cameraIntrinsics * cameraExtrinsics).
          */
-        public Matrix4x4 cameraMatrix;
+        public Matrix4x4 cameraMatrix; // Not supported yet
 
         /**
          * 3x4 extrinsic parameters of the camera.
          */
-        public Matrix4x4 cameraExtrinsics;
+        public Matrix4x4 cameraExtrinsics; // Not supported yet
 
         /**
          * 3x3 intrinsic parameters of the camera.
          */
-        public Matrix4x4 cameraIntrinsics;
+        public Matrix4x4 cameraIntrinsics; // Not supported yet
     }
 
+    // From OpenPose: std::array<2>
     public class Pair<T> : List<T>{
         // Constructors
         public Pair() : base(2){}
@@ -189,6 +190,7 @@ namespace OpenPose {
         }
     }
 
+    // From OpenPose: op::Array
     public class MultiArray<T> : List<T>{
         // Constructors
         public MultiArray() : base(){ Resize(); }
@@ -207,6 +209,7 @@ namespace OpenPose {
             Capacity = volume;
         }
 
+        // Functions
         public T Get(params int[] idx){            
             return this[GetIndex(idx)];
         }
