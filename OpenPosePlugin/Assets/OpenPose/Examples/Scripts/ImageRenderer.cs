@@ -24,19 +24,20 @@ namespace OpenPose.Example
 			if (data == null || data.Empty()) return;
 			int height = data.GetSize(0), width = data.GetSize(1);
 			
-			/* Unity does not support BGR24 yet, which is the data representation in OpenCV */
-			/* Here we are using RGB24 as data format, then swap R and B in shader */
+			/* TRICK */
+			// Unity does not support BGR24 yet, which is the color format in OpenCV.
+			// Here we are using RGB24 as data format, then swap R and B in shader, to maintain the performance.
 			rectTransform.sizeDelta = new Vector2Int(width, height);
 			texture.Resize(width, height, TextureFormat.RGB24, false);
 			texture.LoadRawTextureData(data.ToArray());
 			texture.Apply();			
 		}
 
+		// Visual effect for image
 		public void FadeInOut(bool renderImage, float duration = 0.5f){
 			if (renderImage) StartCoroutine(FadeCoroutine(Color.white, duration));
 			else StartCoroutine(FadeCoroutine(Color.clear, duration));
 		}
-
 		private IEnumerator FadeCoroutine(Color goal, float duration){
 			Color current = image.color;
 			float t = 0f;

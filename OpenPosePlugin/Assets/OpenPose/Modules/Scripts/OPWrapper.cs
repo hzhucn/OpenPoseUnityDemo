@@ -23,15 +23,19 @@ namespace OpenPose {
         # endregion
 
         # region User functions
+        // Enable debug message from OpenPose. Can set in run-time
         public static void OPEnableDebug(bool enable = true){
             OPAPI.OP_SetDebugEnable(enable);
         }
+        // Enable receiving output from OpenPose. Can set in run-time
         public static void OPEnableOutput(bool enable = true){
             OPAPI.OP_SetOutputEnable(enable);
         }
+        // Enable receiving camera image from OpenPose. Can set in run-time
         public static void OPEnableImageOutput(bool enable = true){
             OPAPI.OP_SetImageOutputEnable(enable);
         }
+        // Lazy way to configure all parameters in default
         public static void OPConfigureAllInDefault(){
             OPConfigurePose();
             OPConfigureHand();
@@ -41,6 +45,7 @@ namespace OpenPose {
             OPConfigureOutput();
             OPConfigureGui();
         }
+        // Start OpenPose thread with last configuration parameters
         public static void OPRun() {
             if (state == OPState.Ready) {
                 // Start OP thread
@@ -51,10 +56,13 @@ namespace OpenPose {
                 Debug.LogWarning("Trying to start, while OpenPose already started or not ready");
             }
         }
+        // Get output if output arrives IN THIS FRAME. 
+        // Suggested to call this function in Update()
         public static bool OPGetOutput(out OPDatum data){
             data = currentData;
 			return dataFlag;
         }
+        // Stop OpenPose if running
         public static void OPShutdown() {
             if (state == OPState.Running) {
                 state = OPState.Stopping;
@@ -63,6 +71,8 @@ namespace OpenPose {
                 Debug.LogWarning("Trying to shutdown, while OpenPose is not running");
             }
         }
+        // Pose parameter configuration (with default value) 
+        // Please see OpenPose documentation for explanation on every parameter
         public static void OPConfigurePose(
             bool body_disable = false, Vector2Int? net_resolution = null, Vector2Int? output_resolution = null,
             ScaleMode keypoint_scale_mode = ScaleMode.InputResolution,
@@ -95,6 +105,8 @@ namespace OpenPose {
                 part_candidates, render_threshold, number_people_max
             );
         }
+        // Hand parameter configuration (with default value) 
+        // Please see OpenPose documentation for explanation on every parameter
         public static void OPConfigureHand(
             bool hand = false, Vector2Int? hand_net_resolution = null,
             int hand_scale_number = 1, float hand_scale_range = 0.4f, bool hand_tracking = false,
@@ -111,6 +123,8 @@ namespace OpenPose {
                 hand_alpha_pose, hand_alpha_heatmap, hand_render_threshold
             );
         }
+        // Face parameter configuration (with default value) 
+        // Please see OpenPose documentation for explanation on every parameter
         public static void OPConfigureFace(
             bool face = false, Vector2Int? face_net_resolution = null,
             RenderMode face_render_mode = RenderMode.None, 
@@ -125,11 +139,16 @@ namespace OpenPose {
                 face_alpha_pose, face_alpha_heatmap, face_render_threshold
             );
         }
+        // Extra parameter configuration (with default value) 
+        // NOTICE: 3D output is not yet supported currently
+        // Please see OpenPose documentation for explanation on every parameter
         public static void OPConfigureExtra(
             bool _3d = false, int _3d_min_views = -1, bool _identification = false, int _tracking = -1,	int _ik_threads = 0){
             
             OPAPI.OP_ConfigureExtra(_3d, _3d_min_views, _identification, _tracking, _ik_threads);
         }
+        // Input parameter configuration (with default value) 
+        // Please see OpenPose documentation for explanation on every parameter
         public static void OPConfigureInput(
             ProducerType producer_type = ProducerType.Webcam, string producer_string = "-1",
             ulong frame_first = 0, ulong frame_step = 1, ulong frame_last = ulong.MaxValue,
@@ -151,6 +170,8 @@ namespace OpenPose {
                 webcam_fps, camera_parameter_path, undistort_image, image_directory_stereo
             );
         }
+        // Output parameter configuration (with default value) 
+        // Please see OpenPose documentation for explanation on every parameter
         public static void OPConfigureOutput(
             double verbose = -1.0, string write_keypoint = "", DataFormat write_keypoint_format = DataFormat.Yml, 
             string write_json = "", string write_coco_json = "", string write_coco_foot_json = "", int write_coco_json_variant = 1,
@@ -166,6 +187,8 @@ namespace OpenPose {
                 write_video_adam, write_bvh, udp_host, udp_port
             );
         }
+        // GUI parameter configuration (with default value) 
+        // Please see OpenPose documentation for explanation on every parameter
         public static void OPConfigureGui(
             DisplayMode display_mode = DisplayMode.NoDisplay, 
             bool gui_verbose = false, bool full_screen = false){
@@ -182,8 +205,10 @@ namespace OpenPose {
         private static OPAPI.DebugCallback OPLog = delegate(string message, int type){
             switch (type){
                 case 0: Debug.Log("OP_Log: " + message); break;
-                case -1: Debug.LogError("OP_Error: " + message); break;
                 case 1: Debug.LogWarning("OP_Warning: " + message); break;
+                case -1: Debug.LogError("OP_Error: " + message); 
+                    //opThread.Abort();
+                    break;
             }
         };
 

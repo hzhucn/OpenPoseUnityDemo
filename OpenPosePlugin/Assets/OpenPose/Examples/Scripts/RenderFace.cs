@@ -8,7 +8,7 @@ namespace OpenPose.Example {
      * If face is enabled && keypoints detected >= 20, draw circle according to the kepoints rect
      * If face is enabled && keypoints detected < 20, draw circle according to the FaceRectangle output
      */
-    public class VisualFaceController : MonoBehaviour {
+    public class RenderFace : MonoBehaviour {
 
 		// Face center joint (nose)
 		[SerializeField] RectTransform faceCenter;

@@ -28,7 +28,7 @@ namespace OpenPose {
         // --------------------------- Input image and rendered version parameters ---------------------------- //
         /**
          * Original image to be processed in cv::Mat uchar format.
-         * Size: (input_width x input_height) x 3 channels
+         * Size: (input_width x input_height) x 3 channels (BGR)
          */
         public MultiArray<byte> cvInputData;
         

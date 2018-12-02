@@ -6,7 +6,7 @@ namespace OpenPose.Example {
      * VisualSpriteController controls sprites that visualize human data 2D. 
      * Each sprite shows a certain part of body, connected by Joint0 and Joint1
      */
-    public class VisualSpriteController : MonoBehaviour {
+    public class RenderBody : MonoBehaviour {
 
         // Bone ends
         public RectTransform Joint0, Joint1;
