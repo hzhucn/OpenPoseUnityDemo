@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace OpenPose.Example {
     /*
@@ -10,19 +11,23 @@ namespace OpenPose.Example {
         // The 2D human to control
         [SerializeField] Transform humanContainer;
         [SerializeField] ImageRenderer imageRenderer;
+        [SerializeField] Text fpsText;
+        [SerializeField] Text peopleText;
 
         // Output control
         private OPDatum datum;
 
         // User settings
-        public int maxPeople = 1;
+		public ProducerType inputType = ProducerType.Webcam;
+		public string producerString = "-1";
+        public int maxPeople = -1;
         public bool 
             handEnabled = false, 
             faceEnabled = false;
         public Vector2Int 
-            netResolution = new Vector2Int(-1, 320), 
-            handResolution = new Vector2Int(320, 320), 
-            faceResolution = new Vector2Int(320, 320);
+            netResolution = new Vector2Int(-1, 368), 
+            handResolution = new Vector2Int(368, 368), 
+            faceResolution = new Vector2Int(368, 368);
         public void SetHandEnabled(bool enabled) { handEnabled = enabled; }
         public void SetFaceEnabled(bool enabled) { faceEnabled = enabled; }
         public void SetMaxPeople(string s){int res; if (int.TryParse(s, out res)){maxPeople = res;};}
@@ -42,6 +47,9 @@ namespace OpenPose.Example {
             OPWrapper.OPEnableImageOutput(renderBgImg);
             imageRenderer.FadeInOut(renderBgImg);
         }
+
+        // Number of people
+        int numberPeople = 0;
 
         // Frame rate calculation
         [Range(0f, 1f)] 
@@ -92,12 +100,11 @@ namespace OpenPose.Example {
                 /* _3d */ false, /* _3d_min_views */ -1, /* _identification */ false, /* _tracking */ -1,	/* _ik_threads */ 0);
 
             OPWrapper.OPConfigureInput(
-                /* producer_type */ ProducerType.Webcam, /* producer_string */ "-1",
+                /* producer_type */ inputType, /* producer_string */ producerString,
                 /* frame_first */ 0, /* frame_step */ 1, /* frame_last */ ulong.MaxValue,
                 /* process_real_time */ false, /* frame_flip */ false,
                 /* frame_rotate */ 0, /* frames_repeat */ false,
-                /* camera_resolution */ null, /* webcam_fps */ 30.0, 
-                /* camera_parameter_path */ null, 
+                /* camera_resolution */ null, /* camera_parameter_path */ null, 
                 /* undistort_image */ true, /* image_directory_stereo */ 1);
 
             OPWrapper.OPConfigureOutput(
@@ -138,6 +145,11 @@ namespace OpenPose.Example {
                 // Draw image
                 imageRenderer.UpdateImage(datum.cvInputData);
 
+                // Number of people
+                if (datum.poseKeypoints == null || datum.poseKeypoints.Empty()) numberPeople = 0;
+                else numberPeople = datum.poseKeypoints.GetSize(0);
+                peopleText.text = "People: " + numberPeople;
+
                 // Calculate framerate
                 if (lastFrameTime > 0f) {
                     if (avgFrameTime < 0f) avgFrameTime = Time.time - lastFrameTime;
@@ -147,11 +159,8 @@ namespace OpenPose.Example {
                     }
                 }
                 lastFrameTime = Time.time;
+                fpsText.text = avgFrameRate.ToString("F1") + " FPS";
             }
-        }
-
-        private void OnGUI(){
-            GUI.Label(new Rect(0, 0, Screen.width, Screen.height),"Avg Frame Rate: " + avgFrameRate);
         }
     }
 }

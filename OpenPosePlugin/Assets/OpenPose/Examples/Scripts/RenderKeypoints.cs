@@ -3,10 +3,10 @@ using UnityEngine.UI;
 
 namespace OpenPose.Example {
     /*
-     * VisualSpriteController controls sprites that visualize human data 2D. 
-     * Each sprite shows a certain part of body, connected by Joint0 and Joint1
+     * Visualize human data 2D for body, hand and face keypoints
      */
-    public class RenderBody : MonoBehaviour {
+    [RequireComponent(typeof(LineRenderer))]
+    public class RenderKeypoints : MonoBehaviour {
 
         // Bone ends
         public RectTransform Joint0, Joint1;

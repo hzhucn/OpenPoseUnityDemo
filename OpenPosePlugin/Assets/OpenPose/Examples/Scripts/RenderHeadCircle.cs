@@ -3,12 +3,13 @@ using UnityEngine.UI;
 
 namespace OpenPose.Example {
     /*
-     * Visualize face/head according to situations (for better looking): 
+     * Visualize face/head circle according to situations (for better looking): 
      * If face is disabled, draw simple circle on nose
      * If face is enabled && keypoints detected >= 20, draw circle according to the kepoints rect
      * If face is enabled && keypoints detected < 20, draw circle according to the FaceRectangle output
      */
-    public class RenderFace : MonoBehaviour {
+     [RequireComponent(typeof(Image))]
+    public class RenderHeadCircle : MonoBehaviour {
 
 		// Face center joint (nose)
 		[SerializeField] RectTransform faceCenter;
