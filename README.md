@@ -9,6 +9,8 @@ This repository contains two projects:
 ## To run OpenPosePlugin: 
 You need to get additional files (dll and model files) from [this Google Drive link](https://drive.google.com/drive/folders/1b4lbMjkqAJtTCszKwBAjxC_TeBKZ-dqM?usp=sharing)
 
+**The Link is temporarily CLOSED due to maintainess and some pre-releasing reasons. Sorry for any inconvenience!**
+
 And follow the steps: 
 1. Install CUDA and CUDNN as OpenPose prerequisites refering to [OpenPose Installation Guide](https://github.com/CMU-Perceptual-Computing-Lab/openpose/blob/master/doc/installation.md#prerequisites).
 2. Clone or download the project into your local machine. 
