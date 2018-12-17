@@ -40,7 +40,10 @@ namespace OpenPose.Example {
         public void SetFaceResX(string s){int res; if (int.TryParse(s, out res)){faceResolution.x = res;};}
         public void SetFaceResY(string s){int res; if (int.TryParse(s, out res)){faceResolution.y = res;};}
 
-        public void ApplyChanges(){ StartCoroutine(UserRebootOpenPoseCoroutine()); }
+        public void ApplyChanges(){ 
+            // Restart OpenPose
+            StartCoroutine(UserRebootOpenPoseCoroutine()); 
+        }
 
         // Bg image
         public bool renderBgImg = false;
@@ -61,17 +64,19 @@ namespace OpenPose.Example {
         private float lastFrameTime = -1f;
 
         private void Start() {
-            // Configure openpose with default value, 
+            // Configure OpenPose with default value, 
             //OPWrapper.OPConfigureAllInDefault();
             // or using specific configuration for each
             UserConfigureOpenPose();
-            // Enable openpose log to unity (default true)
+            // Enable OpenPose run multi-thread (default true)
+            OPWrapper.OPEnableMultiThread(true);
+            // Enable OpenPose log to unity (default true)
             OPWrapper.OPEnableDebug(true);
-            // Enable openpose output to unity (default true)
+            // Enable OpenPose output to unity (default true)
             OPWrapper.OPEnableOutput(true);
             // Enable receiving image (default false)
             OPWrapper.OPEnableImageOutput(renderBgImg);
-            // Start openpose
+            // Start OpenPose
             OPWrapper.OPRun();
         }
 

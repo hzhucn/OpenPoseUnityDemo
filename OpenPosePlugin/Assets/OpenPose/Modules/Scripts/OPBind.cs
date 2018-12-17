@@ -31,6 +31,11 @@ namespace OpenPose {
         [DllImport("openpose")] public static extern void _OPSetDebugEnable(bool enable);
 
         /*
+         * Enable/disable multi-threading 
+         */
+        [DllImport("openpose")] public static extern void _OPSetMultiThreadEnable(bool enable);
+
+        /*
          * Enable/disable image output callback. Disable will save some time since data is large. 
          */
         [DllImport("openpose")] public static extern void _OPSetImageOutputEnable(bool enable);

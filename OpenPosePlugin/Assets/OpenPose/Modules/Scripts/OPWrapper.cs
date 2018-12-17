@@ -31,6 +31,10 @@ namespace OpenPose {
         public static void OPEnableOutput(bool enable = true){
             OPBind._OPSetOutputEnable(enable);
         }
+        // Enable multi-thread. Only set during configure
+        public static void OPEnableMultiThread(bool enable = true){
+            OPBind._OPSetMultiThreadEnable(enable);
+        }
         // Enable receiving camera image from OpenPose. Can set in run-time
         public static void OPEnableImageOutput(bool enable = true){
             OPBind._OPSetImageOutputEnable(enable);
