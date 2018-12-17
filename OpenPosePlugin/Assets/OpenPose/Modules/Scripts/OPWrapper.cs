@@ -25,15 +25,15 @@ namespace OpenPose {
         # region User functions
         // Enable debug message from OpenPose. Can set in run-time
         public static void OPEnableDebug(bool enable = true){
-            OPBase._OPSetDebugEnable(enable);
+            OPBind._OPSetDebugEnable(enable);
         }
         // Enable receiving output from OpenPose. Can set in run-time
         public static void OPEnableOutput(bool enable = true){
-            OPBase._OPSetOutputEnable(enable);
+            OPBind._OPSetOutputEnable(enable);
         }
         // Enable receiving camera image from OpenPose. Can set in run-time
         public static void OPEnableImageOutput(bool enable = true){
-            OPBase._OPSetImageOutputEnable(enable);
+            OPBind._OPSetImageOutputEnable(enable);
         }
         // Lazy way to configure all parameters in default
         public static void OPConfigureAllInDefault(){
@@ -66,7 +66,7 @@ namespace OpenPose {
         public static void OPShutdown() {
             if (state == OPState.Running) {
                 state = OPState.Stopping;
-                OPBase._OPShutdown();
+                OPBind._OPShutdown();
             } else {
                 Debug.LogWarning("Trying to shutdown, while OpenPose is not running");
             }
@@ -82,14 +82,15 @@ namespace OpenPose {
             int part_to_show = 0, string model_folder = null, 
             HeatMapType heatmap_type = HeatMapType.None, 
             ScaleMode heatmap_scale_mode = ScaleMode.UnsignedChar, 
-            bool part_candidates = false, float render_threshold = 0.05f, int number_people_max = -1){
+            bool part_candidates = false, float render_threshold = 0.05f, int number_people_max = -1, 
+            bool maximize_positives = false, double fps_max = -1.0){
             
             // Other default values
             Vector2Int _net_res = net_resolution ?? new Vector2Int(-1, 368);
             Vector2Int _output_res = output_resolution ?? new Vector2Int(-1, -1);
             model_folder = model_folder ?? Application.streamingAssetsPath + "/models/";
 
-            OPBase._OPConfigurePose(
+            OPBind._OPConfigurePose(
                 body_disable,
                 _net_res.x, _net_res.y, // Point
                 _output_res.x, _output_res.y, // Point
@@ -102,7 +103,8 @@ namespace OpenPose {
                 Convert.ToBoolean(heatmap_type & HeatMapType.Background), 
                 Convert.ToBoolean(heatmap_type & HeatMapType.PAFs), // vector<HeatMapType> 
                 (byte) heatmap_scale_mode, // ScaleMode
-                part_candidates, render_threshold, number_people_max
+                part_candidates, render_threshold, number_people_max, 
+                maximize_positives, fps_max
             );
         }
         // Hand parameter configuration (with default value) 
@@ -116,7 +118,7 @@ namespace OpenPose {
             // Other default values
             Vector2Int _hand_res = hand_net_resolution ?? new Vector2Int(368, 368);
             
-            OPBase._OPConfigureHand(
+            OPBind._OPConfigureHand(
                 hand, _hand_res.x, _hand_res.y, // Point
                 hand_scale_number, hand_scale_range, hand_tracking,
                 (byte) hand_render_mode, // RenderMode
@@ -133,7 +135,7 @@ namespace OpenPose {
             // Other default values
             Vector2Int _face_res = face_net_resolution ?? new Vector2Int(368, 368);
                 
-            OPBase._OPConfigureFace(
+            OPBind._OPConfigureFace(
                 face, _face_res.x, _face_res.y, // Point
                 (byte) face_render_mode, // RenderMode
                 face_alpha_pose, face_alpha_heatmap, face_render_threshold
@@ -145,7 +147,7 @@ namespace OpenPose {
         public static void OPConfigureExtra(
             bool _3d = false, int _3d_min_views = -1, bool _identification = false, int _tracking = -1,	int _ik_threads = 0){
             
-            OPBase._OPConfigureExtra(_3d, _3d_min_views, _identification, _tracking, _ik_threads);
+            OPBind._OPConfigureExtra(_3d, _3d_min_views, _identification, _tracking, _ik_threads);
         }
         // Input parameter configuration (with default value) 
         // Please see OpenPose documentation for explanation on every parameter
@@ -161,7 +163,7 @@ namespace OpenPose {
             Vector2Int _camera_res = camera_resolution ?? new Vector2Int(-1, -1);
             camera_parameter_path = camera_parameter_path ?? Application.streamingAssetsPath + "/models/cameraParameters/";
 
-            OPBase._OPConfigureInput(
+            OPBind._OPConfigureInput(
                 (byte) producer_type, producer_string, // ProducerType and string
                 frame_first, frame_step, frame_last,
                 process_real_time, frame_flip, frame_rotate, frames_repeat, 
@@ -178,7 +180,7 @@ namespace OpenPose {
             double camera_fps = 30.0, string write_heatmaps = "", string write_heatmaps_format = "png", 
             string write_video_adam = "", string write_bvh = "", string udp_host = "", string udp_port = "8051"){
                 
-            OPBase._OPConfigureOutput(
+            OPBind._OPConfigureOutput(
                 verbose, write_keypoint, (byte) write_keypoint_format, // DataFormat
                 write_json, write_coco_json, write_coco_foot_json, write_coco_json_variant, 
                 write_images, write_images_format, write_video,
@@ -192,7 +194,7 @@ namespace OpenPose {
             DisplayMode display_mode = DisplayMode.NoDisplay, 
             bool gui_verbose = false, bool full_screen = false){
 
-            OPBase._OPConfigureGui(
+            OPBind._OPConfigureGui(
                 (ushort) display_mode, // DisplayMode
                 gui_verbose, full_screen
             );
@@ -201,7 +203,7 @@ namespace OpenPose {
         
         # region Unity callbacks
 		// Log callback
-        private static OPBase.DebugCallback OPLog = delegate(string message, int type){
+        private static OPBind.DebugCallback OPLog = delegate(string message, int type){
             switch (type){
                 case 0: Debug.Log("OP_Log: " + message); break;
                 case 1: Debug.LogWarning("OP_Warning: " + message); break;
@@ -212,7 +214,7 @@ namespace OpenPose {
         };
 
 		// Output callback
-        private static OPBase.OutputCallback OPOutput = delegate(IntPtr ptrPtr, int ptrSize, IntPtr sizePtr, int sizeSize, byte outputType){
+        private static OPBind.OutputCallback OPOutput = delegate(IntPtr ptrPtr, int ptrSize, IntPtr sizePtr, int sizeSize, byte outputType){
             // End of frame signal is received, turn on the flag
             if ((OutputType)outputType == OutputType.None) {
                 dataFlag = true;
@@ -239,13 +241,13 @@ namespace OpenPose {
         // OP thread
         private static void OPExecuteThread() {            
             // Register OP log callback
-            OPBase._OPRegisterDebugCallback(OPLog);
+            OPBind._OPRegisterDebugCallback(OPLog);
 
             // Register OP output callback
-            OPBase._OPRegisterOutputCallback(OPOutput);
+            OPBind._OPRegisterOutputCallback(OPOutput);
 
             // Start OP with output callback
-            OPBase._OPRun();
+            OPBind._OPRun();
 
             // Thread end, change state
             state = OPState.Ready;

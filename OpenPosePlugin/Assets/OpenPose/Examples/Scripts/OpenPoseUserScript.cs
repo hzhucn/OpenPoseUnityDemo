@@ -21,6 +21,7 @@ namespace OpenPose.Example {
 		public ProducerType inputType = ProducerType.Webcam;
 		public string producerString = "-1";
         public int maxPeople = -1;
+        public float renderThreshold = 0.05f;
         public bool 
             handEnabled = false, 
             faceEnabled = false;
@@ -30,6 +31,7 @@ namespace OpenPose.Example {
             faceResolution = new Vector2Int(368, 368);
         public void SetHandEnabled(bool enabled) { handEnabled = enabled; }
         public void SetFaceEnabled(bool enabled) { faceEnabled = enabled; }
+        public void SetRenderThreshold(string s){float res; if (float.TryParse(s, out res)){renderThreshold = res;};}
         public void SetMaxPeople(string s){int res; if (int.TryParse(s, out res)){maxPeople = res;};}
         public void SetPoseResX(string s){int res; if (int.TryParse(s, out res)){netResolution.x = res;};}
         public void SetPoseResY(string s){int res; if (int.TryParse(s, out res)){netResolution.y = res;};}
@@ -83,7 +85,7 @@ namespace OpenPose.Example {
                 /* disable_blending */ false, /* alpha_pose */ 0.6f, /* alpha_heatmap */ 0.7f,
                 /*t part_to_show */ 0, /* model_folder */ null, 
                 /* heatmap_type */ HeatMapType.None, /* heatmap_scale_mode */ ScaleMode.UnsignedChar, 
-                /* part_candidates */ false, /* render_threshold */ 0.05f, /* number_people_max */ maxPeople);
+                /* part_candidates */ false, /* render_threshold */ renderThreshold, /* number_people_max */ maxPeople);
 
             OPWrapper.OPConfigureHand(
                 /* hand */ handEnabled, /* hand_net_resolution */ handResolution, 
@@ -139,7 +141,7 @@ namespace OpenPose.Example {
                 // Draw human in data
                 int i = 0;
                 foreach (var human in humanContainer.GetComponentsInChildren<HumanController2D>()){
-                    human.DrawHuman(ref datum, i++);
+                    human.DrawHuman(ref datum, i++, renderThreshold);
                 }
 
                 // Draw image

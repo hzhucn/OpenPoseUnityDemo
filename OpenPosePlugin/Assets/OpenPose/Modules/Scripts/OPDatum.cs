@@ -9,7 +9,7 @@ namespace OpenPose {
         Comments are from OpenPose
      */
     public struct OPDatum{
-        public ulong  id; /**< Datum ID. Internally used to sort the Datums if multi-threading is used. */
+        public ulong id; /**< Datum ID. Internally used to sort the Datums if multi-threading is used. */
         public ulong subId; /**< Datum sub-ID. Internally used to sort the Datums if multi-threading is used. */
         public ulong subIdMax; /**< Datum maximum sub-ID. Used to sort the Datums if multi-threading is used. */
 

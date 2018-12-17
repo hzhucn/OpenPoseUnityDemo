@@ -4475,7 +4475,7 @@ MonoBehaviour:
   PoseKeypointsCount: 25
   HandKeypointsCount: 21
   FaceKeypointsCount: 70
-  ScoreThres: 0.2
+  ScoreThres: 0.001
   PoseParent: {fileID: 224560219641090672}
   LHandParent: {fileID: 224361909899959206}
   RHandParent: {fileID: 224745229846397596}

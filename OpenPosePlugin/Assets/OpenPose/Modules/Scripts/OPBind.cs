@@ -7,7 +7,7 @@ namespace OpenPose {
      * Do not use the functions in this class unless you really understand them
      * Use OPWrapper instead
      */
-    public static class OPBase {
+    public static class OPBind {
 
         // Output callback delegate
         public delegate void OutputCallback(IntPtr ptrs, int ptrSize, IntPtr sizes, int sizeSize, byte outputType);
@@ -59,7 +59,8 @@ namespace OpenPose {
             bool disable_blending, float alpha_pose, float alpha_heatmap, int part_to_show, string model_folder,
             bool heatmaps_add_parts, bool heatmaps_add_bkg, bool heatmaps_add_PAFs, // vector<HeatMapType> 
             byte heatmap_scale_mode, // ScaleMode
-            bool part_candidates, float render_threshold, int number_people_max
+            bool part_candidates, float render_threshold, int number_people_max, 
+            bool maximize_positives, double fps_max
         );
         [DllImport("openpose")] public static extern void _OPConfigureHand(
             bool hand,

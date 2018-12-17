@@ -14,7 +14,6 @@ namespace OpenPose.Example {
         public int PoseKeypointsCount = 25;
         public int HandKeypointsCount = 21;
         public int FaceKeypointsCount = 70;
-        public float ScoreThres = 0.2f;
 
         [SerializeField] RectTransform PoseParent;
         [SerializeField] RectTransform LHandParent;
@@ -28,14 +27,14 @@ namespace OpenPose.Example {
         private List<RectTransform> rHandJoints = new List<RectTransform>();
         private List<RectTransform> faceJoints = new List<RectTransform>();
 
-        public void DrawHuman(ref OPDatum datum, int bodyIndex){
-            DrawBody(ref datum, bodyIndex);
-            DrawHand(ref datum, bodyIndex);
-            DrawFace(ref datum, bodyIndex);
+        public void DrawHuman(ref OPDatum datum, int bodyIndex, float scoreThres = 0){
+            DrawBody(ref datum, bodyIndex, scoreThres);
+            DrawHand(ref datum, bodyIndex, scoreThres);
+            DrawFace(ref datum, bodyIndex, scoreThres);
             DrawRectangles(ref datum, bodyIndex);
         }
 
-        private void DrawBody(ref OPDatum datum, int bodyIndex){
+        private void DrawBody(ref OPDatum datum, int bodyIndex, float scoreThres){
             if (datum.poseKeypoints == null || bodyIndex >= datum.poseKeypoints.GetSize(0)) {
                 PoseParent.gameObject.SetActive(false);
                 return;
@@ -50,7 +49,7 @@ namespace OpenPose.Example {
                     continue;
                 }
                 // Compare score
-                if (datum.poseKeypoints.Get(bodyIndex, part, 2) < ScoreThres) {
+                if (datum.poseKeypoints.Get(bodyIndex, part, 2) <= scoreThres) {
                     poseJoints[part].gameObject.SetActive(false);
                 } else {
                     poseJoints[part].gameObject.SetActive(true);
@@ -60,7 +59,7 @@ namespace OpenPose.Example {
             }
         }
 
-        private void DrawHand(ref OPDatum datum, int bodyIndex) {
+        private void DrawHand(ref OPDatum datum, int bodyIndex, float scoreThres) {
             // Left
             if (datum.handKeypoints == null || bodyIndex >= datum.handKeypoints.left.GetSize(0)){
                 LHandParent.gameObject.SetActive(false);
@@ -73,7 +72,7 @@ namespace OpenPose.Example {
                         continue;
                     }
                     // Compare score
-                    if (datum.handKeypoints.left.Get(bodyIndex, part, 2) < ScoreThres) {
+                    if (datum.handKeypoints.left.Get(bodyIndex, part, 2) <= scoreThres) {
                         lHandJoints[part].gameObject.SetActive(false);
                     } else {
                         lHandJoints[part].gameObject.SetActive(true);
@@ -94,7 +93,7 @@ namespace OpenPose.Example {
                         continue;
                     }
                     // Compare score
-                    if (datum.handKeypoints.right.Get(bodyIndex, part, 2) < ScoreThres) {
+                    if (datum.handKeypoints.right.Get(bodyIndex, part, 2) <= scoreThres) {
                         rHandJoints[part].gameObject.SetActive(false);
                     } else {
                         rHandJoints[part].gameObject.SetActive(true);
@@ -105,7 +104,7 @@ namespace OpenPose.Example {
             }
         }
 
-        private void DrawFace(ref OPDatum datum, int bodyIndex){            
+        private void DrawFace(ref OPDatum datum, int bodyIndex, float scoreThres){            
             // Face
             if (datum.faceKeypoints == null || bodyIndex >= datum.faceKeypoints.GetSize(0)) {
                 FaceParent.gameObject.SetActive(false);
@@ -120,7 +119,7 @@ namespace OpenPose.Example {
                         continue;
                     }
                     // Compare score
-                    if (datum.faceKeypoints.Get(bodyIndex, part, 2) < ScoreThres) {
+                    if (datum.faceKeypoints.Get(bodyIndex, part, 2) <= scoreThres) {
                         faceJoints[part].gameObject.SetActive(false);
                     } else {
                         faceJoints[part].gameObject.SetActive(true);
