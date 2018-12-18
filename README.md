@@ -13,10 +13,7 @@ Follow the steps:
 4. Put the unzipped “Plugins” folder into “OpenPosePlugin/Assets/OpenPose” folder. 
 5. Install CUDA and CUDNN as OpenPose prerequisites refering to [OpenPose Installation Guide](https://github.com/CMU-Perceptual-Computing-Lab/openpose/blob/master/doc/installation.md#prerequisites).
 6. Open Unity editor and run the "Demo.unity" in "OpenPosePlugin/Assets/OpenPose/Examples/Scenes/". 
-
-[Detailed documentation](OpenPosePlugin/Assets/OpenPose/Documents/README.pdf)
-
-[UML diagram](OpenPosePlugin/Assets/OpenPose/Documents/OpenPoseUnityPlugin_UML.pdf)
+7. Read the [Detailed documentation](OpenPosePlugin/Assets/OpenPose/Documents/README.pdf) and the [UML diagram](OpenPosePlugin/Assets/OpenPose/Documents/OpenPoseUnityPlugin_UML.pdf) for more information. 
 
 ## NOTICE: 
 This is an alpha release, everything is subject to change. The plugin will finally be available in Unity Assets store in the future. 
