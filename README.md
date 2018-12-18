@@ -49,9 +49,9 @@ Follow the steps:
 2. Clone or download the project into your local machine.
 3. Put the unzipped “models” folder, from the link above, into “OpenPosePlugin/Assets/StreamingAssets” root folder.
 4. Put the unzipped “Plugins” folder into “OpenPosePlugin/Assets/OpenPose” folder.
-5. Install CUDA and CUDNN as OpenPose prerequisites refering to [OpenPose Installation Guide](https://github.com/CMU-Perceptual-Computing-Lab/openpose/blob/master/doc/installation.md#prerequisites).
+5. Read the [detailed documentation](OpenPosePlugin/Assets/OpenPose/Documents/README.pdf) and make sure the portable OpenPose binaries work in your machine.
 6. Open Unity editor and run the "Demo.unity" in "OpenPosePlugin/Assets/OpenPose/Examples/Scenes/".
-7. Read the [Detailed documentation](OpenPosePlugin/Assets/OpenPose/Documents/README.pdf) and the [UML diagram](OpenPosePlugin/Assets/OpenPose/Documents/OpenPoseUnityPlugin_UML.pdf) for more information.
+7. You can optionally read the [UML diagram](OpenPosePlugin/Assets/OpenPose/Documents/OpenPoseUnityPlugin_UML.pdf) for more information.
 
 
 
