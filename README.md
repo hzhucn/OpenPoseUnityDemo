@@ -58,8 +58,6 @@ Follow the steps:
 ## Authors and Contributors
 OpenPose is authored by [TIANYI](TIANYI), [Gines Hidalgo](https://www.gineshidalgo.com/), and [Yaser Sheikh](http://www.cs.cmu.edu/~yaser/). Currently, it is being maintained by [TIANYI](TIANYI) and [Gines Hidalgo](https://www.gineshidalgo.com/).
 
-We would also like to thank all the people who helped OpenPose in any way. The main contributors are listed in [doc/contributors.md](doc/contributors.md).
-
 
 
 ## Citation
