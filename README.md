@@ -45,7 +45,7 @@ This is an alpha release, everything is subject to change. The plugin will final
 ## Installation, Reinstallation and Uninstallation
 Follow the steps:
 
-1. Download additional files (Plugins and models) from [this Google Drive link](https://drive.google.com/drive/folders/1b4lbMjkqAJtTCszKwBAjxC_TeBKZ-dqM?usp=sharing)
+1. Download additional files (Plugins and models) from [this Google Drive link].(https://drive.google.com/drive/folders/1b4lbMjkqAJtTCszKwBAjxC_TeBKZ-dqM?usp=sharing)
 2. Clone or download the project into your local machine.
 3. Put the unzipped “models” folder, from the link above, into “OpenPosePlugin/Assets/StreamingAssets” root folder.
 4. Put the unzipped “Plugins” folder into “OpenPosePlugin/Assets/OpenPose” folder.
