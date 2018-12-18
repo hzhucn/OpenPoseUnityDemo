@@ -10,7 +10,7 @@
 This repository is developed to create an OpenPose plugin for Unity users. It uses OpenPose version 1.5 or newer and provides formatted OpenPose output and some examples.
 
 <p align="center">
-    <img src="doc/media/pose_face_hands.gif", width="480">
+    <img src="Media/main.png", width="480">
 </p>
 
 
@@ -32,12 +32,12 @@ This is an alpha release, everything is subject to change. The plugin will final
 ## Results
 ### Body-Foot Estimation
 <p align="center">
-    <img src="doc/media/dance_foot.gif", width="360">
+    <img src="Media/body_foot.png", width="360">
 </p>
 
 ### Body, Face, and Hands Estimation
 <p align="center">
-    <img src="doc/media/pose_face.gif", width="360">
+    <img src="Media/hand_face.png", width="360">
 </p>
 
 
