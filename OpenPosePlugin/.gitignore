@@ -48,5 +48,5 @@ Corridor/Library/metadata/
 # ============= #
 # Custom ignore #
 # ============= #
-/Assets/OpenPose/Plugins/op/
+/Assets/OpenPose/Plugins/
 /Assets/StreamingAssets/models/
