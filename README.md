@@ -56,7 +56,7 @@ Follow the steps:
 
 
 ## Authors and Contributors
-OpenPose is authored by [TIANYI](TIANYI), [Gines Hidalgo](https://www.gineshidalgo.com/), and [Yaser Sheikh](http://www.cs.cmu.edu/~yaser/). Currently, it is being maintained by [TIANYI](TIANYI) and [Gines Hidalgo](https://www.gineshidalgo.com/).
+OpenPose is authored by [Tianyi Zhao](http://tianyizhao.com), [Gines Hidalgo](https://www.gineshidalgo.com/), and [Yaser Sheikh](http://www.cs.cmu.edu/~yaser/). Currently, it is being maintained by [Tianyi Zhao](http://tianyizhao.com) and [Gines Hidalgo](https://www.gineshidalgo.com/).
 
 
 
